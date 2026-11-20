@@ -6,6 +6,15 @@
 
 Clash-Client 客户端及 `inputs/` 中七套广告规则的 GitHub 仓库、上游下载地址和文件对应关系，统一记录在[客户端与广告规则来源](docs/客户端与广告规则来源.md)。
 
+## 在线访问
+
+| 类型 | 地址 | 说明 |
+| --- | --- | --- |
+| 网页预览 | [raw.githack](https://raw.githack.com/s20210117/vpn-config/main/index.html) | 将仓库中的 `index.html` 渲染为网页，可直接使用配置转换器。 |
+| 备用网页 | [GitHub Pages](https://s20210117.github.io/vpn-config/) | GitHub Pages 部署的在线页面，可在预览入口不可用时使用。 |
+| 原始文件 | [GitHub Raw](https://raw.githubusercontent.com/s20210117/vpn-config/main/index.html) | 查看或下载 `index.html` 源码，浏览器通常按纯文本显示。 |
+| 文件 CDN | [jsDelivr](https://cdn.jsdelivr.net/gh/s20210117/vpn-config@main/index.html) | 通过 CDN 读取或下载 `index.html` 源码，适合文件分发；HTML 通常按纯文本显示，更新可能有缓存延迟。 |
+
 ## 手机配置订阅
 
 当前订阅地址：`http://192.168.2.77:8765/config.yaml`。完整配置位于 `subscription/config.yaml`，保存后手机点击「立即同步」即可下载新版本。
@@ -20,7 +29,7 @@ DNS 已按上网模式配置为加密 DoH：默认 DNS 连接跟随路由规则�
 
 双击「启动订阅服务.command」可启动后台服务，关闭终端后继续运行；「停止订阅服务.command」可停止服务。「查看订阅地址.command」显示服务状态。Mac 重启或用户注销后，需要重新启动一次。
 
-完整步骤、更新范围和地址变化处理见 [局域网订阅说明](docs/局域网订阅.md)。`subscription/` 保存含节点凭据的完整配置、备份和验证记录，可随项目一起提交到 Git；该目录仍独立于规则项目的文件校验清单。
+完整步骤、更新范围和地址变化处理见 [局域网订阅说明](docs/局域网订阅.md)。`subscription/` 保存含节点凭据的完整配置、备份和验证记录，可随项目一起提交到 Git。
 
 换电脑或网络时，请先查看[迁移依赖与换电脑说明](docs/迁移依赖与换电脑说明.md)，其中列出 IP、端口、系统和手机调试参数的依赖及迁移步骤。
 
@@ -66,7 +75,7 @@ rules:
 
 | 路径 | 用途 |
 | --- | --- |
-| `project.py` | 统一入口：完整性检查、重建、内核对照测试 |
+| `project.py` | 统一入口：输入快照与生成产物检查、重建、内核对照测试 |
 | `build_merged.py` | 从已保存的七套输入重建最终两份规则 |
 | `validate_merged.py`、`test_support.py` | 合并前后匹配对照与测试辅助代码 |
 | `inputs/` | 七份输入 MRS、AdGuard 补充 YAML、来源和 SHA-256 清单 |
@@ -75,7 +84,6 @@ rules:
 | `docs/客户端与广告规则来源.md` | Clash-Client 及七套广告规则的 GitHub 仓库、下载地址和输入文件对应关系 |
 | `phone-tests/` | 2026-11-20 手机验证脚本、报告与说明 |
 | `docs/merged-snapshot.md` | 原合并说明，含来源链接、合并语义和详细验证结论 |
-| `SHA256SUMS.txt` | 规则、代码、文档和报告的 SHA-256 校验清单（不含私人订阅目录） |
 
 早期 `conversion/` 中的转换过程和独立清单已从当前项目移出；日常使用最终两份规则、重建和合并验证不依赖该目录。所有输入规则保留上游来源信息，许可沿用各上游项目。
 
@@ -87,7 +95,7 @@ rules:
 python3 project.py check
 ```
 
-该命令检查项目文件校验和、输入快照、生成记录和 Python 语法，不联网、不启动内核。
+该命令检查输入快照、生成记录、最终规则产物和 Python 语法，不联网、不启动内核。
 
 重建和完整测试需要另行提供 Mihomo 可执行文件，本项目未附带内核：
 
@@ -98,7 +106,7 @@ python3 project.py test --mihomo "/你的/mihomo/路径"
 
 也可在 Mihomo 已加入 PATH 时使用 `--mihomo mihomo`。这些命令在 macOS、Linux 可用；Windows 将 `python3` 换成 `python`，并提供 `mihomo.exe` 的实际路径。
 
-`build` 使用 `inputs/` 保存的快照，更新最终规则和生成记录，并清除旧的合并验证报告；之后运行 `test` 重新生成验证报告。成功后统一入口会更新校验清单。内核测试启动隔离的本地测试服务，测试请求由本地模拟服务处理，不访问外部广告网站。
+`build` 使用 `inputs/` 保存的快照，更新最终规则和生成记录，并清除旧的合并验证报告；之后运行 `test` 重新生成验证报告。成功后统一入口会检查输入快照、生成记录、最终规则产物和 Python 语法。内核测试启动隔离的本地测试服务，测试请求由本地模拟服务处理，不访问外部广告网站。
 
 更新上游源不是本项目的自动流程。各上游仓库和下载地址见[客户端与广告规则来源](docs/客户端与广告规则来源.md)。重新处理原始 TXT 时需要另行准备转换流程，并同步更新 `inputs/` 的对应输入和来源清单，再重建、验证最终规则。
 

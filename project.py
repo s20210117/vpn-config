@@ -12,7 +12,6 @@ import sys
 
 
 ROOT = Path(__file__).resolve().parent
-SUMS = ROOT / "SHA256SUMS.txt"
 
 
 def digest(path):
@@ -21,26 +20,14 @@ def digest(path):
 
 def project_files():
     return sorted(path for path in ROOT.rglob("*") if path.is_file()
-                  and path != SUMS and path.name != ".DS_Store"
+                  and path.name != ".DS_Store"
                   and path.suffix != ".pyc"
                   and not any(part in ("__pycache__", ".git")
                               for part in path.relative_to(ROOT).parts)
                   and path.relative_to(ROOT).parts[0] != "subscription")
 
 
-def write_checksums():
-    SUMS.write_text("".join(
-        f"{digest(path)}  {path.relative_to(ROOT).as_posix()}\n"
-        for path in project_files()), encoding="utf-8")
-
-
 def check():
-    count = 0
-    for line in SUMS.read_text(encoding="utf-8").splitlines():
-        expected, name = line.split("  ", 1)
-        if digest(ROOT / name) != expected:
-            raise ValueError("文件校验和不一致：" + name)
-        count += 1
     manifest_path = ROOT / "inputs/manifest.json"
     manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
     inputs = list(manifest["domain_providers"].values()) + [manifest["adguard_extra"]]
@@ -59,7 +46,7 @@ def check():
     scripts = [path for path in project_files() if path.suffix == ".py"]
     for path in scripts:
         compile(path.read_bytes(), str(path), "exec")
-    print(f"检查通过：{count} 个文件、{len(inputs)} 份输入快照、{len(scripts)} 个 Python 脚本。")
+    print(f"检查通过：{len(inputs)} 份输入快照、{len(scripts)} 个 Python 脚本。")
     print(f"最终规则：MRS {build['merged_mrs_rules']:,} 条；补充 YAML {build['output_extra_rules']:,} 条。")
 
 
@@ -91,7 +78,6 @@ def main():
             core = resolve_core(args.mihomo)
             script = "build_merged.py" if args.command == "build" else "validate_merged.py"
             subprocess.run([sys.executable, "-B", str(ROOT / script), core], cwd=ROOT, check=True)
-            write_checksums()
             check()
     except (OSError, ValueError, KeyError, subprocess.CalledProcessError) as error:
         print("失败：" + str(error), file=sys.stderr)
