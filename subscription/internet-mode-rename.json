@@ -1,0 +1,28 @@
+{
+  "checked_at_utc": "2026-11-20T05:30:27.426709+00:00",
+  "old_group": "Ad",
+  "new_group": "上网模式",
+  "last_observed_phone_selection": "DIRECT",
+  "new_group_default": "DIRECT",
+  "semantic_verification": {
+    "semantic_check": true,
+    "group_names_unique": true,
+    "new_group": {
+      "name": "上网模式",
+      "type": "select",
+      "proxies": [
+        "DIRECT",
+        "PASS",
+        "PROXY"
+      ]
+    },
+    "rules": [
+      "NETWORK,tcp,上网模式",
+      "NETWORK,udp,上网模式"
+    ]
+  },
+  "source_sha256": "c8fd9cc72a18cacd4d1a21c5dc87c30685bc78a1fc310a4af41e1d2e316b33be",
+  "published_sha256": "48f77605222d0722b9592a07eae1162c9c2e5a4c8f96c8b4fa18927c9da82ee0",
+  "served_file_matches": true,
+  "phone_runtime_updated": false
+}

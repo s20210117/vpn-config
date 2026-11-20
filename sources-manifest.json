@@ -1,0 +1,62 @@
+{
+  "domain_providers": {
+    "hagezi-normal": {
+      "file": "hagezi-normal.mrs",
+      "rules": 184508,
+      "sha256": "e7cfbbf0055f77dcc1033ecbd07ca6bea83fe65c5faa4600d0f235b989ecafa6",
+      "source": "https://raw.githubusercontent.com/hagezi/dns-blocklists/main/wildcard/multi-onlydomains.txt",
+      "label": "HaGeZi Normal"
+    },
+    "stevenblack": {
+      "file": "stevenblack.mrs",
+      "rules": 76104,
+      "sha256": "6a9022310c5d03022834faacaae9ca9d3044edf08e2daccbc4933b764021c375",
+      "source": "https://raw.githubusercontent.com/StevenBlack/hosts/master/hosts",
+      "label": "StevenBlack"
+    },
+    "adguard-domains": {
+      "file": "adguard-domains.mrs",
+      "rules": 189620,
+      "sha256": "78c2821481117ea2d40e31881e6822dfc5ddda90ae0a49c457a4ca9aeca443a6",
+      "source": "https://adguardteam.github.io/AdGuardSDNSFilter/Filters/filter.txt",
+      "label": "AdGuard 域名部分"
+    },
+    "anti-ad": {
+      "file": "anti-ad.mrs",
+      "rules": 101832,
+      "sha256": "6f7750beed7714c486cc002e2920e0a2dd61b225a180b520588a3007aa51de2a",
+      "source": "https://anti-ad.net/mihomo.mrs",
+      "label": "anti-AD"
+    },
+    "awavenue": {
+      "file": "awavenue.mrs",
+      "rules": 978,
+      "sha256": "9ee0cb54b1b1b6dd8e21ed27e05b6247d50f687fd2ec53c800bc17095d9b9165",
+      "source": "https://raw.githubusercontent.com/TG-Twilight/AWAvenue-Ads-Rule/main/Filters/AWAvenue-Ads-Rule-Clash.mrs",
+      "label": "AWAvenue"
+    },
+    "cats-adrules": {
+      "file": "cats-adrules.mrs",
+      "rules": 210303,
+      "sha256": "09ee6a7e514d080766f6ce26e5f13315ae9a4ef6cd3dff4ad8b8d1e64204f6ac",
+      "source": "https://raw.githubusercontent.com/Cats-Team/AdRules/main/adrules-mihomo.mrs",
+      "label": "Cats-Team AdRules"
+    },
+    "217heidai": {
+      "file": "217heidai.mrs",
+      "rules": 256805,
+      "sha256": "1ffa4b7311f314642af5e196f28b9d8fa06a261ac016a5f9d570be67af05da1c",
+      "source": "https://github.com/217heidai/adblockfilters/releases/download/rule/adblockmihomo.mrs",
+      "label": "217heidai"
+    }
+  },
+  "notes": [
+    "Saved snapshots used for the preceding overlap analysis; no sources were downloaded again.",
+    "AdGuard supplement retains its source exceptions; these do not override independent blocks from other lists."
+  ],
+  "adguard_extra": {
+    "file": "adguard-extra.yaml",
+    "rules": 781,
+    "sha256": "2be10fb5c7e03e0158f5e88fa98bdfdb69d03cae16ecdc920be6ecb5c3c9b7af"
+  }
+}

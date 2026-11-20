@@ -1,0 +1,232 @@
+{
+  "timestamp_utc": "2026-11-20T07:06:56.861925+00:00",
+  "change": "App Store domains use PROXY after PASS; DNS unchanged",
+  "domains": [
+    "apps.apple.com",
+    "itunes.apple.com",
+    "mzstatic.com"
+  ],
+  "phone_before": {
+    "user_report": "foreign-region App Store account; PROXY works; PASS cannot connect",
+    "mode": "PASS",
+    "apple_group": "DIRECT",
+    "observed_appstore_host": "amp-api-edge.apps.apple.com",
+    "observed_chain": [
+      "Apple",
+      "DIRECT"
+    ],
+    "observed_remote_ip": "151.101.131.6",
+    "dns_policy_candidates": [
+      "https://1.1.1.1/dns-query",
+      "https://8.8.8.8/dns-query"
+    ]
+  },
+  "local_validation": {
+    "core_version": {
+      "meta": true,
+      "version": "v1.19.29"
+    },
+    "configuration_scope": "isolated minimal core, new rules in original order relative to NETWORK mode rules; loopback HTTP target and proxy; no requests to target domains",
+    "cases": [
+      {
+        "mode": "PASS",
+        "domain": "apps.apple.com",
+        "expected": "PROXY",
+        "actual": "PROXY",
+        "passed": true
+      },
+      {
+        "mode": "PASS",
+        "domain": "amp-api-edge.apps.apple.com",
+        "expected": "PROXY",
+        "actual": "PROXY",
+        "passed": true
+      },
+      {
+        "mode": "PASS",
+        "domain": "bag.itunes.apple.com",
+        "expected": "PROXY",
+        "actual": "PROXY",
+        "passed": true
+      },
+      {
+        "mode": "PASS",
+        "domain": "iosapps.itunes.apple.com",
+        "expected": "PROXY",
+        "actual": "PROXY",
+        "passed": true
+      },
+      {
+        "mode": "PASS",
+        "domain": "is1-ssl.mzstatic.com",
+        "expected": "PROXY",
+        "actual": "PROXY",
+        "passed": true
+      },
+      {
+        "mode": "PASS",
+        "domain": "www.apple.com",
+        "expected": "DIRECT",
+        "actual": "DIRECT",
+        "passed": true
+      },
+      {
+        "mode": "PASS",
+        "domain": "clean.control.invalid",
+        "expected": "DIRECT",
+        "actual": "DIRECT",
+        "passed": true
+      },
+      {
+        "mode": "DIRECT",
+        "domain": "apps.apple.com",
+        "expected": "DIRECT",
+        "actual": "DIRECT",
+        "passed": true
+      },
+      {
+        "mode": "DIRECT",
+        "domain": "amp-api-edge.apps.apple.com",
+        "expected": "DIRECT",
+        "actual": "DIRECT",
+        "passed": true
+      },
+      {
+        "mode": "DIRECT",
+        "domain": "bag.itunes.apple.com",
+        "expected": "DIRECT",
+        "actual": "DIRECT",
+        "passed": true
+      },
+      {
+        "mode": "DIRECT",
+        "domain": "iosapps.itunes.apple.com",
+        "expected": "DIRECT",
+        "actual": "DIRECT",
+        "passed": true
+      },
+      {
+        "mode": "DIRECT",
+        "domain": "is1-ssl.mzstatic.com",
+        "expected": "DIRECT",
+        "actual": "DIRECT",
+        "passed": true
+      },
+      {
+        "mode": "DIRECT",
+        "domain": "www.apple.com",
+        "expected": "DIRECT",
+        "actual": "DIRECT",
+        "passed": true
+      },
+      {
+        "mode": "DIRECT",
+        "domain": "clean.control.invalid",
+        "expected": "DIRECT",
+        "actual": "DIRECT",
+        "passed": true
+      },
+      {
+        "mode": "PROXY",
+        "domain": "apps.apple.com",
+        "expected": "PROXY",
+        "actual": "PROXY",
+        "passed": true
+      },
+      {
+        "mode": "PROXY",
+        "domain": "amp-api-edge.apps.apple.com",
+        "expected": "PROXY",
+        "actual": "PROXY",
+        "passed": true
+      },
+      {
+        "mode": "PROXY",
+        "domain": "bag.itunes.apple.com",
+        "expected": "PROXY",
+        "actual": "PROXY",
+        "passed": true
+      },
+      {
+        "mode": "PROXY",
+        "domain": "iosapps.itunes.apple.com",
+        "expected": "PROXY",
+        "actual": "PROXY",
+        "passed": true
+      },
+      {
+        "mode": "PROXY",
+        "domain": "is1-ssl.mzstatic.com",
+        "expected": "PROXY",
+        "actual": "PROXY",
+        "passed": true
+      },
+      {
+        "mode": "PROXY",
+        "domain": "www.apple.com",
+        "expected": "PROXY",
+        "actual": "PROXY",
+        "passed": true
+      },
+      {
+        "mode": "PROXY",
+        "domain": "clean.control.invalid",
+        "expected": "PROXY",
+        "actual": "PROXY",
+        "passed": true
+      }
+    ],
+    "passed": 21,
+    "failed": 0
+  },
+  "phone_after": {
+    "status": "verified",
+    "timestamp_utc": "2026-11-20T07:11:16.604851+00:00",
+    "user_confirmation": "PASS 下已经能打开外区 App Store",
+    "mode": "PASS",
+    "rule_match": {
+      "domain": "amp-api-edge.apps.apple.com",
+      "rule_type": "DomainSuffix",
+      "rule_payload": "apps.apple.com",
+      "rule_index": 6,
+      "proxy": "PROXY",
+      "chain": [
+        "PROXY",
+        "AUTO",
+        "🇺🇸美国凤凰城4号-0.1倍率"
+      ]
+    },
+    "observed_connections": [
+      {
+        "domain": "amp-api-edge.apps.apple.com",
+        "network": "udp",
+        "rule_type": "DomainSuffix",
+        "rule_payload": "apps.apple.com",
+        "chains": [
+          "🇺🇸美国凤凰城4号-0.1倍率",
+          "AUTO",
+          "PROXY"
+        ],
+        "download_bytes": 4458661,
+        "upload_bytes": 115134
+      },
+      {
+        "domain": "is1-ssl.mzstatic.com",
+        "network": "udp",
+        "rule_type": "DomainSuffix",
+        "rule_payload": "mzstatic.com",
+        "chains": [
+          "🇺🇸美国凤凰城4号-0.1倍率",
+          "AUTO",
+          "PROXY"
+        ],
+        "download_bytes": 253471,
+        "upload_bytes": 15239
+      }
+    ]
+  },
+  "limits": [
+    "Loopback routing tests verify selection, not foreign-region App Store availability.",
+    "PROXY node availability and App Store account/service state can still affect actual access."
+  ]
+}

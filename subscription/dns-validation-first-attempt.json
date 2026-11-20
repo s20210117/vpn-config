@@ -1,0 +1,62 @@
+{
+  "checked_at_utc": "2026-11-20T04:36:51.087810+00:00",
+  "full_configuration_syntax_ok": true,
+  "source_sha256": "8b3a9ee7178ab11b7bcebf3f61c390751b3ec1021359155b678c931b30c47ac6",
+  "template_sha256": "400c5b3c44afa447fd8a9f39728382a47d740444e2d66c18fea5d0ff5e6c2a90",
+  "test_node": "🇯🇵AWS日本4号",
+  "cases": {
+    "PROXY": {
+      "passed": false,
+      "dns_http_status": 500,
+      "dns_rcode": null,
+      "resolver_connections": []
+    },
+    "PASS": {
+      "passed": true,
+      "dns_http_status": 200,
+      "dns_rcode": 0,
+      "resolver_connections": [
+        {
+          "ip": "8.8.8.8",
+          "chains": [
+            "🇯🇵AWS日本4号",
+            "PROXY"
+          ]
+        },
+        {
+          "ip": "1.1.1.1",
+          "chains": [
+            "🇯🇵AWS日本4号",
+            "PROXY"
+          ]
+        }
+      ]
+    },
+    "DIRECT_without_proxy": {
+      "passed": true,
+      "http_status": "200",
+      "curl_exit": 0,
+      "resolver_connections": [
+        {
+          "ip": "223.5.5.5",
+          "chains": [
+            "DIRECT"
+          ]
+        }
+      ],
+      "dns_query_answer_ok": true
+    },
+    "no_working_fallback_when_proxy_rejected": {
+      "passed": true,
+      "dns_http_status": 500,
+      "error": "all DNS requests failed, first error: requesting https://1.1.1.1:443/dns-query: Get \"https://1.1.1.1:443/dns-query?dns=AAABAAABAAAAAAAAH2Rucy1mYWlsLWNoZWNrLTkwOWI0ZTRjZjlhMWFjNmMHZXhhbXBsZQNjb20AABAAAQ\": EOF (resErr:<nil>)"
+    }
+  },
+  "scope": "Isolated DNS routing with the actual DNS section, one saved VLESS node, Ad/PROXY groups and first five rules. TUN disabled.",
+  "phone_runtime_verified": false,
+  "isolated_core_stopped": true,
+  "all_cases_passed": false,
+  "observations": [
+    "Initial PROXY test failed with EOF during VLESS transport connection; the following PASS case using the same node succeeded. Retesting with the exact previously working node."
+  ]
+}

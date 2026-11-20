@@ -1,0 +1,109 @@
+{
+  "checked_at_utc": "2026-11-20T04:45:59.454976+00:00",
+  "core_version": "Mihomo v1.19.29 darwin arm64",
+  "full_configuration_syntax_ok": true,
+  "source_sha256": "8b3a9ee7178ab11b7bcebf3f61c390751b3ec1021359155b678c931b30c47ac6",
+  "template_sha256": "400c5b3c44afa447fd8a9f39728382a47d740444e2d66c18fea5d0ff5e6c2a90",
+  "test_node": "🇯🇵日本4号-0.1倍率",
+  "scope": "Each case starts a fresh isolated core with the actual DNS section, one saved VLESS node, Ad/PROXY groups and first five rules. TUN disabled; no changes to phone or system network settings.",
+  "first_attempt_report": "dns-validation-first-attempt.json",
+  "phone_runtime_verified": false,
+  "cases": {
+    "PROXY": {
+      "passed": true,
+      "Ad": "PROXY",
+      "PROXY": "🇯🇵日本4号-0.1倍率",
+      "dns_http_status": 200,
+      "dns_rcode": 0,
+      "resolver_connections": [
+        {
+          "ip": "1.1.1.1",
+          "chains": [
+            "🇯🇵日本4号-0.1倍率",
+            "PROXY",
+            "Ad"
+          ]
+        }
+      ],
+      "isolated_core_stopped": true
+    },
+    "PASS": {
+      "passed": true,
+      "Ad": "PASS",
+      "PROXY": "🇯🇵日本4号-0.1倍率",
+      "dns_http_status": 200,
+      "dns_rcode": 0,
+      "resolver_connections": [
+        {
+          "ip": "1.1.1.1",
+          "chains": [
+            "🇯🇵日本4号-0.1倍率",
+            "PROXY"
+          ]
+        }
+      ],
+      "isolated_core_stopped": true
+    },
+    "DIRECT_without_proxy": {
+      "passed": true,
+      "Ad": "DIRECT",
+      "PROXY": "REJECT",
+      "http_status": "200",
+      "curl_exit": 0,
+      "resolver_connections": [
+        {
+          "ip": "223.5.5.5",
+          "chains": [
+            "DIRECT"
+          ]
+        },
+        {
+          "ip": "223.6.6.6",
+          "chains": [
+            "DIRECT"
+          ]
+        }
+      ],
+      "isolated_core_stopped": true
+    },
+    "no_working_fallback_when_proxy_rejected": {
+      "passed": true,
+      "Ad": "PROXY",
+      "PROXY": "REJECT",
+      "dns_http_status": 500,
+      "resolver_connections": [],
+      "query_failed_as_expected": true,
+      "isolated_core_stopped": true
+    }
+  },
+  "all_cases_passed": true,
+  "changed_top_level_fields": [
+    "dns",
+    "tun"
+  ],
+  "served_files": {
+    "subscription/config.yaml": {
+      "http_status": 200,
+      "sha256": "8b3a9ee7178ab11b7bcebf3f61c390751b3ec1021359155b678c931b30c47ac6",
+      "matches_saved_file": true
+    },
+    "ads-merged.mrs": {
+      "http_status": 200,
+      "sha256": "ebe2d27226327f829f5f3c3d94c5bdf13e97a5cfd6427194b3225c15bd840808",
+      "matches_saved_file": true
+    },
+    "ads-merged-extra.yaml": {
+      "http_status": 200,
+      "sha256": "228a81a1b9e8e73b1f0727b70f6e7e2289f7b467f1f15472db6b708a6aea183d",
+      "matches_saved_file": true
+    }
+  },
+  "limitations": [
+    "Phone runtime has not been verified after this DNS change.",
+    "Isolated tests have TUN disabled and do not constitute a packet capture or an all-app DNS leak audit.",
+    "First attempt with another VLESS node had a transport EOF; independent tests passed with the previously working node."
+  ],
+  "temporary_test_core_stopped": true,
+  "finalized_at_utc": "2026-11-20T04:46:47.746638+00:00",
+  "temporary_files_removed": true
+}

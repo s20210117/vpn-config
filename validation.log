@@ -1,0 +1,12 @@
+source
+time="2026-11-17T17:50:45.499755000+08:00" level=info msg="Start initial configuration in progress"
+time="2026-11-17T17:50:45.499840000+08:00" level=info msg="Geodata Loader mode: memconservative"
+time="2026-11-17T17:50:45.499845000+08:00" level=info msg="Geosite Matcher implementation: succinct"
+time="2026-11-17T17:50:45.499951000+08:00" level=info msg="Initial configuration complete, total time: 0ms"
+configuration file /var/folders/qp/c6thlr8d3j9ch40_9b338rpm0000gn/T/merged-ads-test-r4q0xvc2/source/config.yaml test is successful
+merged
+time="2026-11-17T17:50:45.513121000+08:00" level=info msg="Start initial configuration in progress"
+time="2026-11-17T17:50:45.513169000+08:00" level=info msg="Geodata Loader mode: memconservative"
+time="2026-11-17T17:50:45.513173000+08:00" level=info msg="Geosite Matcher implementation: succinct"
+time="2026-11-17T17:50:45.513235000+08:00" level=info msg="Initial configuration complete, total time: 0ms"
+configuration file /var/folders/qp/c6thlr8d3j9ch40_9b338rpm0000gn/T/merged-ads-test-r4q0xvc2/merged/config.yaml test is successful

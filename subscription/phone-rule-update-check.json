@@ -1,0 +1,33 @@
+{
+  "checked_at_utc": "2026-11-20T04:08:31.424835+00:00",
+  "results": [
+    {
+      "name": "local-353d1ae3-5a81-452c-8527-d56690c131dc",
+      "exit": 0,
+      "reply": {
+        "cli": 1,
+        "ok": true,
+        "data": {
+          "result": "unchanged",
+          "countBefore": 353223,
+          "countAfter": 353223,
+          "checkedAt": 1795147711
+        }
+      }
+    },
+    {
+      "name": "local-bee2aa81-babe-4bdb-929d-98894937deeb",
+      "exit": 0,
+      "reply": {
+        "cli": 1,
+        "ok": true,
+        "data": {
+          "result": "unchanged",
+          "countBefore": 408,
+          "countAfter": 408,
+          "checkedAt": 1795147711
+        }
+      }
+    }
+  ]
+}

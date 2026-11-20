@@ -1,0 +1,112 @@
+# vpn-config
+
+本项目同时维护广告规则和手机完整配置的局域网订阅。
+
+双击 [index.html](index.html) 可打开离线代理配置转换器，将 SOCKS5 / HTTP 代理信息生成为 FlClash / Mihomo、sing-box 或 v2rayNG 配置，支持预览、复制和下载。
+
+Clash-Client 客户端及 `inputs/` 中七套广告规则的 GitHub 仓库、上游下载地址和文件对应关系，统一记录在[客户端与广告规则来源](docs/客户端与广告规则来源.md)。
+
+## 手机配置订阅
+
+当前订阅地址：`http://192.168.2.77:8765/config.yaml`。完整配置位于 `subscription/config.yaml`，保存后手机点击「立即同步」即可下载新版本。
+
+首页出站模式保持「规则」，通过排在首位的「上网模式」策略组选择上网方式，成员顺序为 `PASS`（按原有规则分流）、`DIRECT`（直连）、`PROXY`（代理）。该组原名 `Ad`，现已更名；未保存选择时默认使用第一项 `PASS`，客户端已经保存的选择可能继续保留。
+
+配置中的两份广告规则也从这台 Mac 下载，分别对应项目顶层的 `ads-merged.mrs`、`ads-merged-extra.yaml`。修改规则后需在手机更新对应规则集，服务无需重启。
+
+DNS 已按上网模式配置为加密 DoH：默认 DNS 连接跟随路由规则；境外列表中的域名使用 Cloudflare / Google DoH，直连解析也遵循该策略，其余直连域名和节点域名使用阿里 DoH。修正了路由器已开启代理时，手机 `DIRECT` 冷启动访问 Google 失败的问题。公开模板为 `dns-follow-mode.yaml`，行为与验证范围见 [DNS 说明](docs/DNS说明.md)。
+
+外区 App Store 在 `PASS` 下单独代理 `apps.apple.com`、`itunes.apple.com`、`mzstatic.com` 及其子域名；`DIRECT` 选择仍按直连执行。该分流调整需同步完整配置，详见 [App Store 说明](docs/DNS说明.md#外区-app-store-分流)。
+
+双击「启动订阅服务.command」可启动后台服务，关闭终端后继续运行；「停止订阅服务.command」可停止服务。「查看订阅地址.command」显示服务状态。Mac 重启或用户注销后，需要重新启动一次。
+
+完整步骤、更新范围和地址变化处理见 [局域网订阅说明](docs/局域网订阅.md)。`subscription/` 保存含节点凭据的完整配置、备份和验证记录，可随项目一起提交到 Git；该目录仍独立于规则项目的文件校验清单。
+
+换电脑或网络时，请先查看[迁移依赖与换电脑说明](docs/迁移依赖与换电脑说明.md)，其中列出 IP、端口、系统和手机调试参数的依赖及迁移步骤。
+
+## 广告规则资料
+
+保留七套清单精简合并、规则重建和手机验证资料。整理日期：2026-11-20；规则内容沿用 2026-11-17 保存的快照，本次整理没有刷新上游规则。
+
+早期转换资料已从当前项目移出，项目从约 62.1 MB 精简至约 17.7 MB。完整重建与合并验证所需的 `inputs/`、脚本和记录仍在项目内。
+
+## 直接使用
+
+最终使用顶层的两份文件，需一起启用：
+
+| 文件 | 内容 | 条数 | 大小 |
+| --- | --- | ---: | ---: |
+| `ads-merged.mrs` | 七套清单合并、去重后的域名规则 | 353,223 | 3,161,782 字节 |
+| `ads-merged-extra.yaml` | MRS 无法表达的正则和例外条件 | 408 | 40,057 字节 |
+
+把这两份文件复制到客户端配置目录下的 `rules/merged/`，将 `mihomo-example.yaml` 中的 provider 和规则合并进已有配置。两条广告规则放在普通分流规则前，MRS 在前、YAML 在后，策略都选 `REJECT`。
+
+```yaml
+rule-providers:
+  ads-merged:
+    type: file
+    behavior: domain
+    format: mrs
+    path: ./rules/merged/ads-merged.mrs
+  ads-merged-extra:
+    type: file
+    behavior: classical
+    format: yaml
+    path: ./rules/merged/ads-merged-extra.yaml
+
+rules:
+  - RULE-SET,ads-merged,REJECT
+  - RULE-SET,ads-merged-extra,REJECT
+  # 后接原有分流规则。
+```
+
+这是规则集项目，示例不包含代理节点。手机客户端如支持规则集导入，可以导入两份文件并关联到当前配置；具体路径和界面以客户端为准。普通 `rules` 在内核的规则模式下执行。
+
+## 项目内容
+
+| 路径 | 用途 |
+| --- | --- |
+| `project.py` | 统一入口：完整性检查、重建、内核对照测试 |
+| `build_merged.py` | 从已保存的七套输入重建最终两份规则 |
+| `validate_merged.py`、`test_support.py` | 合并前后匹配对照与测试辅助代码 |
+| `inputs/` | 七份输入 MRS、AdGuard 补充 YAML、来源和 SHA-256 清单 |
+| `build-report.json`、`test-report.json` | 生成记录和已有验证报告 |
+| `validation-cases.json`、`runtime-results.json` | 验证用例和实际内核匹配记录 |
+| `docs/客户端与广告规则来源.md` | Clash-Client 及七套广告规则的 GitHub 仓库、下载地址和输入文件对应关系 |
+| `phone-tests/` | 2026-11-20 手机验证脚本、报告与说明 |
+| `docs/merged-snapshot.md` | 原合并说明，含来源链接、合并语义和详细验证结论 |
+| `SHA256SUMS.txt` | 规则、代码、文档和报告的 SHA-256 校验清单（不含私人订阅目录） |
+
+早期 `conversion/` 中的转换过程和独立清单已从当前项目移出；日常使用最终两份规则、重建和合并验证不依赖该目录。所有输入规则保留上游来源信息，许可沿用各上游项目。
+
+## 统一命令
+
+在本项目文件夹打开终端。文件检查使用 Python 3.9+，无需额外 Python 包：
+
+```sh
+python3 project.py check
+```
+
+该命令检查项目文件校验和、输入快照、生成记录和 Python 语法，不联网、不启动内核。
+
+重建和完整测试需要另行提供 Mihomo 可执行文件，本项目未附带内核：
+
+```sh
+python3 project.py build --mihomo "/你的/mihomo/路径"
+python3 project.py test --mihomo "/你的/mihomo/路径"
+```
+
+也可在 Mihomo 已加入 PATH 时使用 `--mihomo mihomo`。这些命令在 macOS、Linux 可用；Windows 将 `python3` 换成 `python`，并提供 `mihomo.exe` 的实际路径。
+
+`build` 使用 `inputs/` 保存的快照，更新最终规则和生成记录，并清除旧的合并验证报告；之后运行 `test` 重新生成验证报告。成功后统一入口会更新校验清单。内核测试启动隔离的本地测试服务，测试请求由本地模拟服务处理，不访问外部广告网站。
+
+更新上游源不是本项目的自动流程。各上游仓库和下载地址见[客户端与广告规则来源](docs/客户端与广告规则来源.md)。重新处理原始 TXT 时需要另行准备转换流程，并同步更新 `inputs/` 的对应输入和来源清单，再重建、验证最终规则。
+
+## 已有验证记录
+
+- 2026-11-17，Mihomo 1.19.29：865,906 个离线用例、16,337 个实际内核用例，合并前后零差异。详细边界见 `docs/merged-snapshot.md`。
+- 2026-11-20，手机内核 1.19.34：82 项全部通过，50 次命中补充 YAML、10 次命中 MRS、22 次控制用例正常放行。
+
+这些是此前保存的测试结果，本次整理只做文件完整性与可运行路径检查。匹配等价测试不衡量真实广告拦截率或上游规则误杀率。
+
+手机脚本保留当时的局域网地址、证书指纹和规则集 ID；再次使用前需核对手机现状。密钥从标准输入读取，项目不保存控制器密钥。该手机匹配接口会增加命中计数，报告中的命中包含人工测试。入口命令不会自动连接手机，详见 `phone-tests/说明.md`。

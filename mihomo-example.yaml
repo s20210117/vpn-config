@@ -1,0 +1,18 @@
+# Merge these providers and rules into your existing mihomo profile.
+# Copy the two rule files to <mihomo HomeDir>/rules/merged/.
+rule-providers:
+  ads-merged:
+    type: file
+    behavior: domain
+    format: mrs
+    path: ./rules/merged/ads-merged.mrs
+  ads-merged-extra:
+    type: file
+    behavior: classical
+    format: yaml
+    path: ./rules/merged/ads-merged-extra.yaml
+
+rules:
+  - RULE-SET,ads-merged,REJECT
+  - RULE-SET,ads-merged-extra,REJECT
+  # Keep your existing routing rules after these entries.

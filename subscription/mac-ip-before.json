@@ -1,0 +1,18 @@
+{
+  "checked_at_utc": "2026-11-20T05:40:09.327434+00:00",
+  "network_service": "Wi-Fi",
+  "device": "en1",
+  "method": "DHCP",
+  "ip": "192.168.2.53",
+  "mask": "255.255.255.0",
+  "router": "192.168.2.1",
+  "restore_command": [
+    "/usr/sbin/networksetup",
+    "-setdhcp",
+    "Wi-Fi"
+  ],
+  "ipv4": "DHCP Configuration\nIP address: 192.168.2.53\nSubnet mask: 255.255.255.0\nRouter: 192.168.2.1\nClient ID: \nIPv6: Automatic\nIPv6 IP address: none\nIPv6 Router: none\nWi-Fi ID: d0:11:e5:d1:aa:a8\n",
+  "dns": "114.114.114.114\n",
+  "search_domains": "There aren't any Search Domains set on Wi-Fi.\n",
+  "default_route": "   route to: default\ndestination: default\n       mask: default\n    gateway: 192.168.2.1\n  interface: en1\n      flags: <UP,GATEWAY,DONE,STATIC,PRCLONING,GLOBAL>\n recvpipe  sendpipe  ssthresh  rtt,msec    rttvar  hopcount      mtu     expire\n       0         0         0         0         0         0      1500         0 \n"
+}

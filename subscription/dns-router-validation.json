@@ -1,0 +1,223 @@
+{
+  "checked_at_utc": "2026-11-20T05:09:31.105120+00:00",
+  "core": "Mihomo v1.19.29 darwin arm64",
+  "candidate_full_syntax_ok": true,
+  "source_sha256": "8b3a9ee7178ab11b7bcebf3f61c390751b3ec1021359155b678c931b30c47ac6",
+  "phone_runtime_verified_after_fix": true,
+  "scope": "Cold isolated processes on the Mac behind the home router. TUN disabled, no phone mode or network settings changed.",
+  "cases": {
+    "old_DIRECT": {
+      "passed": true,
+      "Ad": "DIRECT",
+      "PROXY": "REJECT",
+      "google": {
+        "exit_code": 35,
+        "http_status": "000",
+        "error": "curl: (35) LibreSSL SSL_connect: SSL_ERROR_SYSCALL in connection to www.google.com:443 \n"
+      },
+      "meaning": "Control reproduces a fresh DIRECT failure with the previous DNS settings.",
+      "isolated_core_stopped": true
+    },
+    "new_DIRECT": {
+      "passed": true,
+      "Ad": "DIRECT",
+      "PROXY": "REJECT",
+      "google": {
+        "exit_code": 0,
+        "http_status": "204",
+        "error": ""
+      },
+      "baidu": {
+        "exit_code": 0,
+        "http_status": "200",
+        "error": ""
+      },
+      "resolver_connections": [
+        {
+          "ip": "8.8.8.8",
+          "chains": [
+            "DIRECT",
+            "Ad"
+          ]
+        },
+        {
+          "ip": "1.1.1.1",
+          "chains": [
+            "DIRECT",
+            "Ad"
+          ]
+        },
+        {
+          "ip": "223.6.6.6",
+          "chains": [
+            "DIRECT"
+          ]
+        },
+        {
+          "ip": "223.5.5.5",
+          "chains": [
+            "DIRECT"
+          ]
+        }
+      ],
+      "isolated_core_stopped": true
+    },
+    "new_PROXY": {
+      "passed": true,
+      "Ad": "PROXY",
+      "PROXY": "🇯🇵日本4号-0.1倍率",
+      "dns_http_status": 200,
+      "dns_rcode": 0,
+      "resolver_connections": [
+        {
+          "ip": "223.5.5.5",
+          "chains": [
+            "DIRECT"
+          ]
+        },
+        {
+          "ip": "8.8.8.8",
+          "chains": [
+            "🇯🇵日本4号-0.1倍率",
+            "PROXY",
+            "Ad"
+          ]
+        },
+        {
+          "ip": "1.1.1.1",
+          "chains": [
+            "🇯🇵日本4号-0.1倍率",
+            "PROXY",
+            "Ad"
+          ]
+        },
+        {
+          "ip": "223.6.6.6",
+          "chains": [
+            "DIRECT"
+          ]
+        }
+      ],
+      "isolated_core_stopped": true
+    },
+    "new_PASS": {
+      "passed": true,
+      "Ad": "PASS",
+      "PROXY": "🇯🇵日本4号-0.1倍率",
+      "dns_http_status": 200,
+      "dns_rcode": 0,
+      "resolver_connections": [
+        {
+          "ip": "223.6.6.6",
+          "chains": [
+            "DIRECT"
+          ]
+        },
+        {
+          "ip": "1.1.1.1",
+          "chains": [
+            "🇯🇵日本4号-0.1倍率",
+            "PROXY"
+          ]
+        },
+        {
+          "ip": "223.5.5.5",
+          "chains": [
+            "DIRECT"
+          ]
+        },
+        {
+          "ip": "8.8.8.8",
+          "chains": [
+            "🇯🇵日本4号-0.1倍率",
+            "PROXY"
+          ]
+        }
+      ],
+      "isolated_core_stopped": true
+    },
+    "new_PROXY_REJECT": {
+      "passed": true,
+      "Ad": "PROXY",
+      "PROXY": "REJECT",
+      "dns_http_status": 500,
+      "dns_rcode": null,
+      "resolver_connections": [
+        {
+          "ip": "1.1.1.1",
+          "chains": [
+            "REJECT",
+            "PROXY",
+            "Ad"
+          ]
+        },
+        {
+          "ip": "8.8.8.8",
+          "chains": [
+            "REJECT",
+            "PROXY",
+            "Ad"
+          ]
+        }
+      ],
+      "isolated_core_stopped": true
+    }
+  },
+  "all_cases_passed": true,
+  "published_configuration_sha256": "c8fd9cc72a18cacd4d1a21c5dc87c30685bc78a1fc310a4af41e1d2e316b33be",
+  "published_matches_tested_candidate": true,
+  "observations": {
+    "router_dns_www_google_com": "198.18.0.54",
+    "router_dns_answer_https_status": 302,
+    "cloudflare_answer_www_google_com": "142.251.155.119",
+    "cloudflare_answer_https_status": 302,
+    "ali_answer_www_google_com": "185.45.5.35",
+    "ali_answer_https_exit_code": 35,
+    "phone_fresh_DIRECT_google_test_before_fix": "HTTP 503 / EOF",
+    "phone_Ad_at_test": "DIRECT",
+    "old_proxy_dns_connections_were_still_present": true,
+    "dns_cache_as_cause": "Not established; cold-process control independently reproduced the failure."
+  },
+  "changed_dns_fields": [
+    "nameserver-policy",
+    "direct-nameserver-follow-policy"
+  ],
+  "served_configuration": {
+    "http_status": 200,
+    "sha256": "c8fd9cc72a18cacd4d1a21c5dc87c30685bc78a1fc310a4af41e1d2e316b33be",
+    "matches_tested_candidate": true
+  },
+  "semantic_changes": {
+    "top": [
+      "dns"
+    ],
+    "dns": [
+      "direct-nameserver-follow-policy",
+      "nameserver-policy"
+    ]
+  },
+  "temporary_test_files_removed": true,
+  "phone_runtime_verification": {
+    "checked_at_utc": "2026-11-20T05:17:00.858122+00:00",
+    "core_version": "1.19.34",
+    "mode": "rule",
+    "Ad": "DIRECT",
+    "download_sha256": "c8fd9cc72a18cacd4d1a21c5dc87c30685bc78a1fc310a4af41e1d2e316b33be",
+    "download_source_phone_ip": "192.168.2.199",
+    "google_dns_source": "policy",
+    "google_dns_candidates": [
+      "https://1.1.1.1:443/dns-query",
+      "https://8.8.8.8:443/dns-query"
+    ],
+    "dns_hijack": [
+      "any:53",
+      "tcp://any:53"
+    ],
+    "fresh_DIRECT_google_test": {
+      "success": true,
+      "delay_ms": 307,
+      "url": "https://www.google.com/generate_204"
+    },
+    "scope": "Runtime DNS policy, profile download identity and fresh DIRECT Google connection checked. This does not audit every application or mobile-network behavior."
+  }
+}

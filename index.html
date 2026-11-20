@@ -1,0 +1,984 @@
+<!doctype html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta name="color-scheme" content="light dark" />
+        <title>本地代理配置转换器</title>
+        <style>
+            :root {
+                color-scheme: light;
+                --bg: #f4f6f8;
+                --surface: #ffffff;
+                --surface-alt: #eef2f4;
+                --text: #172126;
+                --muted: #647078;
+                --border: #cfd7dc;
+                --accent: #087f8c;
+                --accent-strong: #066773;
+                --success: #237a4b;
+                --danger: #b42318;
+                --code: #152228;
+                --code-text: #d9e7e9;
+            }
+
+            * {
+                box-sizing: border-box;
+            }
+
+            html,
+            body,
+            pre {
+                scrollbar-width: none;
+            }
+
+            html::-webkit-scrollbar,
+            body::-webkit-scrollbar,
+            pre::-webkit-scrollbar {
+                display: none;
+            }
+
+            body {
+                margin: 0;
+                min-width: 320px;
+                background: var(--bg);
+                color: var(--text);
+                font-family:
+                    -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+                font-size: 15px;
+                line-height: 1.5;
+                letter-spacing: 0;
+            }
+
+            button,
+            input,
+            select,
+            textarea {
+                font: inherit;
+                letter-spacing: 0;
+            }
+
+            header {
+                border-bottom: 1px solid var(--border);
+                background: var(--surface);
+            }
+
+            .header-inner,
+            main {
+                width: min(1120px, 100%);
+                margin: 0 auto;
+                padding-inline: 20px;
+            }
+
+            .header-inner {
+                min-height: 68px;
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                gap: 16px;
+            }
+
+            h1 {
+                margin: 0;
+                font-size: 21px;
+                font-weight: 700;
+            }
+
+            .privacy {
+                color: var(--success);
+                font-size: 13px;
+                white-space: nowrap;
+            }
+
+            main {
+                display: grid;
+                grid-template-columns: minmax(320px, 430px) minmax(0, 1fr);
+                gap: 24px;
+                padding-block: 24px 40px;
+            }
+
+            section {
+                min-width: 0;
+                background: var(--surface);
+                border: 1px solid var(--border);
+                border-radius: 8px;
+            }
+
+            .section-header {
+                min-height: 52px;
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                gap: 12px;
+                padding: 12px 16px;
+                border-bottom: 1px solid var(--border);
+            }
+
+            h2 {
+                margin: 0;
+                font-size: 16px;
+                font-weight: 700;
+            }
+
+            .form-body {
+                padding: 16px;
+            }
+
+            .field {
+                display: grid;
+                gap: 6px;
+                margin-bottom: 14px;
+            }
+
+            .field-row {
+                display: grid;
+                grid-template-columns: minmax(0, 1fr) 132px;
+                gap: 12px;
+            }
+
+            .credential-row {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            label,
+            legend {
+                color: var(--muted);
+                font-size: 13px;
+                font-weight: 600;
+            }
+
+            input,
+            select {
+                width: 100%;
+                height: 42px;
+                border: 1px solid var(--border);
+                border-radius: 6px;
+                background: var(--surface);
+                color: var(--text);
+                padding: 0 11px;
+                outline: none;
+            }
+
+            input:focus,
+            select:focus,
+            button:focus-visible {
+                border-color: var(--accent);
+                box-shadow: 0 0 0 3px rgba(8, 127, 140, 0.14);
+            }
+
+            input[aria-invalid="true"] {
+                border-color: var(--danger);
+            }
+
+            fieldset {
+                margin: 0 0 14px;
+                padding: 0;
+                border: 0;
+            }
+
+            legend {
+                margin-bottom: 6px;
+            }
+
+            .segmented {
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                height: 42px;
+                padding: 3px;
+                border: 1px solid var(--border);
+                border-radius: 6px;
+                background: var(--surface-alt);
+            }
+
+            .segmented input {
+                position: absolute;
+                opacity: 0;
+                pointer-events: none;
+            }
+
+            .segmented label {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                border-radius: 4px;
+                color: var(--muted);
+                cursor: pointer;
+            }
+
+            .segmented input:checked + label {
+                background: var(--surface);
+                color: var(--text);
+                box-shadow: 0 1px 3px rgba(20, 33, 38, 0.15);
+            }
+
+            .protocol-options {
+                display: grid;
+                grid-template-columns: minmax(0, 1fr) 112px;
+                gap: 12px;
+                margin-bottom: 14px;
+            }
+
+            .protocol-options fieldset {
+                margin: 0;
+            }
+
+            .udp-field {
+                display: grid;
+                gap: 6px;
+            }
+
+            .field-label {
+                color: var(--muted);
+                font-size: 13px;
+                font-weight: 600;
+            }
+
+            .toggle-control {
+                position: relative;
+                height: 42px;
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                gap: 8px;
+                padding: 0 10px;
+                border: 1px solid var(--border);
+                border-radius: 6px;
+                background: var(--surface-alt);
+                color: var(--text);
+                cursor: pointer;
+                user-select: none;
+            }
+
+            .toggle-control input {
+                position: absolute;
+                opacity: 0;
+                pointer-events: none;
+            }
+
+            .toggle-state {
+                min-width: 26px;
+                color: var(--muted);
+                font-size: 13px;
+                font-weight: 600;
+            }
+
+            .toggle-track {
+                position: relative;
+                width: 34px;
+                height: 20px;
+                flex: 0 0 auto;
+                border-radius: 10px;
+                background: var(--border);
+                transition: background 140ms ease;
+            }
+
+            .toggle-thumb {
+                position: absolute;
+                top: 3px;
+                left: 3px;
+                width: 14px;
+                height: 14px;
+                border-radius: 50%;
+                background: #ffffff;
+                box-shadow: 0 1px 2px rgba(20, 33, 38, 0.25);
+                transition: transform 140ms ease;
+            }
+
+            .toggle-control input:checked ~ .toggle-track {
+                background: var(--accent);
+            }
+
+            .toggle-control input:checked ~ .toggle-track .toggle-thumb {
+                transform: translateX(14px);
+            }
+
+            .toggle-control input:focus-visible ~ .toggle-track {
+                box-shadow: 0 0 0 3px rgba(8, 127, 140, 0.18);
+            }
+
+            .toggle-control:has(input:disabled) {
+                opacity: 0.45;
+                cursor: not-allowed;
+            }
+
+            button {
+                min-height: 40px;
+                border: 1px solid var(--border);
+                border-radius: 6px;
+                background: var(--surface);
+                color: var(--text);
+                padding: 8px 13px;
+                cursor: pointer;
+            }
+
+            button:hover {
+                background: var(--surface-alt);
+            }
+
+            button.primary {
+                border-color: var(--accent);
+                background: var(--accent);
+                color: #ffffff;
+            }
+
+            button.primary:hover {
+                background: var(--accent-strong);
+            }
+
+            button:disabled {
+                opacity: 0.45;
+                cursor: not-allowed;
+            }
+
+            .status {
+                min-height: 22px;
+                margin-top: 10px;
+                color: var(--muted);
+                font-size: 13px;
+            }
+
+            .hint {
+                margin: -2px 0 0;
+                color: var(--muted);
+                font-size: 12px;
+            }
+
+            .status.error {
+                color: var(--danger);
+            }
+
+            .status.success {
+                color: var(--success);
+            }
+
+            .output-section {
+                display: grid;
+                grid-template-rows: auto auto minmax(360px, 1fr) auto;
+                overflow: hidden;
+            }
+
+            .tabs {
+                display: grid;
+                grid-template-columns: repeat(3, 1fr);
+                border-bottom: 1px solid var(--border);
+            }
+
+            .tabs button {
+                min-width: 0;
+                border: 0;
+                border-right: 1px solid var(--border);
+                border-radius: 0;
+                color: var(--muted);
+                padding-inline: 8px;
+            }
+
+            .tabs button:last-child {
+                border-right: 0;
+            }
+
+            .tabs button[aria-selected="true"] {
+                color: var(--accent);
+                background: var(--surface-alt);
+                font-weight: 700;
+            }
+
+            pre {
+                min-height: 360px;
+                max-height: 620px;
+                margin: 0;
+                overflow: auto;
+                background: var(--code);
+                color: var(--code-text);
+                padding: 18px;
+                font:
+                    13px/1.55 ui-monospace,
+                    SFMono-Regular,
+                    Menlo,
+                    monospace;
+                white-space: pre-wrap;
+                overflow-wrap: anywhere;
+                tab-size: 2;
+            }
+
+            .actions {
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                gap: 10px;
+                padding: 14px 16px;
+                border-top: 1px solid var(--border);
+            }
+
+            @media (max-width: 820px) {
+                .header-inner,
+                main {
+                    padding-inline: 14px;
+                }
+
+                main {
+                    grid-template-columns: 1fr;
+                    gap: 16px;
+                    padding-block: 14px 28px;
+                }
+
+                .header-inner {
+                    min-height: 60px;
+                }
+
+                .privacy {
+                    display: none;
+                }
+
+                .output-section {
+                    grid-template-rows: auto auto minmax(320px, auto) auto;
+                }
+
+                pre {
+                    min-height: 320px;
+                    max-height: 480px;
+                }
+            }
+
+            @media (max-width: 430px) {
+                .field-row {
+                    grid-template-columns: minmax(0, 1fr) 108px;
+                }
+
+                .tabs button {
+                    font-size: 12px;
+                }
+            }
+        </style>
+    </head>
+    <body>
+        <header>
+            <div class="header-inner">
+                <h1>代理配置转换器</h1>
+            </div>
+        </header>
+
+        <main>
+            <section aria-labelledby="input-title">
+                <div class="section-header">
+                    <h2 id="input-title">服务器</h2>
+                </div>
+                <div class="form-body">
+                    <div class="field">
+                        <label for="name">名称</label>
+                        <input
+                            id="name"
+                            type="text"
+                            value="电脑"
+                            maxlength="64"
+                            autocomplete="off"
+                        />
+                    </div>
+
+                    <div class="protocol-options">
+                        <fieldset>
+                            <legend>类型</legend>
+                            <div class="segmented">
+                                <input
+                                    id="type-socks"
+                                    type="radio"
+                                    name="proxy-type"
+                                    value="socks5"
+                                    checked
+                                />
+                                <label for="type-socks">SOCKS5</label>
+                                <input
+                                    id="type-http"
+                                    type="radio"
+                                    name="proxy-type"
+                                    value="http"
+                                />
+                                <label for="type-http">HTTP</label>
+                            </div>
+                        </fieldset>
+                        <div class="udp-field">
+                            <span class="field-label">UDP</span>
+                            <label class="toggle-control" for="udp-enabled">
+                                <input
+                                    id="udp-enabled"
+                                    type="checkbox"
+                                    checked
+                                />
+                                <span id="udp-state" class="toggle-state"
+                                    >开启</span
+                                >
+                                <span class="toggle-track" aria-hidden="true"
+                                    ><span class="toggle-thumb"></span
+                                ></span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="field-row">
+                        <div class="field">
+                            <label for="server">地址</label>
+                            <input
+                                id="server"
+                                type="text"
+                                value="192.168.2.54"
+                                autocomplete="off"
+                                spellcheck="false"
+                            />
+                        </div>
+                        <div class="field">
+                            <label for="port">端口</label>
+                            <input
+                                id="port"
+                                type="number"
+                                value="7897"
+                                min="1"
+                                max="65535"
+                                inputmode="numeric"
+                            />
+                        </div>
+                    </div>
+
+                    <div class="field-row credential-row">
+                        <div class="field">
+                            <label for="username">用户名</label>
+                            <input
+                                id="username"
+                                type="text"
+                                maxlength="128"
+                                autocomplete="username"
+                            />
+                        </div>
+                        <div class="field">
+                            <label for="password">密码</label>
+                            <input
+                                id="password"
+                                type="password"
+                                maxlength="256"
+                                autocomplete="current-password"
+                            />
+                        </div>
+                    </div>
+
+                    <p class="hint">Windows 需要在防火墙中放行代理端口。</p>
+
+                    <div
+                        id="status"
+                        class="status"
+                        role="status"
+                        aria-live="polite"
+                    ></div>
+                </div>
+            </section>
+
+            <section class="output-section" aria-labelledby="output-title">
+                <div class="section-header">
+                    <h2 id="output-title">预览</h2>
+                    <span id="format-label" class="privacy"
+                        >FlClash / Mihomo</span
+                    >
+                </div>
+                <div class="tabs" role="tablist" aria-label="配置格式">
+                    <button
+                        type="button"
+                        role="tab"
+                        data-format="flclash"
+                        aria-selected="true"
+                    >
+                        FlClash
+                    </button>
+                    <button
+                        type="button"
+                        role="tab"
+                        data-format="singbox"
+                        aria-selected="false"
+                    >
+                        sing-box
+                    </button>
+                    <button
+                        type="button"
+                        role="tab"
+                        data-format="v2rayng"
+                        aria-selected="false"
+                    >
+                        v2rayNG
+                    </button>
+                </div>
+                <pre id="preview" tabindex="0"></pre>
+                <div>
+                    <div class="actions">
+                        <button id="copy-current" type="button">
+                            复制当前配置
+                        </button>
+                        <button
+                            id="download-current"
+                            class="primary"
+                            type="button"
+                        >
+                            下载当前配置
+                        </button>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <script>
+            const $ = (id) => document.getElementById(id);
+            const fields = ["name", "server", "port", "username", "password"];
+            const formatMeta = {
+                flclash: {
+                    label: "FlClash / Mihomo",
+                    extension: "yaml",
+                    mime: "text/yaml",
+                },
+                singbox: {
+                    label: "sing-box / sing-box",
+                    extension: "json",
+                    mime: "application/json",
+                },
+                v2rayng: {
+                    label: "v2rayNG / Xray",
+                    extension: "json",
+                    mime: "application/json",
+                },
+            };
+            let activeFormat = "flclash";
+
+            function proxyType() {
+                return document.querySelector(
+                    'input[name="proxy-type"]:checked',
+                ).value;
+            }
+
+            function values() {
+                const type = proxyType();
+                return {
+                    type,
+                    udp: type === "socks5" && $("udp-enabled").checked,
+                    name: $("name").value.trim() || "代理",
+                    server: $("server").value.trim(),
+                    port: Number($("port").value),
+                    username: $("username").value.trim(),
+                    password: $("password").value,
+                };
+            }
+
+            function valid(data, show = false) {
+                const serverOk =
+                    data.server.length > 0 && !/\s/.test(data.server);
+                const portOk =
+                    Number.isInteger(data.port) &&
+                    data.port >= 1 &&
+                    data.port <= 65535;
+                const authOk =
+                    data.password.length === 0 || data.username.length > 0;
+                $("server").setAttribute("aria-invalid", String(!serverOk));
+                $("port").setAttribute("aria-invalid", String(!portOk));
+                $("username").setAttribute("aria-invalid", String(!authOk));
+                if (show && !serverOk)
+                    setStatus("请输入有效的服务器地址。", "error");
+                else if (show && !portOk)
+                    setStatus("端口必须在 1 到 65535 之间。", "error");
+                else if (show && !authOk)
+                    setStatus("填写密码时也需要填写用户名。", "error");
+                return serverOk && portOk && authOk;
+            }
+
+            function yamlString(value) {
+                return JSON.stringify(String(value));
+            }
+
+            function makeFlClash(data) {
+                const lines = [
+                    "mixed-port: 7890",
+                    "allow-lan: false",
+                    "mode: rule",
+                    "log-level: info",
+                    "ipv6: false",
+                    "",
+                    "proxies:",
+                    `  - name: ${yamlString(data.name)}`,
+                    `    type: ${data.type}`,
+                    `    server: ${yamlString(data.server)}`,
+                    `    port: ${data.port}`,
+                ];
+                if (data.username) {
+                    lines.push(`    username: ${yamlString(data.username)}`);
+                    lines.push(`    password: ${yamlString(data.password)}`);
+                }
+                if (data.type === "socks5" && data.udp)
+                    lines.push("    udp: true");
+                lines.push(
+                    "",
+                    "proxy-groups:",
+                    `  - name: ${yamlString("代理模式")}`,
+                    "    type: select",
+                    "    proxies:",
+                    `      - ${yamlString(data.name)}`,
+                    "      - DIRECT",
+                    "",
+                    "rules:",
+                    "  - IP-CIDR,192.168.0.0/16,DIRECT,no-resolve",
+                    "  - IP-CIDR,10.0.0.0/8,DIRECT,no-resolve",
+                    "  - IP-CIDR,172.16.0.0/12,DIRECT,no-resolve",
+                    `  - ${yamlString("MATCH,代理模式")}`,
+                );
+                return lines.join("\n") + "\n";
+            }
+
+            function makeSingBox(data) {
+                const proxy = {
+                    type: data.type === "socks5" ? "socks" : "http",
+                    tag: data.name,
+                    server: data.server,
+                    server_port: data.port,
+                };
+                if (data.type === "socks5") {
+                    proxy.version = "5";
+                    if (!data.udp) proxy.network = "tcp";
+                }
+                if (data.username) {
+                    proxy.username = data.username;
+                    proxy.password = data.password;
+                }
+                const config = {
+                    log: { level: "info" },
+                    dns: {
+                        servers: [
+                            {
+                                type: "https",
+                                tag: "remote-dns",
+                                server: "1.1.1.1",
+                                server_port: 443,
+                                path: "/dns-query",
+                                tls: {
+                                    enabled: true,
+                                    server_name: "cloudflare-dns.com",
+                                },
+                                detour: data.name,
+                            },
+                            {
+                                type: "fakeip",
+                                tag: "fakeip",
+                                inet4_range: "198.18.0.0/15",
+                                inet6_range: "fc00::/18",
+                            },
+                        ],
+                        rules: [
+                            {
+                                query_type: ["A", "AAAA"],
+                                action: "route",
+                                server: "fakeip",
+                            },
+                        ],
+                        final: "remote-dns",
+                    },
+                    inbounds: [
+                        {
+                            type: "tun",
+                            tag: "tun-in",
+                            address: ["172.19.0.1/30", "fdfe:dcba:9876::1/126"],
+                            auto_route: true,
+                            strict_route: true,
+                            stack: "system",
+                        },
+                    ],
+                    outbounds: [proxy, { type: "direct", tag: "direct" }],
+                    route: {
+                        rules: [
+                            { action: "sniff" },
+                            { protocol: "dns", action: "hijack-dns" },
+                            { ip_is_private: true, outbound: "direct" },
+                        ],
+                        final: data.name,
+                        default_domain_resolver: "remote-dns",
+                        auto_detect_interface: true,
+                    },
+                };
+                return JSON.stringify(config, null, 2) + "\n";
+            }
+
+            function makeV2rayNG(data) {
+                const proxySettings = { address: data.server, port: data.port };
+                if (data.username) {
+                    proxySettings.user = data.username;
+                    proxySettings.pass = data.password;
+                }
+                const routingRules = [
+                    {
+                        type: "field",
+                        port: 53,
+                        network: "tcp,udp",
+                        outboundTag: "dns-out",
+                    },
+                    {
+                        type: "field",
+                        ip: ["geoip:private"],
+                        outboundTag: "direct",
+                    },
+                ];
+                if (!data.udp)
+                    routingRules.push({
+                        type: "field",
+                        network: "udp",
+                        outboundTag: "block",
+                    });
+                const config = {
+                    remarks: data.name,
+                    log: { loglevel: "warning" },
+                    fakedns: [{ ipPool: "198.18.0.0/15", poolSize: 65535 }],
+                    dns: {
+                        servers: ["fakedns"],
+                        queryStrategy: "UseIPv4",
+                    },
+                    inbounds: [
+                        {
+                            tag: "socks-in",
+                            listen: "127.0.0.1",
+                            port: 10808,
+                            protocol: "socks",
+                            settings: { auth: "noauth", udp: true },
+                            sniffing: {
+                                enabled: true,
+                                destOverride: ["http", "tls", "fakedns"],
+                                metadataOnly: false,
+                                routeOnly: false,
+                            },
+                        },
+                    ],
+                    outbounds: [
+                        {
+                            tag: "proxy",
+                            protocol: data.type === "socks5" ? "socks" : "http",
+                            settings: proxySettings,
+                        },
+                        { tag: "direct", protocol: "freedom" },
+                        { tag: "block", protocol: "blackhole" },
+                        { tag: "dns-out", protocol: "dns", settings: {} },
+                    ],
+                    routing: {
+                        domainStrategy: "AsIs",
+                        rules: routingRules,
+                    },
+                };
+                return JSON.stringify(config, null, 2) + "\n";
+            }
+
+            function generated(format, data = values()) {
+                if (format === "flclash") return makeFlClash(data);
+                if (format === "singbox") return makeSingBox(data);
+                return makeV2rayNG(data);
+            }
+
+            function safeName(name) {
+                return (
+                    (name || "proxy")
+                        .replace(/[\\/:*?"<>|\s]+/g, "-")
+                        .replace(/^-+|-+$/g, "") || "proxy"
+                );
+            }
+
+            function filename(format, data) {
+                const suffix =
+                    format === "flclash"
+                        ? "FlClash"
+                        : format === "singbox"
+                          ? "sing-box"
+                          : "v2rayNG";
+                return `${safeName(data.name)}-${suffix}.${formatMeta[format].extension}`;
+            }
+
+            function update() {
+                const data = values();
+                valid(data);
+                $("preview").textContent = generated(activeFormat, data);
+                $("format-label").textContent = formatMeta[activeFormat].label;
+            }
+
+            function setStatus(message, type = "") {
+                const status = $("status");
+                status.textContent = message;
+                status.className = `status ${type}`.trim();
+            }
+
+            let socksUdpEnabled = true;
+
+            function syncUdpControl() {
+                const enabledForType = proxyType() === "socks5";
+                const input = $("udp-enabled");
+                input.disabled = !enabledForType;
+                input.checked = enabledForType && socksUdpEnabled;
+                $("udp-state").textContent = input.checked ? "开启" : "关闭";
+            }
+
+            function download(format) {
+                const data = values();
+                if (!valid(data, true)) return;
+                const bytes = new TextEncoder().encode(generated(format, data));
+                const parts =
+                    format === "flclash"
+                        ? [new Uint8Array([0xef, 0xbb, 0xbf]), bytes]
+                        : [bytes];
+                const blob = new Blob(parts, {
+                    type: `${formatMeta[format].mime};charset=utf-8`,
+                });
+                const url = URL.createObjectURL(blob);
+                const link = document.createElement("a");
+                link.href = url;
+                link.download = filename(format, data);
+                document.body.appendChild(link);
+                link.click();
+                link.remove();
+                setTimeout(() => URL.revokeObjectURL(url), 1000);
+                setStatus(`已生成 ${filename(format, data)}`, "success");
+            }
+
+            for (const id of fields) $(id).addEventListener("input", update);
+            document
+                .querySelectorAll('input[name="proxy-type"]')
+                .forEach((input) =>
+                    input.addEventListener("change", () => {
+                        syncUdpControl();
+                        update();
+                    }),
+                );
+            $("udp-enabled").addEventListener("change", () => {
+                socksUdpEnabled = $("udp-enabled").checked;
+                syncUdpControl();
+                update();
+            });
+            document.querySelectorAll("[data-format]").forEach((button) => {
+                button.addEventListener("click", () => {
+                    activeFormat = button.dataset.format;
+                    document
+                        .querySelectorAll("[data-format]")
+                        .forEach((item) =>
+                            item.setAttribute(
+                                "aria-selected",
+                                String(item === button),
+                            ),
+                        );
+                    update();
+                });
+            });
+            $("download-current").addEventListener("click", () =>
+                download(activeFormat),
+            );
+            $("copy-current").addEventListener("click", async () => {
+                const data = values();
+                if (!valid(data, true)) return;
+                try {
+                    await navigator.clipboard.writeText(
+                        generated(activeFormat, data),
+                    );
+                    setStatus("当前配置已复制。", "success");
+                } catch (_) {
+                    setStatus(
+                        "浏览器未允许复制，请选中预览内容手动复制。",
+                        "error",
+                    );
+                }
+            });
+
+            syncUdpControl();
+            update();
+        </script>
+    </body>
+</html>

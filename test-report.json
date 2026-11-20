@@ -1,0 +1,86 @@
+{
+  "generated_at_utc": "2026-11-17T09:50:45.473316+00:00",
+  "core_version": "Mihomo Meta v1.19.29 darwin arm64 with go1.22.12 Sat Jul 18 12:25:49 UTC 2026\nUse tags: with_gvisor",
+  "source_unique_domain_clauses_checked": 439713,
+  "uncovered_source_clauses": 0,
+  "unjustified_output_clauses": 0,
+  "mrs_roundtrip_rules": 353223,
+  "extra_rules": 408,
+  "offline": {
+    "hostnames": 865906,
+    "canonical_hostnames": 857592,
+    "blocked": 823812,
+    "uppercase_hostnames": 8314,
+    "fallthrough": 42094,
+    "needs_supplement": 7965,
+    "differences": 0,
+    "regexes_exercised": 732
+  },
+  "supplement_required_examples": [
+    "1024WANZHAI.WITNESS.INVALID",
+    "1024wanzhai.witness.invalid",
+    "1024wanzhai.witness.invalid.boundary.invalid",
+    "110.93.143.144",
+    "139.45.195.11",
+    "139.45.195.11.boundary.invalid",
+    "139.45.195.11WITNESS.INVALID",
+    "139.45.195.11witness.invalid",
+    "139.45.195.11witness.invalid.boundary.invalid",
+    "139.45.195.222",
+    "139.45.195.222.boundary.invalid",
+    "139.45.195.222WITNESS.INVALID"
+  ],
+  "limitations": [
+    "Equivalence is against the saved seven MRS snapshots plus the saved AdGuard companion, used together with REJECT.",
+    "IP-literal proxy targets use different core metadata than DNS hostnames; their runtime checks compare source and merged routing directly.",
+    "Tests do not assess live advertising effectiveness or upstream false-positive rates; no external requests were forwarded."
+  ],
+  "offline_elapsed_seconds": 29.839,
+  "runtime": {
+    "hostnames": 16337,
+    "requests": 32674,
+    "independent_expectations": 16212,
+    "ip_literal_equivalence_cases": 125,
+    "routing_differences": 0,
+    "oracle_errors": 0,
+    "transport_errors": 0,
+    "startup_control_mismatches": 0,
+    "decoded_provider_counts": {
+      "source": {
+        "hagezi-normal": 184508,
+        "stevenblack": 76104,
+        "adguard-domains": 189620,
+        "anti-ad": 101832,
+        "awavenue": 978,
+        "cats-adrules": 210303,
+        "217heidai": 256805,
+        "adguard-extra": 781
+      },
+      "merged": {
+        "ads-merged": 353223,
+        "ads-merged-extra": 408
+      }
+    },
+    "provider_api_counts": {
+      "source": {
+        "hagezi-normal": 184508,
+        "stevenblack": 76104,
+        "adguard-domains": 189620,
+        "anti-ad": 101832,
+        "awavenue": 981,
+        "cats-adrules": 210303,
+        "217heidai": 256805,
+        "adguard-extra": 781
+      },
+      "merged": {
+        "ads-merged": 353223,
+        "ads-merged-extra": 408
+      }
+    },
+    "outcomes": {
+      "blocked": 9814,
+      "fallthrough": 6523
+    }
+  },
+  "elapsed_seconds": 36.956
+}

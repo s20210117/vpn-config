@@ -1,0 +1,5 @@
+{
+  "checked_at_utc": "2026-11-20T05:46:59.864411+00:00",
+  "info": "Manual Configuration\nIP address: 192.168.2.53\nSubnet mask: 255.255.255.0\nRouter: 192.168.2.1\nIPv6: Automatic\nIPv6 IP address: none\nIPv6 Router: none\nWi-Fi ID: d0:11:e5:d1:aa:a8\n",
+  "dns": "114.114.114.114\n"
+}

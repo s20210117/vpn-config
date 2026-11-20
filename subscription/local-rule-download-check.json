@@ -1,0 +1,23 @@
+{
+  "checks": [
+    {
+      "url": "http://192.168.2.53:8765/config.yaml",
+      "bytes": 21266,
+      "sha256": "522f343cd30c83982b431f44d53ef248fe1450ebc3ad23e1635d6b0711fc2bef",
+      "passed": true
+    },
+    {
+      "url": "http://192.168.2.53:8765/ads-merged.mrs",
+      "bytes": 3161782,
+      "sha256": "ebe2d27226327f829f5f3c3d94c5bdf13e97a5cfd6427194b3225c15bd840808",
+      "passed": true
+    },
+    {
+      "url": "http://192.168.2.53:8765/ads-merged-extra.yaml",
+      "bytes": 40057,
+      "sha256": "228a81a1b9e8e73b1f0727b70f6e7e2289f7b467f1f15472db6b708a6aea183d",
+      "passed": true
+    }
+  ],
+  "phone_refreshed": false
+}

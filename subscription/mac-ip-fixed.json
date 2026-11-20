@@ -1,0 +1,50 @@
+{
+  "checked_at_utc": "2026-11-20T05:47:00.009551+00:00",
+  "network_service": "Wi-Fi",
+  "device": "en1",
+  "method": "Manual",
+  "ip": "192.168.2.77",
+  "mask": "255.255.255.0",
+  "router": "192.168.2.1",
+  "dns_unchanged": true,
+  "router_reservation_configured": false,
+  "checks": [
+    {
+      "url": "http://192.168.2.1/",
+      "status": 200
+    },
+    {
+      "url": "https://www.baidu.com/",
+      "status": 200
+    },
+    {
+      "url": "http://192.168.2.77:8765/health",
+      "status": 200
+    },
+    {
+      "url": "http://192.168.2.77:8765/config.yaml",
+      "status": 200,
+      "matches_saved_file": true
+    },
+    {
+      "url": "http://192.168.2.77:8765/ads-merged.mrs",
+      "status": 200,
+      "matches_saved_file": true
+    },
+    {
+      "url": "http://192.168.2.77:8765/ads-merged-extra.yaml",
+      "status": 200,
+      "matches_saved_file": true
+    }
+  ],
+  "restore_command": [
+    "/usr/sbin/networksetup",
+    "-setdhcp",
+    "Wi-Fi"
+  ],
+  "previous_ip": "192.168.2.53",
+  "verification_pending": false,
+  "verified_at_utc": "2026-11-20T05:48:33.573556+00:00",
+  "phone_subscription_url": "http://192.168.2.77:8765/config.yaml",
+  "phone_subscription_url_update_pending": true
+}

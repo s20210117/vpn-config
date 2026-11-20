@@ -1,0 +1,1477 @@
+{
+  "timestamp_utc": "2026-11-20T02:04:06.879285+00:00",
+  "endpoint": "https://192.168.2.199:9443",
+  "core_version": {
+    "meta": true,
+    "version": "1.19.34"
+  },
+  "test_type": "phone core rule explanation, no target connections or DNS resolution",
+  "providers": {
+    "local-353d1ae3-5a81-452c-8527-d56690c131dc": {
+      "behavior": "Domain",
+      "format": "TextRule",
+      "name": "local-353d1ae3-5a81-452c-8527-d56690c131dc",
+      "ruleCount": 353223,
+      "type": "Rule",
+      "vehicleType": "File",
+      "updatedAt": "2026-11-19T04:51:21Z"
+    },
+    "local-bee2aa81-babe-4bdb-929d-98894937deeb": {
+      "behavior": "Classical",
+      "format": "YamlRule",
+      "name": "local-bee2aa81-babe-4bdb-929d-98894937deeb",
+      "ruleCount": 408,
+      "type": "Rule",
+      "vehicleType": "File",
+      "updatedAt": "2026-11-19T04:51:27Z"
+    }
+  },
+  "hit_counts_before": {
+    "local-353d1ae3-5a81-452c-8527-d56690c131dc": 7108,
+    "local-bee2aa81-babe-4bdb-929d-98894937deeb": 2
+  },
+  "hit_counts_after": {
+    "local-353d1ae3-5a81-452c-8527-d56690c131dc": 7118,
+    "local-bee2aa81-babe-4bdb-929d-98894937deeb": 52
+  },
+  "summary": {
+    "total": 82,
+    "passed": 82,
+    "failed": 0,
+    "yaml_matches": 50,
+    "mrs_matches": 10,
+    "allowed_controls": 22
+  },
+  "results": [
+    {
+      "host": "MAPI-LOG.QOOXX.JP",
+      "network": "tcp",
+      "expected": "blocked",
+      "passed": true,
+      "rule": {
+        "index": 1,
+        "type": "RuleSet",
+        "payload": "local-bee2aa81-babe-4bdb-929d-98894937deeb"
+      },
+      "proxy": "REJECT",
+      "chain": [
+        "REJECT"
+      ],
+      "conditional": false,
+      "missing": []
+    },
+    {
+      "host": "MAPI-LOG.QOOXX.JP",
+      "network": "udp",
+      "expected": "blocked",
+      "passed": true,
+      "rule": {
+        "index": 1,
+        "type": "RuleSet",
+        "payload": "local-bee2aa81-babe-4bdb-929d-98894937deeb"
+      },
+      "proxy": "REJECT",
+      "chain": [
+        "REJECT"
+      ],
+      "conditional": false,
+      "missing": []
+    },
+    {
+      "host": "x.witness.110.93.143.144",
+      "network": "tcp",
+      "expected": "blocked",
+      "passed": true,
+      "rule": {
+        "index": 1,
+        "type": "RuleSet",
+        "payload": "local-bee2aa81-babe-4bdb-929d-98894937deeb"
+      },
+      "proxy": "REJECT",
+      "chain": [
+        "REJECT"
+      ],
+      "conditional": false,
+      "missing": []
+    },
+    {
+      "host": "x.witness.110.93.143.144",
+      "network": "udp",
+      "expected": "blocked",
+      "passed": true,
+      "rule": {
+        "index": 1,
+        "type": "RuleSet",
+        "payload": "local-bee2aa81-babe-4bdb-929d-98894937deeb"
+      },
+      "proxy": "REJECT",
+      "chain": [
+        "REJECT"
+      ],
+      "conditional": false,
+      "missing": []
+    },
+    {
+      "host": "x.193.200.64.20",
+      "network": "tcp",
+      "expected": "blocked",
+      "passed": true,
+      "rule": {
+        "index": 0,
+        "type": "RuleSet",
+        "payload": "local-353d1ae3-5a81-452c-8527-d56690c131dc"
+      },
+      "proxy": "REJECT",
+      "chain": [
+        "REJECT"
+      ],
+      "conditional": false,
+      "missing": []
+    },
+    {
+      "host": "x.193.200.64.20",
+      "network": "udp",
+      "expected": "blocked",
+      "passed": true,
+      "rule": {
+        "index": 0,
+        "type": "RuleSet",
+        "payload": "local-353d1ae3-5a81-452c-8527-d56690c131dc"
+      },
+      "proxy": "REJECT",
+      "chain": [
+        "REJECT"
+      ],
+      "conditional": false,
+      "missing": []
+    },
+    {
+      "host": "x.witness.23.224.199.96",
+      "network": "tcp",
+      "expected": "blocked",
+      "passed": true,
+      "rule": {
+        "index": 1,
+        "type": "RuleSet",
+        "payload": "local-bee2aa81-babe-4bdb-929d-98894937deeb"
+      },
+      "proxy": "REJECT",
+      "chain": [
+        "REJECT"
+      ],
+      "conditional": false,
+      "missing": []
+    },
+    {
+      "host": "x.witness.23.224.199.96",
+      "network": "udp",
+      "expected": "blocked",
+      "passed": true,
+      "rule": {
+        "index": 1,
+        "type": "RuleSet",
+        "payload": "local-bee2aa81-babe-4bdb-929d-98894937deeb"
+      },
+      "proxy": "REJECT",
+      "chain": [
+        "REJECT"
+      ],
+      "conditional": false,
+      "missing": []
+    },
+    {
+      "host": "x.y.witness.88.85.77.92",
+      "network": "tcp",
+      "expected": "blocked",
+      "passed": true,
+      "rule": {
+        "index": 1,
+        "type": "RuleSet",
+        "payload": "local-bee2aa81-babe-4bdb-929d-98894937deeb"
+      },
+      "proxy": "REJECT",
+      "chain": [
+        "REJECT"
+      ],
+      "conditional": false,
+      "missing": []
+    },
+    {
+      "host": "x.y.witness.88.85.77.92",
+      "network": "udp",
+      "expected": "blocked",
+      "passed": true,
+      "rule": {
+        "index": 1,
+        "type": "RuleSet",
+        "payload": "local-bee2aa81-babe-4bdb-929d-98894937deeb"
+      },
+      "proxy": "REJECT",
+      "chain": [
+        "REJECT"
+      ],
+      "conditional": false,
+      "missing": []
+    },
+    {
+      "host": "witness.adxxx.wisenut.co.kr",
+      "network": "tcp",
+      "expected": "blocked",
+      "passed": true,
+      "rule": {
+        "index": 1,
+        "type": "RuleSet",
+        "payload": "local-bee2aa81-babe-4bdb-929d-98894937deeb"
+      },
+      "proxy": "REJECT",
+      "chain": [
+        "REJECT"
+      ],
+      "conditional": false,
+      "missing": []
+    },
+    {
+      "host": "witness.adxxx.wisenut.co.kr",
+      "network": "udp",
+      "expected": "blocked",
+      "passed": true,
+      "rule": {
+        "index": 1,
+        "type": "RuleSet",
+        "payload": "local-bee2aa81-babe-4bdb-929d-98894937deeb"
+      },
+      "proxy": "REJECT",
+      "chain": [
+        "REJECT"
+      ],
+      "conditional": false,
+      "missing": []
+    },
+    {
+      "host": "ADS-XX-NFL.YINZCAM.COM",
+      "network": "tcp",
+      "expected": "blocked",
+      "passed": true,
+      "rule": {
+        "index": 1,
+        "type": "RuleSet",
+        "payload": "local-bee2aa81-babe-4bdb-929d-98894937deeb"
+      },
+      "proxy": "REJECT",
+      "chain": [
+        "REJECT"
+      ],
+      "conditional": false,
+      "missing": []
+    },
+    {
+      "host": "ADS-XX-NFL.YINZCAM.COM",
+      "network": "udp",
+      "expected": "blocked",
+      "passed": true,
+      "rule": {
+        "index": 1,
+        "type": "RuleSet",
+        "payload": "local-bee2aa81-babe-4bdb-929d-98894937deeb"
+      },
+      "proxy": "REJECT",
+      "chain": [
+        "REJECT"
+      ],
+      "conditional": false,
+      "missing": []
+    },
+    {
+      "host": "ANALYTICS--NFL.YINZCAM.COM",
+      "network": "tcp",
+      "expected": "blocked",
+      "passed": true,
+      "rule": {
+        "index": 1,
+        "type": "RuleSet",
+        "payload": "local-bee2aa81-babe-4bdb-929d-98894937deeb"
+      },
+      "proxy": "REJECT",
+      "chain": [
+        "REJECT"
+      ],
+      "conditional": false,
+      "missing": []
+    },
+    {
+      "host": "ANALYTICS--NFL.YINZCAM.COM",
+      "network": "udp",
+      "expected": "blocked",
+      "passed": true,
+      "rule": {
+        "index": 1,
+        "type": "RuleSet",
+        "payload": "local-bee2aa81-babe-4bdb-929d-98894937deeb"
+      },
+      "proxy": "REJECT",
+      "chain": [
+        "REJECT"
+      ],
+      "conditional": false,
+      "missing": []
+    },
+    {
+      "host": "x.y.witness.banner.xxx.tccapis.com",
+      "network": "tcp",
+      "expected": "blocked",
+      "passed": true,
+      "rule": {
+        "index": 1,
+        "type": "RuleSet",
+        "payload": "local-bee2aa81-babe-4bdb-929d-98894937deeb"
+      },
+      "proxy": "REJECT",
+      "chain": [
+        "REJECT"
+      ],
+      "conditional": false,
+      "missing": []
+    },
+    {
+      "host": "x.y.witness.banner.xxx.tccapis.com",
+      "network": "udp",
+      "expected": "blocked",
+      "passed": true,
+      "rule": {
+        "index": 1,
+        "type": "RuleSet",
+        "payload": "local-bee2aa81-babe-4bdb-929d-98894937deeb"
+      },
+      "proxy": "REJECT",
+      "chain": [
+        "REJECT"
+      ],
+      "conditional": false,
+      "missing": []
+    },
+    {
+      "host": "clickstream-xx.homedepot.com",
+      "network": "tcp",
+      "expected": "blocked",
+      "passed": true,
+      "rule": {
+        "index": 1,
+        "type": "RuleSet",
+        "payload": "local-bee2aa81-babe-4bdb-929d-98894937deeb"
+      },
+      "proxy": "REJECT",
+      "chain": [
+        "REJECT"
+      ],
+      "conditional": false,
+      "missing": []
+    },
+    {
+      "host": "clickstream-xx.homedepot.com",
+      "network": "udp",
+      "expected": "blocked",
+      "passed": true,
+      "rule": {
+        "index": 1,
+        "type": "RuleSet",
+        "payload": "local-bee2aa81-babe-4bdb-929d-98894937deeb"
+      },
+      "proxy": "REJECT",
+      "chain": [
+        "REJECT"
+      ],
+      "conditional": false,
+      "missing": []
+    },
+    {
+      "host": "DELOTON.COM",
+      "network": "tcp",
+      "expected": "blocked",
+      "passed": true,
+      "rule": {
+        "index": 0,
+        "type": "RuleSet",
+        "payload": "local-353d1ae3-5a81-452c-8527-d56690c131dc"
+      },
+      "proxy": "REJECT",
+      "chain": [
+        "REJECT"
+      ],
+      "conditional": false,
+      "missing": []
+    },
+    {
+      "host": "DELOTON.COM",
+      "network": "udp",
+      "expected": "blocked",
+      "passed": true,
+      "rule": {
+        "index": 0,
+        "type": "RuleSet",
+        "payload": "local-353d1ae3-5a81-452c-8527-d56690c131dc"
+      },
+      "proxy": "REJECT",
+      "chain": [
+        "REJECT"
+      ],
+      "conditional": false,
+      "missing": []
+    },
+    {
+      "host": "WITNESS.FARO-COLLECTOR-PROD-X.GRAFANA.NET",
+      "network": "tcp",
+      "expected": "blocked",
+      "passed": true,
+      "rule": {
+        "index": 1,
+        "type": "RuleSet",
+        "payload": "local-bee2aa81-babe-4bdb-929d-98894937deeb"
+      },
+      "proxy": "REJECT",
+      "chain": [
+        "REJECT"
+      ],
+      "conditional": false,
+      "missing": []
+    },
+    {
+      "host": "WITNESS.FARO-COLLECTOR-PROD-X.GRAFANA.NET",
+      "network": "udp",
+      "expected": "blocked",
+      "passed": true,
+      "rule": {
+        "index": 1,
+        "type": "RuleSet",
+        "payload": "local-bee2aa81-babe-4bdb-929d-98894937deeb"
+      },
+      "proxy": "REJECT",
+      "chain": [
+        "REJECT"
+      ],
+      "conditional": false,
+      "missing": []
+    },
+    {
+      "host": "WITNESS.HOSTXXX.POLAROID.COM",
+      "network": "tcp",
+      "expected": "blocked",
+      "passed": true,
+      "rule": {
+        "index": 1,
+        "type": "RuleSet",
+        "payload": "local-bee2aa81-babe-4bdb-929d-98894937deeb"
+      },
+      "proxy": "REJECT",
+      "chain": [
+        "REJECT"
+      ],
+      "conditional": false,
+      "missing": []
+    },
+    {
+      "host": "WITNESS.HOSTXXX.POLAROID.COM",
+      "network": "udp",
+      "expected": "blocked",
+      "passed": true,
+      "rule": {
+        "index": 1,
+        "type": "RuleSet",
+        "payload": "local-bee2aa81-babe-4bdb-929d-98894937deeb"
+      },
+      "proxy": "REJECT",
+      "chain": [
+        "REJECT"
+      ],
+      "conditional": false,
+      "missing": []
+    },
+    {
+      "host": "WITNESS.LIVEME-SENSORS-COLLECT2-XXX.AMAZONAWS.COM",
+      "network": "tcp",
+      "expected": "blocked",
+      "passed": true,
+      "rule": {
+        "index": 1,
+        "type": "RuleSet",
+        "payload": "local-bee2aa81-babe-4bdb-929d-98894937deeb"
+      },
+      "proxy": "REJECT",
+      "chain": [
+        "REJECT"
+      ],
+      "conditional": false,
+      "missing": []
+    },
+    {
+      "host": "WITNESS.LIVEME-SENSORS-COLLECT2-XXX.AMAZONAWS.COM",
+      "network": "udp",
+      "expected": "blocked",
+      "passed": true,
+      "rule": {
+        "index": 1,
+        "type": "RuleSet",
+        "payload": "local-bee2aa81-babe-4bdb-929d-98894937deeb"
+      },
+      "proxy": "REJECT",
+      "chain": [
+        "REJECT"
+      ],
+      "conditional": false,
+      "missing": []
+    },
+    {
+      "host": "WITNESS.LOGSX.SMITHSONIAN.MUSEUM",
+      "network": "tcp",
+      "expected": "blocked",
+      "passed": true,
+      "rule": {
+        "index": 1,
+        "type": "RuleSet",
+        "payload": "local-bee2aa81-babe-4bdb-929d-98894937deeb"
+      },
+      "proxy": "REJECT",
+      "chain": [
+        "REJECT"
+      ],
+      "conditional": false,
+      "missing": []
+    },
+    {
+      "host": "WITNESS.LOGSX.SMITHSONIAN.MUSEUM",
+      "network": "udp",
+      "expected": "blocked",
+      "passed": true,
+      "rule": {
+        "index": 1,
+        "type": "RuleSet",
+        "payload": "local-bee2aa81-babe-4bdb-929d-98894937deeb"
+      },
+      "proxy": "REJECT",
+      "chain": [
+        "REJECT"
+      ],
+      "conditional": false,
+      "missing": []
+    },
+    {
+      "host": "MINITDS-XX.INFO",
+      "network": "tcp",
+      "expected": "blocked",
+      "passed": true,
+      "rule": {
+        "index": 1,
+        "type": "RuleSet",
+        "payload": "local-bee2aa81-babe-4bdb-929d-98894937deeb"
+      },
+      "proxy": "REJECT",
+      "chain": [
+        "REJECT"
+      ],
+      "conditional": false,
+      "missing": []
+    },
+    {
+      "host": "MINITDS-XX.INFO",
+      "network": "udp",
+      "expected": "blocked",
+      "passed": true,
+      "rule": {
+        "index": 1,
+        "type": "RuleSet",
+        "payload": "local-bee2aa81-babe-4bdb-929d-98894937deeb"
+      },
+      "proxy": "REJECT",
+      "chain": [
+        "REJECT"
+      ],
+      "conditional": false,
+      "missing": []
+    },
+    {
+      "host": "witness.mtag-xxx.wedevs.com",
+      "network": "tcp",
+      "expected": "blocked",
+      "passed": true,
+      "rule": {
+        "index": 1,
+        "type": "RuleSet",
+        "payload": "local-bee2aa81-babe-4bdb-929d-98894937deeb"
+      },
+      "proxy": "REJECT",
+      "chain": [
+        "REJECT"
+      ],
+      "conditional": false,
+      "missing": []
+    },
+    {
+      "host": "witness.mtag-xxx.wedevs.com",
+      "network": "udp",
+      "expected": "blocked",
+      "passed": true,
+      "rule": {
+        "index": 1,
+        "type": "RuleSet",
+        "payload": "local-bee2aa81-babe-4bdb-929d-98894937deeb"
+      },
+      "proxy": "REJECT",
+      "chain": [
+        "REJECT"
+      ],
+      "conditional": false,
+      "missing": []
+    },
+    {
+      "host": "witness.qpbx.sohu.com",
+      "network": "tcp",
+      "expected": "blocked",
+      "passed": true,
+      "rule": {
+        "index": 1,
+        "type": "RuleSet",
+        "payload": "local-bee2aa81-babe-4bdb-929d-98894937deeb"
+      },
+      "proxy": "REJECT",
+      "chain": [
+        "REJECT"
+      ],
+      "conditional": false,
+      "missing": []
+    },
+    {
+      "host": "witness.qpbx.sohu.com",
+      "network": "udp",
+      "expected": "blocked",
+      "passed": true,
+      "rule": {
+        "index": 1,
+        "type": "RuleSet",
+        "payload": "local-bee2aa81-babe-4bdb-929d-98894937deeb"
+      },
+      "proxy": "REJECT",
+      "chain": [
+        "REJECT"
+      ],
+      "conditional": false,
+      "missing": []
+    },
+    {
+      "host": "witness.same.stockstar.com",
+      "network": "tcp",
+      "expected": "blocked",
+      "passed": true,
+      "rule": {
+        "index": 0,
+        "type": "RuleSet",
+        "payload": "local-353d1ae3-5a81-452c-8527-d56690c131dc"
+      },
+      "proxy": "REJECT",
+      "chain": [
+        "REJECT"
+      ],
+      "conditional": false,
+      "missing": []
+    },
+    {
+      "host": "witness.same.stockstar.com",
+      "network": "udp",
+      "expected": "blocked",
+      "passed": true,
+      "rule": {
+        "index": 0,
+        "type": "RuleSet",
+        "payload": "local-353d1ae3-5a81-452c-8527-d56690c131dc"
+      },
+      "proxy": "REJECT",
+      "chain": [
+        "REJECT"
+      ],
+      "conditional": false,
+      "missing": []
+    },
+    {
+      "host": "x.y.witness.tag-based.s3.x.amazonaws.com",
+      "network": "tcp",
+      "expected": "blocked",
+      "passed": true,
+      "rule": {
+        "index": 1,
+        "type": "RuleSet",
+        "payload": "local-bee2aa81-babe-4bdb-929d-98894937deeb"
+      },
+      "proxy": "REJECT",
+      "chain": [
+        "REJECT"
+      ],
+      "conditional": false,
+      "missing": []
+    },
+    {
+      "host": "x.y.witness.tag-based.s3.x.amazonaws.com",
+      "network": "udp",
+      "expected": "blocked",
+      "passed": true,
+      "rule": {
+        "index": 1,
+        "type": "RuleSet",
+        "payload": "local-bee2aa81-babe-4bdb-929d-98894937deeb"
+      },
+      "proxy": "REJECT",
+      "chain": [
+        "REJECT"
+      ],
+      "conditional": false,
+      "missing": []
+    },
+    {
+      "host": "WITNESS.TRKXXX.VIDIBLE.TV",
+      "network": "tcp",
+      "expected": "blocked",
+      "passed": true,
+      "rule": {
+        "index": 1,
+        "type": "RuleSet",
+        "payload": "local-bee2aa81-babe-4bdb-929d-98894937deeb"
+      },
+      "proxy": "REJECT",
+      "chain": [
+        "REJECT"
+      ],
+      "conditional": false,
+      "missing": []
+    },
+    {
+      "host": "WITNESS.TRKXXX.VIDIBLE.TV",
+      "network": "udp",
+      "expected": "blocked",
+      "passed": true,
+      "rule": {
+        "index": 1,
+        "type": "RuleSet",
+        "payload": "local-bee2aa81-babe-4bdb-929d-98894937deeb"
+      },
+      "proxy": "REJECT",
+      "chain": [
+        "REJECT"
+      ],
+      "conditional": false,
+      "missing": []
+    },
+    {
+      "host": "WWW.FUZE-HILLXX.XYZ",
+      "network": "tcp",
+      "expected": "blocked",
+      "passed": true,
+      "rule": {
+        "index": 1,
+        "type": "RuleSet",
+        "payload": "local-bee2aa81-babe-4bdb-929d-98894937deeb"
+      },
+      "proxy": "REJECT",
+      "chain": [
+        "REJECT"
+      ],
+      "conditional": false,
+      "missing": []
+    },
+    {
+      "host": "WWW.FUZE-HILLXX.XYZ",
+      "network": "udp",
+      "expected": "blocked",
+      "passed": true,
+      "rule": {
+        "index": 1,
+        "type": "RuleSet",
+        "payload": "local-bee2aa81-babe-4bdb-929d-98894937deeb"
+      },
+      "proxy": "REJECT",
+      "chain": [
+        "REJECT"
+      ],
+      "conditional": false,
+      "missing": []
+    },
+    {
+      "host": "WITNESS-ULOG.REGION.KWAI-PRO.COM",
+      "network": "tcp",
+      "expected": "blocked",
+      "passed": true,
+      "rule": {
+        "index": 1,
+        "type": "RuleSet",
+        "payload": "local-bee2aa81-babe-4bdb-929d-98894937deeb"
+      },
+      "proxy": "REJECT",
+      "chain": [
+        "REJECT"
+      ],
+      "conditional": false,
+      "missing": []
+    },
+    {
+      "host": "WITNESS-ULOG.REGION.KWAI-PRO.COM",
+      "network": "udp",
+      "expected": "blocked",
+      "passed": true,
+      "rule": {
+        "index": 1,
+        "type": "RuleSet",
+        "payload": "local-bee2aa81-babe-4bdb-929d-98894937deeb"
+      },
+      "proxy": "REJECT",
+      "chain": [
+        "REJECT"
+      ],
+      "conditional": false,
+      "missing": []
+    },
+    {
+      "host": "VKCDNSERVICE.APPSPOT.COM",
+      "network": "tcp",
+      "expected": "blocked",
+      "passed": true,
+      "rule": {
+        "index": 0,
+        "type": "RuleSet",
+        "payload": "local-353d1ae3-5a81-452c-8527-d56690c131dc"
+      },
+      "proxy": "REJECT",
+      "chain": [
+        "REJECT"
+      ],
+      "conditional": false,
+      "missing": []
+    },
+    {
+      "host": "VKCDNSERVICE.APPSPOT.COM",
+      "network": "udp",
+      "expected": "blocked",
+      "passed": true,
+      "rule": {
+        "index": 0,
+        "type": "RuleSet",
+        "payload": "local-353d1ae3-5a81-452c-8527-d56690c131dc"
+      },
+      "proxy": "REJECT",
+      "chain": [
+        "REJECT"
+      ],
+      "conditional": false,
+      "missing": []
+    },
+    {
+      "host": "1024wanzhai.witness.invalid",
+      "network": "tcp",
+      "expected": "blocked",
+      "passed": true,
+      "rule": {
+        "index": 1,
+        "type": "RuleSet",
+        "payload": "local-bee2aa81-babe-4bdb-929d-98894937deeb"
+      },
+      "proxy": "REJECT",
+      "chain": [
+        "REJECT"
+      ],
+      "conditional": false,
+      "missing": []
+    },
+    {
+      "host": "1024wanzhai.witness.invalid",
+      "network": "udp",
+      "expected": "blocked",
+      "passed": true,
+      "rule": {
+        "index": 1,
+        "type": "RuleSet",
+        "payload": "local-bee2aa81-babe-4bdb-929d-98894937deeb"
+      },
+      "proxy": "REJECT",
+      "chain": [
+        "REJECT"
+      ],
+      "conditional": false,
+      "missing": []
+    },
+    {
+      "host": "1024WANZHAI.WITNESS.INVALID",
+      "network": "tcp",
+      "expected": "blocked",
+      "passed": true,
+      "rule": {
+        "index": 1,
+        "type": "RuleSet",
+        "payload": "local-bee2aa81-babe-4bdb-929d-98894937deeb"
+      },
+      "proxy": "REJECT",
+      "chain": [
+        "REJECT"
+      ],
+      "conditional": false,
+      "missing": []
+    },
+    {
+      "host": "1024WANZHAI.WITNESS.INVALID",
+      "network": "udp",
+      "expected": "blocked",
+      "passed": true,
+      "rule": {
+        "index": 1,
+        "type": "RuleSet",
+        "payload": "local-bee2aa81-babe-4bdb-929d-98894937deeb"
+      },
+      "proxy": "REJECT",
+      "chain": [
+        "REJECT"
+      ],
+      "conditional": false,
+      "missing": []
+    },
+    {
+      "host": "1024wanzhai.witness.invalid.boundary.invalid",
+      "network": "tcp",
+      "expected": "blocked",
+      "passed": true,
+      "rule": {
+        "index": 1,
+        "type": "RuleSet",
+        "payload": "local-bee2aa81-babe-4bdb-929d-98894937deeb"
+      },
+      "proxy": "REJECT",
+      "chain": [
+        "REJECT"
+      ],
+      "conditional": false,
+      "missing": []
+    },
+    {
+      "host": "1024wanzhai.witness.invalid.boundary.invalid",
+      "network": "udp",
+      "expected": "blocked",
+      "passed": true,
+      "rule": {
+        "index": 1,
+        "type": "RuleSet",
+        "payload": "local-bee2aa81-babe-4bdb-929d-98894937deeb"
+      },
+      "proxy": "REJECT",
+      "chain": [
+        "REJECT"
+      ],
+      "conditional": false,
+      "missing": []
+    },
+    {
+      "host": "adwolf.ru",
+      "network": "tcp",
+      "expected": "blocked",
+      "passed": true,
+      "rule": {
+        "index": 1,
+        "type": "RuleSet",
+        "payload": "local-bee2aa81-babe-4bdb-929d-98894937deeb"
+      },
+      "proxy": "REJECT",
+      "chain": [
+        "REJECT"
+      ],
+      "conditional": false,
+      "missing": []
+    },
+    {
+      "host": "adwolf.ru",
+      "network": "udp",
+      "expected": "blocked",
+      "passed": true,
+      "rule": {
+        "index": 1,
+        "type": "RuleSet",
+        "payload": "local-bee2aa81-babe-4bdb-929d-98894937deeb"
+      },
+      "proxy": "REJECT",
+      "chain": [
+        "REJECT"
+      ],
+      "conditional": false,
+      "missing": []
+    },
+    {
+      "host": "lhinsights.com",
+      "network": "tcp",
+      "expected": "blocked",
+      "passed": true,
+      "rule": {
+        "index": 1,
+        "type": "RuleSet",
+        "payload": "local-bee2aa81-babe-4bdb-929d-98894937deeb"
+      },
+      "proxy": "REJECT",
+      "chain": [
+        "REJECT"
+      ],
+      "conditional": false,
+      "missing": []
+    },
+    {
+      "host": "lhinsights.com",
+      "network": "udp",
+      "expected": "blocked",
+      "passed": true,
+      "rule": {
+        "index": 1,
+        "type": "RuleSet",
+        "payload": "local-bee2aa81-babe-4bdb-929d-98894937deeb"
+      },
+      "proxy": "REJECT",
+      "chain": [
+        "REJECT"
+      ],
+      "conditional": false,
+      "missing": []
+    },
+    {
+      "host": "doubleclick.net",
+      "network": "tcp",
+      "expected": "blocked",
+      "passed": true,
+      "rule": {
+        "index": 0,
+        "type": "RuleSet",
+        "payload": "local-353d1ae3-5a81-452c-8527-d56690c131dc"
+      },
+      "proxy": "REJECT",
+      "chain": [
+        "REJECT"
+      ],
+      "conditional": false,
+      "missing": []
+    },
+    {
+      "host": "doubleclick.net",
+      "network": "udp",
+      "expected": "blocked",
+      "passed": true,
+      "rule": {
+        "index": 0,
+        "type": "RuleSet",
+        "payload": "local-353d1ae3-5a81-452c-8527-d56690c131dc"
+      },
+      "proxy": "REJECT",
+      "chain": [
+        "REJECT"
+      ],
+      "conditional": false,
+      "missing": []
+    },
+    {
+      "host": "a.adwolf.ru",
+      "network": "tcp",
+      "expected": "fallthrough",
+      "passed": true,
+      "rule": {
+        "index": 2,
+        "type": "Network",
+        "payload": "tcp"
+      },
+      "proxy": "Ad",
+      "chain": [
+        "Ad",
+        "DIRECT"
+      ],
+      "conditional": false,
+      "missing": []
+    },
+    {
+      "host": "a.adwolf.ru",
+      "network": "udp",
+      "expected": "fallthrough",
+      "passed": true,
+      "rule": {
+        "index": 3,
+        "type": "Network",
+        "payload": "udp"
+      },
+      "proxy": "Ad",
+      "chain": [
+        "Ad",
+        "DIRECT"
+      ],
+      "conditional": false,
+      "missing": []
+    },
+    {
+      "host": "unsubscribe.lhinsights.com",
+      "network": "tcp",
+      "expected": "fallthrough",
+      "passed": true,
+      "rule": {
+        "index": 2,
+        "type": "Network",
+        "payload": "tcp"
+      },
+      "proxy": "Ad",
+      "chain": [
+        "Ad",
+        "DIRECT"
+      ],
+      "conditional": false,
+      "missing": []
+    },
+    {
+      "host": "unsubscribe.lhinsights.com",
+      "network": "udp",
+      "expected": "fallthrough",
+      "passed": true,
+      "rule": {
+        "index": 3,
+        "type": "Network",
+        "payload": "udp"
+      },
+      "proxy": "Ad",
+      "chain": [
+        "Ad",
+        "DIRECT"
+      ],
+      "conditional": false,
+      "missing": []
+    },
+    {
+      "host": "cdn.atmedia.hu",
+      "network": "tcp",
+      "expected": "fallthrough",
+      "passed": true,
+      "rule": {
+        "index": 2,
+        "type": "Network",
+        "payload": "tcp"
+      },
+      "proxy": "Ad",
+      "chain": [
+        "Ad",
+        "DIRECT"
+      ],
+      "conditional": false,
+      "missing": []
+    },
+    {
+      "host": "cdn.atmedia.hu",
+      "network": "udp",
+      "expected": "fallthrough",
+      "passed": true,
+      "rule": {
+        "index": 3,
+        "type": "Network",
+        "payload": "udp"
+      },
+      "proxy": "Ad",
+      "chain": [
+        "Ad",
+        "DIRECT"
+      ],
+      "conditional": false,
+      "missing": []
+    },
+    {
+      "host": "learn.khanacademy.org",
+      "network": "tcp",
+      "expected": "fallthrough",
+      "passed": true,
+      "rule": {
+        "index": 2,
+        "type": "Network",
+        "payload": "tcp"
+      },
+      "proxy": "Ad",
+      "chain": [
+        "Ad",
+        "DIRECT"
+      ],
+      "conditional": false,
+      "missing": []
+    },
+    {
+      "host": "learn.khanacademy.org",
+      "network": "udp",
+      "expected": "fallthrough",
+      "passed": true,
+      "rule": {
+        "index": 3,
+        "type": "Network",
+        "payload": "udp"
+      },
+      "proxy": "Ad",
+      "chain": [
+        "Ad",
+        "DIRECT"
+      ],
+      "conditional": false,
+      "missing": []
+    },
+    {
+      "host": "captcha.su.baidu.com",
+      "network": "tcp",
+      "expected": "fallthrough",
+      "passed": true,
+      "rule": {
+        "index": 2,
+        "type": "Network",
+        "payload": "tcp"
+      },
+      "proxy": "Ad",
+      "chain": [
+        "Ad",
+        "DIRECT"
+      ],
+      "conditional": false,
+      "missing": []
+    },
+    {
+      "host": "captcha.su.baidu.com",
+      "network": "udp",
+      "expected": "fallthrough",
+      "passed": true,
+      "rule": {
+        "index": 3,
+        "type": "Network",
+        "payload": "udp"
+      },
+      "proxy": "Ad",
+      "chain": [
+        "Ad",
+        "DIRECT"
+      ],
+      "conditional": false,
+      "missing": []
+    },
+    {
+      "host": "103.179.189.35.boundary.invalid",
+      "network": "tcp",
+      "expected": "fallthrough",
+      "passed": true,
+      "rule": {
+        "index": 2,
+        "type": "Network",
+        "payload": "tcp"
+      },
+      "proxy": "Ad",
+      "chain": [
+        "Ad",
+        "DIRECT"
+      ],
+      "conditional": false,
+      "missing": []
+    },
+    {
+      "host": "103.179.189.35.boundary.invalid",
+      "network": "udp",
+      "expected": "fallthrough",
+      "passed": true,
+      "rule": {
+        "index": 3,
+        "type": "Network",
+        "payload": "udp"
+      },
+      "proxy": "Ad",
+      "chain": [
+        "Ad",
+        "DIRECT"
+      ],
+      "conditional": false,
+      "missing": []
+    },
+    {
+      "host": "103.224.182.210.boundary.invalid",
+      "network": "tcp",
+      "expected": "fallthrough",
+      "passed": true,
+      "rule": {
+        "index": 2,
+        "type": "Network",
+        "payload": "tcp"
+      },
+      "proxy": "Ad",
+      "chain": [
+        "Ad",
+        "DIRECT"
+      ],
+      "conditional": false,
+      "missing": []
+    },
+    {
+      "host": "103.224.182.210.boundary.invalid",
+      "network": "udp",
+      "expected": "fallthrough",
+      "passed": true,
+      "rule": {
+        "index": 3,
+        "type": "Network",
+        "payload": "udp"
+      },
+      "proxy": "Ad",
+      "chain": [
+        "Ad",
+        "DIRECT"
+      ],
+      "conditional": false,
+      "missing": []
+    },
+    {
+      "host": "109.123.233.251witness.invalid.boundary.invalid",
+      "network": "tcp",
+      "expected": "fallthrough",
+      "passed": true,
+      "rule": {
+        "index": 2,
+        "type": "Network",
+        "payload": "tcp"
+      },
+      "proxy": "Ad",
+      "chain": [
+        "Ad",
+        "DIRECT"
+      ],
+      "conditional": false,
+      "missing": []
+    },
+    {
+      "host": "109.123.233.251witness.invalid.boundary.invalid",
+      "network": "udp",
+      "expected": "fallthrough",
+      "passed": true,
+      "rule": {
+        "index": 3,
+        "type": "Network",
+        "payload": "udp"
+      },
+      "proxy": "Ad",
+      "chain": [
+        "Ad",
+        "DIRECT"
+      ],
+      "conditional": false,
+      "missing": []
+    },
+    {
+      "host": "110.93.143.144.boundary.invalid",
+      "network": "tcp",
+      "expected": "fallthrough",
+      "passed": true,
+      "rule": {
+        "index": 2,
+        "type": "Network",
+        "payload": "tcp"
+      },
+      "proxy": "Ad",
+      "chain": [
+        "Ad",
+        "DIRECT"
+      ],
+      "conditional": false,
+      "missing": []
+    },
+    {
+      "host": "110.93.143.144.boundary.invalid",
+      "network": "udp",
+      "expected": "fallthrough",
+      "passed": true,
+      "rule": {
+        "index": 3,
+        "type": "Network",
+        "payload": "udp"
+      },
+      "proxy": "Ad",
+      "chain": [
+        "Ad",
+        "DIRECT"
+      ],
+      "conditional": false,
+      "missing": []
+    },
+    {
+      "host": "172.240.108.84witness.invalid.boundary.invalid",
+      "network": "tcp",
+      "expected": "fallthrough",
+      "passed": true,
+      "rule": {
+        "index": 2,
+        "type": "Network",
+        "payload": "tcp"
+      },
+      "proxy": "Ad",
+      "chain": [
+        "Ad",
+        "DIRECT"
+      ],
+      "conditional": false,
+      "missing": []
+    },
+    {
+      "host": "172.240.108.84witness.invalid.boundary.invalid",
+      "network": "udp",
+      "expected": "fallthrough",
+      "passed": true,
+      "rule": {
+        "index": 3,
+        "type": "Network",
+        "payload": "udp"
+      },
+      "proxy": "Ad",
+      "chain": [
+        "Ad",
+        "DIRECT"
+      ],
+      "conditional": false,
+      "missing": []
+    },
+    {
+      "host": "185.149.120.173witness.invalid.boundary.invalid",
+      "network": "tcp",
+      "expected": "fallthrough",
+      "passed": true,
+      "rule": {
+        "index": 2,
+        "type": "Network",
+        "payload": "tcp"
+      },
+      "proxy": "Ad",
+      "chain": [
+        "Ad",
+        "DIRECT"
+      ],
+      "conditional": false,
+      "missing": []
+    },
+    {
+      "host": "185.149.120.173witness.invalid.boundary.invalid",
+      "network": "udp",
+      "expected": "fallthrough",
+      "passed": true,
+      "rule": {
+        "index": 3,
+        "type": "Network",
+        "payload": "udp"
+      },
+      "proxy": "Ad",
+      "chain": [
+        "Ad",
+        "DIRECT"
+      ],
+      "conditional": false,
+      "missing": []
+    }
+  ],
+  "limits": [
+    "Synthetic matching verifies loaded rule behavior, not real advertising requests.",
+    "This core increments rule hit counters during rule explanation; test hits are not real ad requests."
+  ],
+  "initial_probes": {
+    "yaml_test_matches": 2,
+    "mrs_test_matches": 1,
+    "allowed_controls": 1,
+    "source": "/tmp/codex-phone-ad-probe.json"
+  },
+  "observed_rule_counter_deltas": {
+    "local-353d1ae3-5a81-452c-8527-d56690c131dc": 10,
+    "local-bee2aa81-babe-4bdb-929d-98894937deeb": 50
+  }
+}

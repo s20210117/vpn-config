@@ -1,0 +1,23 @@
+{
+  "checked_at_utc": "2026-11-20T05:53:29.767025+00:00",
+  "removed_rule": "IP-CIDR,192.168.2.77/32,DIRECT,no-resolve",
+  "moved_existing_rules": [
+    "GEOIP,private,DIRECT,no-resolve",
+    "GEOSITE,private,DIRECT"
+  ],
+  "new_order_check": {
+    "rule_count": 43,
+    "first_rules": [
+      "RULE-SET,local-353d1ae3-5a81-452c-8527-d56690c131dc,REJECT",
+      "RULE-SET,local-bee2aa81-babe-4bdb-929d-98894937deeb,REJECT",
+      "GEOIP,private,DIRECT,no-resolve",
+      "GEOSITE,private,DIRECT",
+      "NETWORK,tcp,上网模式",
+      "NETWORK,udp,上网模式"
+    ],
+    "only_expected_rule_changes": true
+  },
+  "served_file_matches": true,
+  "sha256": "7322ae40e3cd5238881da766ab6c99c0ac92bef084e53925a4b23ae6f81d4819",
+  "phone_sync_pending": true
+}

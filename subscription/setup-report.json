@@ -1,0 +1,47 @@
+{
+  "download_checks": [
+    {
+      "host": "127.0.0.1",
+      "path": "/config.yaml",
+      "bytes": 21312,
+      "passed": true
+    },
+    {
+      "host": "127.0.0.1",
+      "path": "/ads-merged.mrs",
+      "bytes": 3161782,
+      "passed": true
+    },
+    {
+      "host": "127.0.0.1",
+      "path": "/ads-merged-extra.yaml",
+      "bytes": 40057,
+      "passed": true
+    },
+    {
+      "host": "192.168.2.53",
+      "path": "/config.yaml",
+      "bytes": 21312,
+      "passed": true
+    },
+    {
+      "host": "192.168.2.53",
+      "path": "/ads-merged.mrs",
+      "bytes": 3161782,
+      "passed": true
+    },
+    {
+      "host": "192.168.2.53",
+      "path": "/ads-merged-extra.yaml",
+      "bytes": 40057,
+      "passed": true
+    }
+  ],
+  "unlisted_paths_rejected": 5,
+  "phone_import_verified": false,
+  "original_sha256": "40a7a69e41ad4c189e667de0d49e6edee70b1f45f2ac34df8f8fae59ddb982cf",
+  "served_sha256": "2ce8cd05aa3586ef7dbb90635a4262766a7b50122b142aa046d8771a9bbe3f89",
+  "configuration_semantic_validation": "passed; only added Mac IP direct rule",
+  "service_lifecycle": "start, repeated start, stop, restart passed",
+  "login_agent_installed": false
+}

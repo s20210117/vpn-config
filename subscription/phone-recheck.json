@@ -1,0 +1,226 @@
+{
+  "checked_at_utc": "2026-11-20T03:57:05.489460+00:00",
+  "results": [
+    {
+      "command": [
+        "status"
+      ],
+      "exit": 0,
+      "reply": {
+        "cli": 1,
+        "ok": true,
+        "data": {
+          "mode": "rule",
+          "core_version": {
+            "meta": true,
+            "version": "1.19.34"
+          },
+          "groups": [
+            {
+              "name": "AUTO",
+              "type": "URLTest",
+              "now": "🇺🇸美国ai解锁-0.1倍率"
+            },
+            {
+              "name": "PROXY",
+              "type": "Selector",
+              "now": "AUTO"
+            },
+            {
+              "name": "Ad",
+              "type": "Selector",
+              "now": "DIRECT"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "command": [
+        "rules",
+        "0"
+      ],
+      "exit": 0,
+      "reply": {
+        "cli": 1,
+        "ok": true,
+        "data": {
+          "count": 44,
+          "first_rules": [
+            {
+              "extra": {
+                "disabled": false,
+                "hitAt": "1970-01-01T00:00:00Z",
+                "hitCount": 0,
+                "missAt": "2026-11-20T03:56:38.489488Z",
+                "missCount": 2
+              },
+              "index": 0,
+              "payload": "local-353d1ae3-5a81-452c-8527-d56690c131dc",
+              "proxy": "REJECT",
+              "size": -1,
+              "type": "RuleSet"
+            },
+            {
+              "extra": {
+                "disabled": false,
+                "hitAt": "1970-01-01T00:00:00Z",
+                "hitCount": 0,
+                "missAt": "2026-11-20T03:56:38.490109Z",
+                "missCount": 2
+              },
+              "index": 1,
+              "payload": "local-bee2aa81-babe-4bdb-929d-98894937deeb",
+              "proxy": "REJECT",
+              "size": -1,
+              "type": "RuleSet"
+            },
+            {
+              "extra": {
+                "disabled": false,
+                "hitAt": "1970-01-01T00:00:00Z",
+                "hitCount": 0,
+                "missAt": "2026-11-20T03:56:38.490112Z",
+                "missCount": 2
+              },
+              "index": 2,
+              "payload": "192.168.2.53/32",
+              "proxy": "DIRECT",
+              "size": -1,
+              "type": "IPCIDR"
+            },
+            {
+              "extra": {
+                "disabled": false,
+                "hitAt": "2026-11-20T03:56:38.49011Z",
+                "hitCount": 2,
+                "missAt": "1970-01-01T00:00:00Z",
+                "missCount": 0
+              },
+              "index": 3,
+              "payload": "tcp",
+              "proxy": "Ad",
+              "size": -1,
+              "type": "Network"
+            },
+            {
+              "extra": {
+                "disabled": false,
+                "hitAt": "1970-01-01T00:00:00Z",
+                "hitCount": 0,
+                "missAt": "1970-01-01T00:00:00Z",
+                "missCount": 0
+              },
+              "index": 4,
+              "payload": "udp",
+              "proxy": "Ad",
+              "size": -1,
+              "type": "Network"
+            },
+            {
+              "extra": {
+                "disabled": false,
+                "hitAt": "1970-01-01T00:00:00Z",
+                "hitCount": 0,
+                "missAt": "1970-01-01T00:00:00Z",
+                "missCount": 0
+              },
+              "index": 5,
+              "payload": "private",
+              "proxy": "DIRECT",
+              "size": 0,
+              "type": "GeoIP"
+            },
+            {
+              "extra": {
+                "disabled": false,
+                "hitAt": "1970-01-01T00:00:00Z",
+                "hitCount": 0,
+                "missAt": "1970-01-01T00:00:00Z",
+                "missCount": 0
+              },
+              "index": 6,
+              "payload": "private",
+              "proxy": "DIRECT",
+              "size": 131,
+              "type": "GeoSite"
+            }
+          ],
+          "mac_rule": [
+            {
+              "extra": {
+                "disabled": false,
+                "hitAt": "1970-01-01T00:00:00Z",
+                "hitCount": 0,
+                "missAt": "2026-11-20T03:56:38.490112Z",
+                "missCount": 2
+              },
+              "index": 2,
+              "payload": "192.168.2.53/32",
+              "proxy": "DIRECT",
+              "size": -1,
+              "type": "IPCIDR"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "command": [
+        "provider",
+        "list"
+      ],
+      "exit": 0,
+      "reply": {
+        "cli": 1,
+        "ok": true,
+        "data": {
+          "local-353d1ae3-5a81-452c-8527-d56690c131dc": {
+            "behavior": "Domain",
+            "format": "TextRule",
+            "name": "local-353d1ae3-5a81-452c-8527-d56690c131dc",
+            "ruleCount": 353223,
+            "type": "Rule",
+            "updatedAt": "2026-11-19T04:51:21Z",
+            "vehicleType": "File"
+          },
+          "local-bee2aa81-babe-4bdb-929d-98894937deeb": {
+            "behavior": "Classical",
+            "format": "YamlRule",
+            "name": "local-bee2aa81-babe-4bdb-929d-98894937deeb",
+            "ruleCount": 408,
+            "type": "Rule",
+            "updatedAt": "2026-11-19T04:51:27Z",
+            "vehicleType": "File"
+          }
+        }
+      }
+    }
+  ],
+  "mac_direct_match": {
+    "cli": 1,
+    "ok": true,
+    "data": {
+      "assumed": [
+        "src=198.18.0.1",
+        "src-port=0",
+        "inbound=tun"
+      ],
+      "chain": [
+        "DIRECT"
+      ],
+      "conditional": false,
+      "decided": true,
+      "missing": [],
+      "mode": "rule",
+      "notes": [],
+      "proxy": "DIRECT",
+      "rule": {
+        "index": 2,
+        "payload": "192.168.2.53/32",
+        "type": "IPCIDR"
+      }
+    }
+  },
+  "new_config_marker_confirmed": true
+}

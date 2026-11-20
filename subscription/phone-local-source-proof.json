@@ -1,0 +1,57 @@
+{
+  "checked_at_utc": "2026-11-20T04:11:36.552217+00:00",
+  "updates": [
+    {
+      "name": "local-353d1ae3-5a81-452c-8527-d56690c131dc",
+      "exit": 0,
+      "reply": {
+        "cli": 1,
+        "ok": true,
+        "data": {
+          "result": "unchanged",
+          "countBefore": 353223,
+          "countAfter": 353223,
+          "checkedAt": 1795147896
+        }
+      }
+    },
+    {
+      "name": "local-bee2aa81-babe-4bdb-929d-98894937deeb",
+      "exit": 0,
+      "reply": {
+        "cli": 1,
+        "ok": true,
+        "data": {
+          "result": "unchanged",
+          "countBefore": 408,
+          "countAfter": 408,
+          "checkedAt": 1795147896
+        }
+      }
+    }
+  ],
+  "phone_downloads": [
+    {
+      "path": "/ads-merged.mrs",
+      "phone_download_confirmed": true,
+      "server_record": {
+        "requests": 1,
+        "last_client": "192.168.2.199",
+        "last_at_utc": "2026-11-20T04:11:36.325284+00:00",
+        "bytes": 3161782,
+        "sha256": "ebe2d27226327f829f5f3c3d94c5bdf13e97a5cfd6427194b3225c15bd840808"
+      }
+    },
+    {
+      "path": "/ads-merged-extra.yaml",
+      "phone_download_confirmed": true,
+      "server_record": {
+        "requests": 1,
+        "last_client": "192.168.2.199",
+        "last_at_utc": "2026-11-20T04:11:36.517564+00:00",
+        "bytes": 40057,
+        "sha256": "228a81a1b9e8e73b1f0727b70f6e7e2289f7b467f1f15472db6b708a6aea183d"
+      }
+    }
+  ]
+}
