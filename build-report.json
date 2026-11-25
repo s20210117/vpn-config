@@ -1,7 +1,7 @@
 {
-  "generated_at_utc": "2026-11-17T09:49:52.874263+00:00",
+  "generated_at_utc": "2026-11-25T04:39:48.513093+00:00",
   "core_version": "Mihomo Meta v1.19.29 darwin arm64 with go1.22.12 Sat Jul 18 12:25:49 UTC 2026\nUse tags: with_gvisor",
-  "input_manifest_sha256": "3f4a489bcedad642f40432295f306f7146f19b4ff82040f3f509ad7f1644fa99",
+  "input_manifest_sha256": "d7737975b82df91bc26a2ac5dd1243d537b57ac479945b91b7b784502a4ff83d",
   "source_domain_counts": {
     "hagezi-normal": 184508,
     "stevenblack": 76104,
@@ -14,7 +14,25 @@
   "source_domain_records": 1020150,
   "source_unique_domain_entries": 439713,
   "normalized_source_domain_entries": 353223,
-  "merged_mrs_rules": 353223,
+  "false_positive_exclusions": [
+    "+.l-rcd.iqiyi.com",
+    "+.subscription.iqiyi.com"
+  ],
+  "excluded_source_domain_entries": [
+    "+.l-rcd.iqiyi.com",
+    "+.subscription.iqiyi.com"
+  ],
+  "exclusion_source_providers": {
+    "+.l-rcd.iqiyi.com": [
+      "217heidai"
+    ],
+    "+.subscription.iqiyi.com": [
+      "217heidai",
+      "hagezi-normal"
+    ]
+  },
+  "domain_entries_after_exclusions": 353221,
+  "merged_mrs_rules": 353221,
   "promoted_regex_rules": {},
   "source_extra_rules": 781,
   "output_extra_rules": 408,
@@ -4233,8 +4251,9 @@
     "DOMAIN-REGEX,(?i)gcdsdk\\.appsflyersdk\\.com$": "+.appsflyersdk.com"
   },
   "semantics": [
-    "Union of seven domain MRS providers plus the original AdGuard companion, all used with REJECT.",
+    "Union of seven domain MRS providers plus the original AdGuard companion, minus reviewed false-positive suffixes, all used with REJECT.",
     "Only proved redundant domain scopes and proved redundant Boolean conditions are removed.",
+    "False-positive exclusions are removed from the generated ad provider itself; client routing needs no DIRECT exception for them.",
     "AdGuard exceptions remain local to its predicates; other lists can independently reject the same hostname.",
     "Classical literals are not promoted to case-insensitive MRS entries; raw-host case behavior is preserved.",
     "The supplement is a residual policy, designed to accompany this MRS; it is not a standalone AdGuard list.",
@@ -4242,8 +4261,8 @@
   ],
   "files": {
     "ads-merged.mrs": {
-      "bytes": 3161782,
-      "sha256": "ebe2d27226327f829f5f3c3d94c5bdf13e97a5cfd6427194b3225c15bd840808"
+      "bytes": 3160851,
+      "sha256": "0aa088bb43e0690f492e164879ceae91402a63337ffc885d7cc2ce9048dff9c5"
     },
     "ads-merged-extra.yaml": {
       "bytes": 40057,

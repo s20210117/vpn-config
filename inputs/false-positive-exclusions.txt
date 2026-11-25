@@ -1,0 +1,3 @@
+# Confirmed functional domains incorrectly included by upstream ad lists.
++.l-rcd.iqiyi.com
++.subscription.iqiyi.com

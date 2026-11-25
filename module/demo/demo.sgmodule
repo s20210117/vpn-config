@@ -1,0 +1,17 @@
+#!name=demo
+#!desc=只匹配 http://module-demo.invalid/hello，由 JavaScript 直接返回演示 JSON。
+#!author=codex
+#!type=
+#!version=1.0.2
+#!date=2026-11-25
+#!tag=Demo
+#!openurl=https://github.com/s20210117/vpn-config
+#!system=ios, mac
+#!homepage=https://github.com/s20210117/vpn-config
+#!icon=https://github.com/openai.png
+#!category=演示
+#!arguments=debug:true
+#!arguments-desc=debug：日志开关，true 开启，false 关闭。
+
+[Script]
+demo-hello = type=http-request, pattern=^http://module-demo\.invalid/hello(?:\?.*)?$, argument=debug={{{debug}}}, script-path=http://192.168.2.77:18765/demo/module.js, timeout=5

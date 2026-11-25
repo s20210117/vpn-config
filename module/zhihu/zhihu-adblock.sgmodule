@@ -1,0 +1,53 @@
+#!name=知乎去广告
+#!desc=阻止知乎 HTTPDNS/QUIC 绕过模块，拦截广告接口，并清理推荐、热榜、回答信息流、正文广告卡与搜索建议中的明确广告标记。
+#!author=codex
+#!type=
+#!version=1.0.18
+#!date=2026-11-25
+#!tag=知乎去广告
+#!openurl=https://github.com/s20210117/vpn-config
+#!system=ios, mac
+#!homepage=https://github.com/s20210117/vpn-config
+#!icon=https://github.com/openai.png
+#!category=去广告
+#!arguments=debug:true
+#!arguments-desc=debug：日志开关，true 开启，false 关闭。
+
+[Rule]
+DOMAIN,appcloud.zhihu.com,REJECT
+DOMAIN,appcloud2.in.zhihu.com,REJECT
+IP-CIDR,103.41.167.237/32,REJECT,no-resolve
+IP-CIDR,118.89.204.198/32,REJECT,no-resolve
+IP-CIDR,182.61.194.7/32,REJECT,no-resolve
+IP-CIDR6,2402:4e00:1200:ed00:0:9089:6dac:96b6/128,REJECT,no-resolve
+
+[URL Rewrite]
+^https://api\.zhihu\.com/ad-style-service/request/?(?:\?|$) - reject-dict
+^https://api\.zhihu\.com/distribute/rhea/qa_ad_card/h5/recommendation/?(?:\?|$) - reject-dict
+^https://www\.zhihu\.com/commercial_api/banners_v3/mobile_banner/?(?:\?|$) - reject-dict
+^https://api\.zhihu\.com/commercial_api(?:[/?]|$) - reject-dict
+^https://api\.zhihu\.com/bazaar/float_window(?:[/?]|$) - reject-dict
+^https://api\.zhihu\.com/root/window(?:[/?]|$) - reject-dict
+^https://api\.zhihu\.com/api/v4/ecom_data/config(?:[/?]|$) - reject-dict
+^https://api\.zhihu\.com/content-promotion/super-coupon/remind/?(?:\?|$) - reject-dict
+^https://www\.zhihu\.com/api/v4/questions/\d+/banner/?(?:\?|$) - reject-dict
+^https://api\.zhihu\.com/(.*)$ https://api.zhihu.com/$1 header
+
+^https://(www|web-render|page-info)\.zhihu\.com/(.*)$ https://$1.zhihu.com/$2 header
+
+^https://(duga|m-cloud|appcloud)\.zhihu\.com/(.*)$ https://$1.zhihu.com/$2 header
+^https://(pic2|pic3|pic4|pica)\.zhimg\.com/(.*)$ https://$1.zhimg.com/$2 header
+
+[Script]
+zhihu-route-probe = type=http-request, pattern=^https://www\.zhihu\.com/, timeout=5, argument=debug={{{debug}}}&phase=probe, script-path=http://192.168.2.77:18765/zhihu/zhihu-adblock.js
+zhihu-feed = type=http-response, pattern=^https://(?:(?:api|web-render)\.zhihu\.com/topstory/(?:recommend|hot-lists)|api\.zhihu\.com/v2/topstory/hot-lists/everyone-seeing)(?:[/?]|$), requires-body=true, max-size=2097152, timeout=5, argument=debug={{{debug}}}, script-path=http://192.168.2.77:18765/zhihu/zhihu-adblock.js
+zhihu-answers = type=http-response, pattern=^https://api\.zhihu\.com/(?:questions/\d+(?:/(?:feeds?|answers))?/?|next-(?:render|bff|data)/?)(?:\?|$), requires-body=true, max-size=-1, timeout=5, argument=debug={{{debug}}}, script-path=http://192.168.2.77:18765/zhihu/zhihu-adblock.js
+zhihu-search = type=http-response, pattern=^https://api\.zhihu\.com/search/recommend_query(?:/v2)?/?(?:\?|$), requires-body=true, max-size=2097152, timeout=5, argument=debug={{{debug}}}, script-path=http://192.168.2.77:18765/zhihu/zhihu-adblock.js
+zhihu-search-preset = type=http-response, pattern=^https://api\.zhihu\.com/search/preset_words/?(?:\?|$), requires-body=true, max-size=2097152, timeout=5, argument=debug={{{debug}}}, script-path=http://192.168.2.77:18765/zhihu/zhihu-adblock.js
+zhihu-web-question = type=http-response, pattern=^https://www\.zhihu\.com/api/v4/questions/\d+(?:/(?:feeds?|answers))?/?(?:\?|$), requires-body=true, max-size=-1, timeout=5, argument=debug={{{debug}}}, script-path=http://192.168.2.77:18765/zhihu/zhihu-adblock.js
+zhihu-web-recommend = type=http-response, pattern=^https://www\.zhihu\.com/api/v4/(?:articles|answers)/\d+/recommendations?/?(?:\?|$), requires-body=true, max-size=2097152, timeout=5, argument=debug={{{debug}}}, script-path=http://192.168.2.77:18765/zhihu/zhihu-adblock.js
+zhihu-comments = type=http-response, pattern=^https://api\.zhihu\.com/comment_v5/(?:answers|pins|comments?|articles)/\d+/(?:root|child)_comment/?(?:\?|$), requires-body=true, max-size=2097152, timeout=5, argument=debug={{{debug}}}, script-path=http://192.168.2.77:18765/zhihu/zhihu-adblock.js
+zhihu-detail = type=http-response, pattern=^https://(?:api|page-info)\.zhihu\.com/(?:answers|articles)/v\d+/\d+/?(?:\?|$), requires-body=true, max-size=2097152, timeout=5, argument=debug={{{debug}}}, script-path=http://192.168.2.77:18765/zhihu/zhihu-adblock.js
+
+[MITM]
+hostname = %APPEND% api.zhihu.com, web-render.zhihu.com, page-info.zhihu.com, www.zhihu.com

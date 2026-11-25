@@ -15,13 +15,27 @@ Clash-Client 客户端及 `inputs/` 中七套广告规则的 GitHub 仓库、上
 | 原始文件 | [GitHub Raw](https://raw.githubusercontent.com/s20210117/vpn-config/main/index.html) | 查看或下载 `index.html` 源码，浏览器通常按纯文本显示。 |
 | 文件 CDN | [jsDelivr](https://cdn.jsdelivr.net/gh/s20210117/vpn-config@main/index.html) | 通过 CDN 读取或下载 `index.html` 源码，适合文件分发；HTML 通常按纯文本显示，更新可能有缓存延迟。 |
 
+## 客户端模块
+
+客户端文件统一位于 [module](module/README.md)，并按 `demo`、`zhihu`、`iqiyi` 分目录保存。
+
+实际模块见[知乎去广告](module/zhihu/README.md)和[爱奇艺去广告](module/iqiyi/README.md)。两者均可独立导入，不替换完整配置。
+
+示例下载服务使用固定的 UTF-8 文本响应并禁用缓存，避免中文乱码。启动入口：
+
+```sh
+python3 module/serve.py
+```
+
+该服务使用 `18765` 端口，启动时不会替换手机完整配置或修改下方的 `8765` 订阅服务。导入链接和演示效果见示例说明。
+
 ## 手机配置订阅
 
 当前订阅地址：`http://192.168.2.77:8765/config.yaml`。完整配置位于 `subscription/config.yaml`，保存后手机点击「立即同步」即可下载新版本。
 
 首页出站模式保持「规则」，通过排在首位的「上网模式」策略组选择上网方式，成员顺序为 `PASS`（按原有规则分流）、`DIRECT`（直连）、`PROXY`（代理）。该组原名 `Ad`，现已更名；未保存选择时默认使用第一项 `PASS`，客户端已经保存的选择可能继续保留。
 
-配置中的两份广告规则也从这台 Mac 下载，分别对应项目顶层的 `ads-merged.mrs`、`ads-merged-extra.yaml`。修改规则后需在手机更新对应规则集，服务无需重启。
+配置中的两份广告规则也从这台 Mac 下载，分别对应项目顶层的 `ads-merged.mrs`、`ads-merged-extra.yaml`。修改规则后需在手机更新对应规则集，服务无需重启。已确认的上游误报在构建产物内排除，不通过模块或主配置添加 `DIRECT` 绕行。
 
 DNS 已按上网模式配置为加密 DoH：默认 DNS 连接跟随路由规则；境外列表中的域名使用 Cloudflare / Google DoH，直连解析也遵循该策略，其余直连域名和节点域名使用阿里 DoH。修正了路由器已开启代理时，手机 `DIRECT` 冷启动访问 Google 失败的问题。公开模板为 `dns-follow-mode.yaml`，行为与验证范围见 [DNS 说明](docs/DNS说明.md)。
 
@@ -45,7 +59,7 @@ DNS 已按上网模式配置为加密 DoH：默认 DNS 连接跟随路由规则�
 
 | 文件 | 内容 | 条数 | 大小 |
 | --- | --- | ---: | ---: |
-| `ads-merged.mrs` | 七套清单合并、去重后的域名规则 | 353,223 | 3,161,782 字节 |
+| `ads-merged.mrs` | 七套清单合并、去重并排除已确认误报后的域名规则 | 353,221 | 3,160,851 字节 |
 | `ads-merged-extra.yaml` | MRS 无法表达的正则和例外条件 | 408 | 40,057 字节 |
 
 把这两份文件复制到客户端配置目录下的 `rules/merged/`，将 `mihomo-example.yaml` 中的 provider 和规则合并进已有配置。两条广告规则放在普通分流规则前，MRS 在前、YAML 在后，策略都选 `REJECT`。
@@ -78,7 +92,7 @@ rules:
 | `project.py` | 统一入口：输入快照与生成产物检查、重建、内核对照测试 |
 | `build_merged.py` | 从已保存的七套输入重建最终两份规则 |
 | `validate_merged.py`、`test_support.py` | 合并前后匹配对照与测试辅助代码 |
-| `inputs/` | 七份输入 MRS、AdGuard 补充 YAML、来源和 SHA-256 清单 |
+| `inputs/` | 七份输入 MRS、AdGuard 补充 YAML、本地误报排除、来源和 SHA-256 清单 |
 | `build-report.json`、`test-report.json` | 生成记录和已有验证报告 |
 | `validation-cases.json`、`runtime-results.json` | 验证用例和实际内核匹配记录 |
 | `docs/客户端与广告规则来源.md` | Clash-Client 及七套广告规则的 GitHub 仓库、下载地址和输入文件对应关系 |
@@ -97,6 +111,12 @@ python3 project.py check
 
 该命令检查输入快照、生成记录、最终规则产物和 Python 语法，不联网、不启动内核。
 
+订阅与模块下载服务的回归检查使用本机临时服务，无需内核，也不连接手机：
+
+```sh
+python3 -B -m unittest discover -s tests
+```
+
 重建和完整测试需要另行提供 Mihomo 可执行文件，本项目未附带内核：
 
 ```sh
@@ -114,6 +134,7 @@ python3 project.py test --mihomo "/你的/mihomo/路径"
 
 - 2026-11-17，Mihomo 1.19.29：865,906 个离线用例、16,337 个实际内核用例，合并前后零差异。详细边界见 `docs/merged-snapshot.md`。
 - 2026-11-20，手机内核 1.19.34：82 项全部通过，50 次命中补充 YAML、10 次命中 MRS、22 次控制用例正常放行。
+- 2026-11-25，Mihomo 1.19.29：应用两项实测误报排除后，865,916 个离线用例、16,328 个实际内核用例均无差异；两个爱奇艺业务后缀正常落入后续分流。
 
 这些是此前保存的测试结果，本次整理只做文件完整性与可运行路径检查。匹配等价测试不衡量真实广告拦截率或上游规则误杀率。
 

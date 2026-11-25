@@ -22,6 +22,25 @@ def payload(file):
     return [json.loads(line[4:]) for line in file.read_text().splitlines() if line.startswith("  - ")]
 
 
+def exclusion_payload(file):
+    entries = []
+    for number, raw in enumerate(file.read_text().splitlines(), 1):
+        line = raw.strip()
+        if not line or line.startswith("#"):
+            continue
+        if not line.startswith("+."):
+            raise ValueError(f"False-positive exclusion must be a domain suffix at line {number}: {line}")
+        host = line[2:]
+        if host != host.lower() or "." not in host or not all(
+                re.fullmatch(r"[a-z0-9_](?:[a-z0-9_-]{0,61}[a-z0-9_])?", label)
+                for label in host.split(".")):
+            raise ValueError(f"Invalid false-positive exclusion at line {number}: {line}")
+        entries.append(line)
+    if not entries or len(entries) != len(set(entries)):
+        raise ValueError("False-positive exclusions must be non-empty and unique")
+    return set(entries)
+
+
 def parent_names(host):
     labels = host.split(".")
     return [".".join(labels[offset:]) for offset in range(len(labels))]
@@ -33,6 +52,19 @@ def minimize_domains(entries):
     roots = {value for value in suffixes if not any(parent in suffixes for parent in parent_names(value)[1:])}
     exact = {value for value in exact if not any(parent in suffixes for parent in parent_names(value))}
     return {"+." + value for value in roots} | exact
+
+
+def matching_exclusion(entry, exclusions):
+    host = entry[2:] if entry.startswith("+.") else entry
+    return next((item for item in exclusions
+                 if host == item[2:] or host.endswith("." + item[2:])), None)
+
+
+def entry_matches_host(entry, host):
+    if entry.startswith("+."):
+        suffix = entry[2:]
+        return host == suffix or host.endswith("." + suffix)
+    return host == entry
 
 
 def parse(expression):
@@ -81,6 +113,24 @@ def render(node):
     if kind not in ("AND", "OR", "NOT"):
         return kind + "," + value
     return kind + ",(" + ",".join("(" + render(child) + ")" for child in value) + ")"
+
+
+def matches(node, host):
+    kind, value = node
+    if kind == "DOMAIN":
+        return host == value
+    if kind == "DOMAIN-SUFFIX":
+        return host == value or host.endswith("." + value)
+    if kind == "DOMAIN-REGEX":
+        return re.search(value, host) is not None
+    children = [matches(child, host) for child in value]
+    if kind == "NOT":
+        return not children[0]
+    if kind == "AND":
+        return all(children)
+    if kind == "OR":
+        return any(children)
+    raise ValueError(kind)
 
 
 def fixed_regex_domain(pattern):
@@ -239,6 +289,14 @@ def main():
     for name in ("test-report.json", "runtime-results.json", "validation.log", "validation-cases.json"):
         (ROOT / name).unlink(missing_ok=True)
     source_domains, source_counts = set(), {}
+    exclusion_info = manifest["false_positive_exclusions"]
+    exclusion_file = ROOT / "inputs" / exclusion_info["file"]
+    if hashlib.sha256(exclusion_file.read_bytes()).hexdigest() != exclusion_info["sha256"]:
+        raise AssertionError("False-positive exclusion checksum changed")
+    exclusions = exclusion_payload(exclusion_file)
+    if len(exclusions) != exclusion_info["rules"]:
+        raise AssertionError("False-positive exclusion count changed")
+    exclusion_sources = defaultdict(set)
     extra_info = manifest["adguard_extra"]
     extra_file = ROOT / "inputs" / extra_info["file"]
     if hashlib.sha256(extra_file.read_bytes()).hexdigest() != extra_info["sha256"]:
@@ -262,8 +320,21 @@ def main():
                 raise ValueError("Unsupported domain syntax in " + name)
             source_counts[name] = len(lines)
             source_domains.update(lines)
-        domains = minimize_domains(source_domains)
+            for line in lines:
+                exclusion = matching_exclusion(line, exclusions)
+                if exclusion:
+                    exclusion_sources[exclusion].add(name)
+        if set(exclusion_sources) != exclusions:
+            raise AssertionError("A false-positive exclusion no longer matches any source rule")
+        normalized_source_count = len(minimize_domains(source_domains))
+        excluded_entries = {line for line in source_domains if matching_exclusion(line, exclusions)}
+        domains = minimize_domains(source_domains - excluded_entries)
         initial_domain_count = len(domains)
+        for exclusion in exclusions:
+            host = exclusion[2:]
+            covering = [line for line in domains if entry_matches_host(line, host)]
+            if covering:
+                raise ValueError(f"False-positive exclusion is still covered by {covering[0]}")
         promoted = {}
         for iteration in range(20):
             residual = Residual(domains)
@@ -284,6 +355,12 @@ def main():
             raise RuntimeError("Domain promotion did not converge")
         residual_extras = sorted({render(node) for node in simplified if node is not False})
         extras, shared_groups = factor_shared_exceptions(residual_extras)
+        extra_trees = [parse(expression) for expression in extras]
+        for exclusion in exclusions:
+            for host in (exclusion[2:], "child." + exclusion[2:]):
+                covering = [line for line in domains if entry_matches_host(line, host)]
+                if covering or any(matches(tree, host) for tree in extra_trees):
+                    raise ValueError(f"False-positive exclusion is still blocked: {host}")
         statuses = [{"input_index": index, "status": "covered_by_mrs" if node is False else
                      ("unchanged" if render(node) == original else "simplified"),
                      "residual_sha256": hashlib.sha256(render(node).encode()).hexdigest() if node is not False else None}
@@ -318,15 +395,21 @@ def main():
               "core_version": subprocess.check_output([core, "-v"], text=True).strip(),
               "input_manifest_sha256": hashlib.sha256((ROOT / "inputs/manifest.json").read_bytes()).hexdigest(),
               "source_domain_counts": source_counts, "source_domain_records": sum(source_counts.values()),
-              "source_unique_domain_entries": len(source_domains), "normalized_source_domain_entries": initial_domain_count,
+              "source_unique_domain_entries": len(source_domains),
+              "normalized_source_domain_entries": normalized_source_count,
+              "false_positive_exclusions": sorted(exclusions),
+              "excluded_source_domain_entries": sorted(excluded_entries),
+              "exclusion_source_providers": {item: sorted(exclusion_sources[item]) for item in sorted(exclusions)},
+              "domain_entries_after_exclusions": initial_domain_count,
               "merged_mrs_rules": len(domains), "promoted_regex_rules": promoted,
               "source_extra_rules": len(source_extras), "output_extra_rules": len(extras),
               "extra_rules_before_factoring": len(residual_extras),
               "factored_shared_exception_groups": shared_groups,
               "source_extra_bytes": extra_file.stat().st_size,
               "extra_source_dispositions": statuses, "covered_atom_proofs": residual.proofs,
-              "semantics": ["Union of seven domain MRS providers plus the original AdGuard companion, all used with REJECT.",
+              "semantics": ["Union of seven domain MRS providers plus the original AdGuard companion, minus reviewed false-positive suffixes, all used with REJECT.",
                             "Only proved redundant domain scopes and proved redundant Boolean conditions are removed.",
+                            "False-positive exclusions are removed from the generated ad provider itself; client routing needs no DIRECT exception for them.",
                             "AdGuard exceptions remain local to its predicates; other lists can independently reject the same hostname.",
                             "Classical literals are not promoted to case-insensitive MRS entries; raw-host case behavior is preserved.",
                             "The supplement is a residual policy, designed to accompany this MRS; it is not a standalone AdGuard list.",
@@ -337,7 +420,7 @@ def main():
               "mrs_roundtrip": "Every normalized output entry equals the core-decoded entry.",
               "validation": "Run validate_merged.py after this build."}
     (ROOT / "build-report.json").write_text(json.dumps(result, ensure_ascii=False, indent=2) + "\n")
-    print(json.dumps({key: result[key] for key in ("source_domain_records", "source_unique_domain_entries", "normalized_source_domain_entries", "merged_mrs_rules", "promoted_regex_rules", "source_extra_rules", "output_extra_rules", "files")}, ensure_ascii=False, indent=2))
+    print(json.dumps({key: result[key] for key in ("source_domain_records", "source_unique_domain_entries", "normalized_source_domain_entries", "false_positive_exclusions", "domain_entries_after_exclusions", "merged_mrs_rules", "promoted_regex_rules", "source_extra_rules", "output_extra_rules", "files")}, ensure_ascii=False, indent=2))
 
 
 if __name__ == "__main__":

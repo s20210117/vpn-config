@@ -21,9 +21,9 @@ class SubscriptionTests(unittest.TestCase):
     def setUp(self):
         self.directory = tempfile.TemporaryDirectory()
         self.path = Path(self.directory.name) / "config.yaml"
-        self.path.write_bytes(b"proxies: []\nrules: [MATCH,DIRECT]\n")
+        self.path.write_bytes("# 中文配置：直连与代理\nproxies: []\nrules: [MATCH,DIRECT]\n".encode("utf-8"))
         self.previous = SERVICE.ROUTES
-        SERVICE.ROUTES = {"/config.yaml": (self.path, "application/yaml; charset=utf-8")}
+        SERVICE.ROUTES = {"/config.yaml": (self.path, "text/plain; charset=utf-8")}
         self.server = SERVICE.SubscriptionHTTPServer(("127.0.0.1", 0), SERVICE.Handler)
         self.worker = threading.Thread(target=self.server.serve_forever, daemon=True)
         self.worker.start()
@@ -40,10 +40,14 @@ class SubscriptionTests(unittest.TestCase):
     def test_profile_and_head(self):
         with self.client.open(self.base + "/config.yaml", timeout=2) as response:
             self.assertEqual(response.read(), self.path.read_bytes())
+            self.assertEqual(response.headers.get_content_charset(), "utf-8")
+            self.assertEqual(response.headers.get_content_type(), "text/plain")
             self.assertIn("no-store", response.headers["Cache-Control"])
             self.assertEqual(int(response.headers["Content-Length"]), self.path.stat().st_size)
         with self.client.open(Request(self.base + "/config.yaml", method="HEAD"), timeout=2) as response:
             self.assertEqual(response.read(), b"")
+            self.assertEqual(response.headers.get_content_charset(), "utf-8")
+            self.assertEqual(response.headers.get_content_type(), "text/plain")
             self.assertEqual(int(response.headers["Content-Length"]), self.path.stat().st_size)
 
     def test_saved_edit_is_served_without_restart(self):

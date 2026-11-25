@@ -1,0 +1,22 @@
+#!name=知乎抓广告诊断
+#!desc=记录知乎 JSON 接口的脱敏结构与广告字段，响应原样放行，仅用于完善去广告规则。
+#!author=codex
+#!type=
+#!version=1.0.2
+#!date=2026-11-25
+#!tag=知乎抓广告诊断
+#!openurl=https://github.com/s20210117/vpn-config
+#!system=ios, mac
+#!homepage=https://github.com/s20210117/vpn-config
+#!icon=https://github.com/openai.png
+#!category=调试
+#!arguments=debug:true
+#!arguments-desc=debug：日志开关，true 开启，false 关闭。
+
+[General]
+force-http-engine-hosts = zhihu.com, api.zhihu.com, web-render.zhihu.com, page-info.zhihu.com, page-modular.zhihu.com, www.zhihu.com
+
+[Script]
+zhihu-capture-main = type=http-response, pattern=^https?://(?:zhihu\.com|(?:api|web-render|page-info|page-modular|www)\.zhihu\.com)/, requires-body=true, max-size=8388608, timeout=4, argument=debug={{{debug}}}, script-path=http://192.168.2.77:18765/zhihu/zhihu-capture.js
+[MITM]
+hostname = %APPEND% zhihu.com, api.zhihu.com, web-render.zhihu.com, page-info.zhihu.com, page-modular.zhihu.com, www.zhihu.com

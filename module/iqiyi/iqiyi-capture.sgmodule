@@ -1,0 +1,25 @@
+#!name=爱奇艺抓广告诊断
+#!desc=记录爱奇艺 JSON 接口结构与广告字段，响应原样放行，仅用于诊断。
+#!author=codex
+#!type=
+#!version=1.0.2
+#!date=2026-11-25
+#!tag=爱奇艺抓广告诊断
+#!openurl=https://github.com/s20210117/vpn-config
+#!system=ios, mac
+#!homepage=https://github.com/s20210117/vpn-config
+#!icon=https://github.com/openai.png
+#!category=调试
+#!arguments=debug:true
+#!arguments-desc=debug：日志开关，true 开启，false 关闭。
+
+[General]
+force-http-engine-hosts = api.iqiyi.com, iface2.iqiyi.com, cards.iqiyi.com, comment-card.iqiyi.com, cards-css.iqiyi.com, puma-api.iqiyi.com, m.iqiyi.com, policy.video.iqiyi.com, act.vip.iqiyi.com, access.if.iqiyi.com, kjp.cupid.iqiyi.com, t7z.cupid.iqiyi.com, 59.39.2.11, 116.211.198.237, 111.63.147.158, 103.44.59.54
+
+[Script]
+iqiyi-capture-api = type=http-response, pattern=^https?://(?:api|iface2|cards|comment-card|cards-css|puma-api|m)\.iqiyi\.com/, requires-body=true, max-size=8388608, timeout=4, argument=debug={{{debug}}}, script-path=http://192.168.2.77:18765/iqiyi/iqiyi-capture.js
+iqiyi-capture-nested = type=http-response, pattern=^https?://(?:policy\.video|act\.vip|access\.if|(?:kjp|t7z)\.cupid)\.iqiyi\.com/, requires-body=true, max-size=8388608, timeout=4, argument=debug={{{debug}}}, script-path=http://192.168.2.77:18765/iqiyi/iqiyi-capture.js
+iqiyi-capture-address = type=http-response, pattern=^https?://(?:59\.39\.2\.11|116\.211\.198\.237|111\.63\.147\.158|103\.44\.59\.54)/, requires-body=true, max-size=8388608, timeout=4, argument=debug={{{debug}}}, script-path=http://192.168.2.77:18765/iqiyi/iqiyi-capture.js
+
+[MITM]
+hostname = %APPEND% api.iqiyi.com, iface2.iqiyi.com, cards.iqiyi.com, comment-card.iqiyi.com, cards-css.iqiyi.com, puma-api.iqiyi.com, m.iqiyi.com, policy.video.iqiyi.com, act.vip.iqiyi.com, access.if.iqiyi.com, kjp.cupid.iqiyi.com, t7z.cupid.iqiyi.com

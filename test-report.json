@@ -1,17 +1,21 @@
 {
-  "generated_at_utc": "2026-11-17T09:50:45.473316+00:00",
+  "generated_at_utc": "2026-11-25T04:40:26.508518+00:00",
   "core_version": "Mihomo Meta v1.19.29 darwin arm64 with go1.22.12 Sat Jul 18 12:25:49 UTC 2026\nUse tags: with_gvisor",
   "source_unique_domain_clauses_checked": 439713,
+  "false_positive_exclusions": [
+    "+.l-rcd.iqiyi.com",
+    "+.subscription.iqiyi.com"
+  ],
   "uncovered_source_clauses": 0,
   "unjustified_output_clauses": 0,
-  "mrs_roundtrip_rules": 353223,
+  "mrs_roundtrip_rules": 353221,
   "extra_rules": 408,
   "offline": {
-    "hostnames": 865906,
-    "canonical_hostnames": 857592,
-    "blocked": 823812,
-    "uppercase_hostnames": 8314,
-    "fallthrough": 42094,
+    "hostnames": 865916,
+    "canonical_hostnames": 857600,
+    "blocked": 823808,
+    "uppercase_hostnames": 8316,
+    "fallthrough": 42108,
     "needs_supplement": 7965,
     "differences": 0,
     "regexes_exercised": 732
@@ -31,15 +35,15 @@
     "139.45.195.222WITNESS.INVALID"
   ],
   "limitations": [
-    "Equivalence is against the saved seven MRS snapshots plus the saved AdGuard companion, used together with REJECT.",
+    "Equivalence is against the saved seven MRS snapshots plus the saved AdGuard companion, minus reviewed false-positive suffixes, used together with REJECT.",
     "IP-literal proxy targets use different core metadata than DNS hostnames; their runtime checks compare source and merged routing directly.",
     "Tests do not assess live advertising effectiveness or upstream false-positive rates; no external requests were forwarded."
   ],
-  "offline_elapsed_seconds": 29.839,
+  "offline_elapsed_seconds": 31.137,
   "runtime": {
-    "hostnames": 16337,
-    "requests": 32674,
-    "independent_expectations": 16212,
+    "hostnames": 16328,
+    "requests": 32656,
+    "independent_expectations": 16203,
     "ip_literal_equivalence_cases": 125,
     "routing_differences": 0,
     "oracle_errors": 0,
@@ -57,7 +61,7 @@
         "adguard-extra": 781
       },
       "merged": {
-        "ads-merged": 353223,
+        "ads-merged": 353221,
         "ads-merged-extra": 408
       }
     },
@@ -73,14 +77,14 @@
         "adguard-extra": 781
       },
       "merged": {
-        "ads-merged": 353223,
+        "ads-merged": 353221,
         "ads-merged-extra": 408
       }
     },
     "outcomes": {
-      "blocked": 9814,
-      "fallthrough": 6523
+      "blocked": 9776,
+      "fallthrough": 6552
     }
   },
-  "elapsed_seconds": 36.956
+  "elapsed_seconds": 38.468
 }

@@ -30,7 +30,8 @@ def project_files():
 def check():
     manifest_path = ROOT / "inputs/manifest.json"
     manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
-    inputs = list(manifest["domain_providers"].values()) + [manifest["adguard_extra"]]
+    inputs = list(manifest["domain_providers"].values()) + [
+        manifest["adguard_extra"], manifest["false_positive_exclusions"]]
     for entry in inputs:
         if digest(ROOT / "inputs" / entry["file"]) != entry["sha256"]:
             raise ValueError("输入快照不一致：" + entry["file"])
@@ -46,7 +47,7 @@ def check():
     scripts = [path for path in project_files() if path.suffix == ".py"]
     for path in scripts:
         compile(path.read_bytes(), str(path), "exec")
-    print(f"检查通过：{len(inputs)} 份输入快照、{len(scripts)} 个 Python 脚本。")
+    print(f"检查通过：{len(inputs)} 份构建输入、{len(scripts)} 个 Python 脚本。")
     print(f"最终规则：MRS {build['merged_mrs_rules']:,} 条；补充 YAML {build['output_extra_rules']:,} 条。")
 
 

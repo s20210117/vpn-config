@@ -95,7 +95,22 @@ def leaves(expression):
     return result
 
 
-def run_cores(core, manifest, merged_count, extra_count, hosts, expectations, temp):
+def exclusion_payload(file):
+    return {line.strip() for line in file.read_text().splitlines()
+            if line.strip() and not line.lstrip().startswith("#")}
+
+
+def excluded_host(host, exclusions):
+    host = host.lower()
+    return any(host == item[2:] or host.endswith("." + item[2:]) for item in exclusions)
+
+
+def excluded_entry(entry, exclusions):
+    host = entry[2:] if entry.startswith("+.") else entry
+    return excluded_host(host, exclusions)
+
+
+def run_cores(core, manifest, merged_count, extra_count, hosts, expectations, temp, exclusions):
     servers, ports, logs, processes = {}, {}, {}, []
     reserved = set()
     all_connections = []
@@ -136,7 +151,11 @@ def run_cores(core, manifest, merged_count, extra_count, hosts, expectations, te
                 (home / file.name).write_bytes(file.read_bytes())
                 config += ["  " + name + ":", "    type: file", "    behavior: " + behavior,
                            "    format: " + fmt, "    path: ./" + file.name]
-            config += ["rules:"] + ["  - RULE-SET," + name + ",REJECT" for name in providers]
+            config += ["rules:"]
+            if variant == "source":
+                config += ["  - DOMAIN-SUFFIX," + item[2:] + ",LOCAL-TEST-SINK"
+                           for item in sorted(exclusions)]
+            config += ["  - RULE-SET," + name + ",REJECT" for name in providers]
             config += ["  - MATCH,LOCAL-TEST-SINK"]
             path = home / "config.yaml"
             path.write_text("\n".join(config) + "\n")
@@ -274,6 +293,13 @@ def main():
         (ROOT / name).unlink(missing_ok=True)
     manifest = json.loads((ROOT / "inputs/manifest.json").read_text())
     build = json.loads((ROOT / "build-report.json").read_text())
+    exclusion_info = manifest["false_positive_exclusions"]
+    exclusion_file = ROOT / "inputs" / exclusion_info["file"]
+    if hashlib.sha256(exclusion_file.read_bytes()).hexdigest() != exclusion_info["sha256"]:
+        raise AssertionError("False-positive exclusions changed")
+    exclusions = exclusion_payload(exclusion_file)
+    if len(exclusions) != exclusion_info["rules"] or sorted(exclusions) != build["false_positive_exclusions"]:
+        raise AssertionError("False-positive exclusion metadata mismatch")
     if hashlib.sha256((ROOT / "inputs/manifest.json").read_bytes()).hexdigest() != build["input_manifest_sha256"]:
         raise AssertionError("Build manifest changed")
     for name, metadata in build["files"].items():
@@ -283,11 +309,11 @@ def main():
         cached = json.loads((ROOT / "validation-cases.json").read_text())
         if cached["output_hashes"] != {name: data["sha256"] for name, data in build["files"].items()} or cached["manifest_sha256"] != build["input_manifest_sha256"]:
             raise AssertionError("Cached validation corpus belongs to different inputs/outputs")
-        for metadata in list(manifest["domain_providers"].values()) + [manifest["adguard_extra"]]:
+        for metadata in list(manifest["domain_providers"].values()) + [manifest["adguard_extra"], exclusion_info]:
             if hashlib.sha256((ROOT / "inputs" / metadata["file"]).read_bytes()).hexdigest() != metadata["sha256"]:
                 raise AssertionError("Cached validation input changed")
         with tempfile.TemporaryDirectory(prefix="merged-ads-test-") as directory:
-            runtime = run_cores(core, manifest, build["merged_mrs_rules"], build["output_extra_rules"], cached["hosts"], cached["expected"], Path(directory))
+            runtime = run_cores(core, manifest, build["merged_mrs_rules"], build["output_extra_rules"], cached["hosts"], cached["expected"], Path(directory), exclusions)
         finish(cached["partial_report"], runtime, build, started)
         return
     if hashlib.sha256((ROOT / "inputs" / manifest["adguard_extra"]["file"]).read_bytes()).hexdigest() != manifest["adguard_extra"]["sha256"]:
@@ -313,19 +339,22 @@ def main():
         if len(merged) != build["merged_mrs_rules"]:
             raise AssertionError("Output MRS count mismatch")
         source_index, target_index = DomainIndex(original), DomainIndex(merged)
-        missing = [rule for rule in original if not target_index.covers_clause(rule)]
+        missing = [rule for rule in original
+                   if not excluded_entry(rule, exclusions) and not target_index.covers_clause(rule)]
         if missing:
             raise AssertionError(("Source scope not covered", missing[:5]))
         unexpected = merged - original - set(build["promoted_regex_rules"].values())
         if unexpected:
             raise AssertionError(("Unjustified new domain scope", list(unexpected)[:5]))
         source_other, target_other = audit.Matcher(original_extra), audit.Matcher(merged_extra)
-        original_policy = lambda host: source_index(host) or source_other(host)
+        original_policy = lambda host: not excluded_host(host, exclusions) and (source_index(host) or source_other(host))
         merged_policy = lambda host: target_index(host) or target_other(host)
         # Every original domain root and descendant, plus literal/regex
         # boundaries from both policies. Structural coverage above proves the
         # full suffix scope, including descendants absent from this corpus.
         hosts, critical, ip_literals = set(), set(), set()
+        for item in exclusions:
+            critical.update(audit.domain_boundaries(item[2:]))
         for rule in original:
             host = rule[2:] if rule.startswith("+.") else rule
             hosts.update((host, "child." + host))
@@ -399,17 +428,18 @@ def main():
                 expected[host] = decisions.get(host, "blocked" if original_policy(host) else "fallthrough")
         partial = {"generated_at_utc": datetime.now(timezone.utc).isoformat(),
               "core_version": build["core_version"], "source_unique_domain_clauses_checked": len(original),
+              "false_positive_exclusions": sorted(exclusions),
               "uncovered_source_clauses": 0, "unjustified_output_clauses": 0,
               "mrs_roundtrip_rules": len(merged), "extra_rules": len(merged_extra),
               "offline": {**dict(counts), "differences": 0, "regexes_exercised": regex_count},
               "supplement_required_examples": residual_examples,
-              "limitations": ["Equivalence is against the saved seven MRS snapshots plus the saved AdGuard companion, used together with REJECT.",
+              "limitations": ["Equivalence is against the saved seven MRS snapshots plus the saved AdGuard companion, minus reviewed false-positive suffixes, used together with REJECT.",
                               "IP-literal proxy targets use different core metadata than DNS hostnames; their runtime checks compare source and merged routing directly.",
                               "Tests do not assess live advertising effectiveness or upstream false-positive rates; no external requests were forwarded."],
               "offline_elapsed_seconds": round(time.monotonic() - started, 3)}
         (ROOT / "validation-cases.json").write_text(json.dumps({"output_hashes": {name: data["sha256"] for name, data in build["files"].items()},
             "manifest_sha256": build["input_manifest_sha256"], "hosts": live, "expected": expected, "partial_report": partial}, ensure_ascii=False, indent=2) + "\n")
-        runtime = run_cores(core, manifest, len(merged), len(merged_extra), live, expected, temp)
+        runtime = run_cores(core, manifest, len(merged), len(merged_extra), live, expected, temp, exclusions)
     finish(partial, runtime, build, started)
 
 

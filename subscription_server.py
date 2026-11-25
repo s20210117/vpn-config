@@ -27,9 +27,9 @@ LOGS = Path.home() / "Library/Logs/vpn-config"
 LAN_NETWORKS = tuple(ipaddress.ip_network(value) for value in (
     "10.0.0.0/8", "172.16.0.0/12", "192.168.0.0/16", "127.0.0.0/8"))
 ROUTES = {
-    "/config.yaml": (ROOT / "subscription/config.yaml", "application/yaml; charset=utf-8"),
+    "/config.yaml": (ROOT / "subscription/config.yaml", "text/plain; charset=utf-8"),
     "/ads-merged.mrs": (ROOT / "ads-merged.mrs", "application/octet-stream"),
-    "/ads-merged-extra.yaml": (ROOT / "ads-merged-extra.yaml", "application/yaml; charset=utf-8"),
+    "/ads-merged-extra.yaml": (ROOT / "ads-merged-extra.yaml", "text/plain; charset=utf-8"),
 }
 
 

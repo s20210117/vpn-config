@@ -58,5 +58,10 @@
     "file": "adguard-extra.yaml",
     "rules": 781,
     "sha256": "2be10fb5c7e03e0158f5e88fa98bdfdb69d03cae16ecdc920be6ecb5c3c9b7af"
+  },
+  "false_positive_exclusions": {
+    "file": "false-positive-exclusions.txt",
+    "rules": 2,
+    "sha256": "3c09575de2f35f2bc4c49780e15fa62b8eb480a658296bea8fd453efb774bf14"
   }
 }
