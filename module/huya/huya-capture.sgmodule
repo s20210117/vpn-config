@@ -1,0 +1,51 @@
+#!name=虎牙抓广告诊断
+#!desc=记录虎牙广告与内容接口的脱敏结构或响应元数据，响应原样放行，仅用于完善去广告规则。
+#!author=codex
+#!type=
+#!version=1.0.5
+#!date=2026-11-26
+#!tag=虎牙抓广告诊断
+#!openurl=https://github.com/s20210117/vpn-config
+#!system=ios, mac
+#!homepage=https://github.com/s20210117/vpn-config
+#!icon=https://github.com/openai.png
+#!category=调试
+#!arguments=debug:true
+#!arguments-desc=debug：日志开关，true 开启，false 关闭。
+
+[General]
+force-http-engine-hosts = business.msstatic.com, cdnfile1.msstatic.com, live-ads.huya.com, dataservice.cdn.huya.com, diy-front.cdn.huya.com, df.huya.com, zt.huya.com, us.l.qq.com, tangram.e.qq.com, api-access.pangolin-sdk-toutiao.com, pgdt.gtimg.cn, sf3-fe-tos.pglstatp-toutiao.com, livewebbs2.msstatic.com, livewebbs2pcdn.msstatic.com, qn-livewebbs2pcdn.msstatic.com, pp-cdnfile2pcdn.msstatic.com, huyafile.msstatic.com, v1d.szbdyd.com, 3dm.huya.com, sdkconf.msstatic.com, cdnfile2.msstatic.com, s1-static.msstatic.com, short.msstatic.com, zt.msstatic.com, cdnfile.huya.com
+
+[Rule]
+DOMAIN,business.msstatic.com,DIRECT
+DOMAIN,cdnfile1.msstatic.com,DIRECT
+DOMAIN,live-ads.huya.com,DIRECT
+DOMAIN,dataservice.cdn.huya.com,DIRECT
+DOMAIN,diy-front.cdn.huya.com,DIRECT
+DOMAIN,df.huya.com,DIRECT
+DOMAIN,zt.huya.com,DIRECT
+DOMAIN,us.l.qq.com,DIRECT
+DOMAIN,tangram.e.qq.com,DIRECT
+DOMAIN,api-access.pangolin-sdk-toutiao.com,DIRECT
+DOMAIN,pgdt.gtimg.cn,DIRECT
+DOMAIN,sf3-fe-tos.pglstatp-toutiao.com,DIRECT
+DOMAIN,livewebbs2.msstatic.com,DIRECT
+DOMAIN,livewebbs2pcdn.msstatic.com,DIRECT
+DOMAIN,qn-livewebbs2pcdn.msstatic.com,DIRECT
+DOMAIN,pp-cdnfile2pcdn.msstatic.com,DIRECT
+DOMAIN,huyafile.msstatic.com,DIRECT
+DOMAIN,v1d.szbdyd.com,DIRECT
+DOMAIN,3dm.huya.com,DIRECT
+DOMAIN,sdkconf.msstatic.com,DIRECT
+DOMAIN,cdnfile2.msstatic.com,DIRECT
+DOMAIN,s1-static.msstatic.com,DIRECT
+DOMAIN,short.msstatic.com,DIRECT
+DOMAIN,zt.msstatic.com,DIRECT
+DOMAIN,cdnfile.huya.com,DIRECT
+
+[Script]
+huya-capture-structure = type=http-response, pattern=^https?://(?:business\.msstatic\.com|cdnfile1\.msstatic\.com|live-ads\.huya\.com|dataservice\.cdn\.huya\.com|diy-front\.cdn\.huya\.com|df\.huya\.com|zt\.huya\.com|us\.l\.qq\.com|tangram\.e\.qq\.com|api-access\.pangolin-sdk-toutiao\.com)(?::\d+)?/, requires-body=true, max-size=8388608, timeout=4, argument=debug={{{debug}}}, script-path=http://192.168.2.77:18765/huya/huya-capture.js
+huya-capture-metadata = type=http-response, pattern=^https?://(?:pgdt\.gtimg\.cn|sf3-fe-tos\.pglstatp-toutiao\.com|livewebbs2\.msstatic\.com|livewebbs2pcdn\.msstatic\.com|qn-livewebbs2pcdn\.msstatic\.com|pp-cdnfile2pcdn\.msstatic\.com|huyafile\.msstatic\.com|v1d\.szbdyd\.com|3dm\.huya\.com|sdkconf\.msstatic\.com|cdnfile2\.msstatic\.com|s1-static\.msstatic\.com|short\.msstatic\.com|zt\.msstatic\.com|cdnfile\.huya\.com)(?::\d+)?/, timeout=4, argument=debug={{{debug}}}, script-path=http://192.168.2.77:18765/huya/huya-capture.js
+
+[MITM]
+hostname = %APPEND% business.msstatic.com, cdnfile1.msstatic.com, live-ads.huya.com, dataservice.cdn.huya.com, diy-front.cdn.huya.com, df.huya.com, zt.huya.com, us.l.qq.com, tangram.e.qq.com, api-access.pangolin-sdk-toutiao.com, pgdt.gtimg.cn, sf3-fe-tos.pglstatp-toutiao.com, livewebbs2.msstatic.com, livewebbs2pcdn.msstatic.com, qn-livewebbs2pcdn.msstatic.com, pp-cdnfile2pcdn.msstatic.com, huyafile.msstatic.com, v1d.szbdyd.com, 3dm.huya.com, sdkconf.msstatic.com, cdnfile2.msstatic.com, s1-static.msstatic.com, short.msstatic.com, zt.msstatic.com, cdnfile.huya.com

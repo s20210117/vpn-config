@@ -243,8 +243,12 @@ test('watch-history and subscription false positives are fixed in the ad provide
     assert.doesNotMatch(config, /^\s*- DOMAIN,(?:l-rcd|subscription)\.iqiyi\.com,DIRECT$/m);
     assert.match(exclusions, /^\+\.l-rcd\.iqiyi\.com$/m);
     assert.match(exclusions, /^\+\.subscription\.iqiyi\.com$/m);
-    assert.deepEqual(report.false_positive_exclusions, ['+.l-rcd.iqiyi.com', '+.subscription.iqiyi.com']);
-    assert.equal(report.merged_mrs_rules, 353221);
+    assert.deepEqual(report.false_positive_exclusions, [
+        '+.l-rcd.iqiyi.com',
+        '+.p2p.huya.com',
+        '+.subscription.iqiyi.com',
+    ]);
+    assert.equal(report.merged_mrs_rules, 353220);
 });
 
 test('gateway card and comment requests use the same filters without changing ordinary cards or account data', () => {

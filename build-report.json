@@ -1,7 +1,7 @@
 {
-  "generated_at_utc": "2026-11-25T04:39:48.513093+00:00",
-  "core_version": "Mihomo Meta v1.19.29 darwin arm64 with go1.22.12 Sat Jul 18 12:25:49 UTC 2026\nUse tags: with_gvisor",
-  "input_manifest_sha256": "d7737975b82df91bc26a2ac5dd1243d537b57ac479945b91b7b784502a4ff83d",
+  "generated_at_utc": "2026-11-26T07:34:35.003739+00:00",
+  "core_version": "Mihomo Meta v1.19.33 darwin arm64 with go1.22.12 Wed Oct 21 16:48:26 UTC 2026\nUse tags: with_gvisor",
+  "input_manifest_sha256": "cfd427f12ee271100012bf7fe2c3353a83ce88138dff9c0a0c7a8d47d42559cb",
   "source_domain_counts": {
     "hagezi-normal": 184508,
     "stevenblack": 76104,
@@ -16,23 +16,28 @@
   "normalized_source_domain_entries": 353223,
   "false_positive_exclusions": [
     "+.l-rcd.iqiyi.com",
+    "+.p2p.huya.com",
     "+.subscription.iqiyi.com"
   ],
   "excluded_source_domain_entries": [
     "+.l-rcd.iqiyi.com",
+    "+.p2p.huya.com",
     "+.subscription.iqiyi.com"
   ],
   "exclusion_source_providers": {
     "+.l-rcd.iqiyi.com": [
       "217heidai"
     ],
+    "+.p2p.huya.com": [
+      "cats-adrules"
+    ],
     "+.subscription.iqiyi.com": [
       "217heidai",
       "hagezi-normal"
     ]
   },
-  "domain_entries_after_exclusions": 353221,
-  "merged_mrs_rules": 353221,
+  "domain_entries_after_exclusions": 353220,
+  "merged_mrs_rules": 353220,
   "promoted_regex_rules": {},
   "source_extra_rules": 781,
   "output_extra_rules": 408,
@@ -4261,8 +4266,8 @@
   ],
   "files": {
     "ads-merged.mrs": {
-      "bytes": 3160851,
-      "sha256": "0aa088bb43e0690f492e164879ceae91402a63337ffc885d7cc2ce9048dff9c5"
+      "bytes": 3161413,
+      "sha256": "ed3a6c0bb66fcd8bf8804b2919d403e201fdf368f457bae35770c0bd0be7afa6"
     },
     "ads-merged-extra.yaml": {
       "bytes": 40057,

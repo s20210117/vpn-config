@@ -1,21 +1,22 @@
 {
-  "generated_at_utc": "2026-11-25T04:40:26.508518+00:00",
-  "core_version": "Mihomo Meta v1.19.29 darwin arm64 with go1.22.12 Sat Jul 18 12:25:49 UTC 2026\nUse tags: with_gvisor",
+  "generated_at_utc": "2026-11-26T07:35:15.482718+00:00",
+  "core_version": "Mihomo Meta v1.19.33 darwin arm64 with go1.22.12 Wed Oct 21 16:48:26 UTC 2026\nUse tags: with_gvisor",
   "source_unique_domain_clauses_checked": 439713,
   "false_positive_exclusions": [
     "+.l-rcd.iqiyi.com",
+    "+.p2p.huya.com",
     "+.subscription.iqiyi.com"
   ],
   "uncovered_source_clauses": 0,
   "unjustified_output_clauses": 0,
-  "mrs_roundtrip_rules": 353221,
+  "mrs_roundtrip_rules": 353220,
   "extra_rules": 408,
   "offline": {
-    "hostnames": 865916,
-    "canonical_hostnames": 857600,
-    "blocked": 823808,
-    "uppercase_hostnames": 8316,
-    "fallthrough": 42108,
+    "hostnames": 865921,
+    "canonical_hostnames": 857604,
+    "blocked": 823806,
+    "uppercase_hostnames": 8317,
+    "fallthrough": 42115,
     "needs_supplement": 7965,
     "differences": 0,
     "regexes_exercised": 732
@@ -39,11 +40,11 @@
     "IP-literal proxy targets use different core metadata than DNS hostnames; their runtime checks compare source and merged routing directly.",
     "Tests do not assess live advertising effectiveness or upstream false-positive rates; no external requests were forwarded."
   ],
-  "offline_elapsed_seconds": 31.137,
+  "offline_elapsed_seconds": 30.942,
   "runtime": {
-    "hostnames": 16328,
-    "requests": 32656,
-    "independent_expectations": 16203,
+    "hostnames": 16318,
+    "requests": 32636,
+    "independent_expectations": 16193,
     "ip_literal_equivalence_cases": 125,
     "routing_differences": 0,
     "oracle_errors": 0,
@@ -61,7 +62,7 @@
         "adguard-extra": 781
       },
       "merged": {
-        "ads-merged": 353221,
+        "ads-merged": 353220,
         "ads-merged-extra": 408
       }
     },
@@ -77,14 +78,14 @@
         "adguard-extra": 781
       },
       "merged": {
-        "ads-merged": 353221,
+        "ads-merged": 353220,
         "ads-merged-extra": 408
       }
     },
     "outcomes": {
-      "blocked": 9776,
-      "fallthrough": 6552
+      "blocked": 9740,
+      "fallthrough": 6578
     }
   },
-  "elapsed_seconds": 38.468
+  "elapsed_seconds": 38.401
 }

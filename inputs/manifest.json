@@ -61,7 +61,7 @@
   },
   "false_positive_exclusions": {
     "file": "false-positive-exclusions.txt",
-    "rules": 2,
-    "sha256": "3c09575de2f35f2bc4c49780e15fa62b8eb480a658296bea8fd453efb774bf14"
+    "rules": 3,
+    "sha256": "e39b1c2a08afcf8d1e8c97d3ad0b98e0bbe403662d806d27d1a15ee1a20419d9"
   }
 }

@@ -17,9 +17,9 @@ Clash-Client 客户端及 `inputs/` 中七套广告规则的 GitHub 仓库、上
 
 ## 客户端模块
 
-客户端文件统一位于 [module](module/README.md)，并按 `demo`、`zhihu`、`iqiyi` 分目录保存。
+客户端文件统一位于 [module](module/README.md)，并按 `demo`、`zhihu`、`iqiyi`、`huya` 分目录保存。
 
-实际模块见[知乎去广告](module/zhihu/README.md)和[爱奇艺去广告](module/iqiyi/README.md)。两者均可独立导入，不替换完整配置。
+实际模块见[知乎去广告](module/zhihu/README.md)、[爱奇艺去广告](module/iqiyi/README.md)和[虎牙去广告](module/huya/README.md)。三个模块均可独立导入，不替换完整配置。
 
 示例下载服务使用固定的 UTF-8 文本响应并禁用缓存，避免中文乱码。启动入口：
 
@@ -36,10 +36,6 @@ python3 module/serve.py
 首页出站模式保持「规则」，通过排在首位的「上网模式」策略组选择上网方式，成员顺序为 `PASS`（按原有规则分流）、`DIRECT`（直连）、`PROXY`（代理）。该组原名 `Ad`，现已更名；未保存选择时默认使用第一项 `PASS`，客户端已经保存的选择可能继续保留。
 
 配置中的两份广告规则也从这台 Mac 下载，分别对应项目顶层的 `ads-merged.mrs`、`ads-merged-extra.yaml`。修改规则后需在手机更新对应规则集，服务无需重启。已确认的上游误报在构建产物内排除，不通过模块或主配置添加 `DIRECT` 绕行。
-
-DNS 已按上网模式配置为加密 DoH：默认 DNS 连接跟随路由规则；境外列表中的域名使用 Cloudflare / Google DoH，直连解析也遵循该策略，其余直连域名和节点域名使用阿里 DoH。修正了路由器已开启代理时，手机 `DIRECT` 冷启动访问 Google 失败的问题。公开模板为 `dns-follow-mode.yaml`，行为与验证范围见 [DNS 说明](docs/DNS说明.md)。
-
-外区 App Store 在 `PASS` 下单独代理 `apps.apple.com`、`itunes.apple.com`、`mzstatic.com` 及其子域名；`DIRECT` 选择仍按直连执行。该分流调整需同步完整配置，详见 [App Store 说明](docs/DNS说明.md#外区-app-store-分流)。
 
 双击「启动订阅服务.command」可启动后台服务，关闭终端后继续运行；「停止订阅服务.command」可停止服务。「查看订阅地址.command」显示服务状态。Mac 重启或用户注销后，需要重新启动一次。
 
@@ -59,7 +55,7 @@ DNS 已按上网模式配置为加密 DoH：默认 DNS 连接跟随路由规则�
 
 | 文件 | 内容 | 条数 | 大小 |
 | --- | --- | ---: | ---: |
-| `ads-merged.mrs` | 七套清单合并、去重并排除已确认误报后的域名规则 | 353,221 | 3,160,851 字节 |
+| `ads-merged.mrs` | 七套清单合并、去重并排除已确认误报后的域名规则 | 353,220 | 3,161,413 字节 |
 | `ads-merged-extra.yaml` | MRS 无法表达的正则和例外条件 | 408 | 40,057 字节 |
 
 把这两份文件复制到客户端配置目录下的 `rules/merged/`，将 `mihomo-example.yaml` 中的 provider 和规则合并进已有配置。两条广告规则放在普通分流规则前，MRS 在前、YAML 在后，策略都选 `REJECT`。

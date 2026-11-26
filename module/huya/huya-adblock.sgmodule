@@ -1,0 +1,37 @@
+#!name=虎牙去广告
+#!desc=拦截虎牙开屏素材、第三方广告 SDK、官方推广小窗与直播间广告入口。
+#!author=codex
+#!type=
+#!version=1.0.7
+#!date=2026-11-26
+#!tag=虎牙去广告
+#!openurl=https://github.com/s20210117/vpn-config
+#!system=ios, mac
+#!homepage=https://github.com/s20210117/vpn-config
+#!icon=https://github.com/openai.png
+#!category=去广告
+
+[General]
+force-http-engine-hosts = business.msstatic.com, cdnfile1.msstatic.com, live-ads.huya.com, zt.huya.com
+
+[Rule]
+DOMAIN,livewebbs2pcdn.msstatic.com,REJECT
+DOMAIN,pp-cdnfile2pcdn.msstatic.com,REJECT
+DOMAIN,huyafile.msstatic.com,REJECT
+DOMAIN-SUFFIX,v1d.szbdyd.com,REJECT
+DOMAIN-SUFFIX,3dm.huya.com,REJECT
+DOMAIN,api-access.pangolin-sdk-toutiao.com,REJECT
+DOMAIN,sf3-fe-tos.pglstatp-toutiao.com,REJECT
+DOMAIN,pgdt.gtimg.cn,REJECT
+DOMAIN,tangram.e.qq.com,REJECT
+DOMAIN,us.l.qq.com,REJECT
+
+[URL Rewrite]
+^https?://business\.msstatic\.com/advertiser(?:[/?]|$) - reject-dict
+^https?://business\.msstatic\.com/dsp/public/sdkconfig\.xml/?(?:\?|$) - reject
+^https?://cdnfile1\.msstatic\.com/cdnfile/appad/ - reject-img
+^https?://live-ads\.huya\.com/live/getAllEntrance/?(?:\?|$) - reject-dict
+^https?://zt\.huya\.com/(?:8cc59b08|a215cf20|8bec7583)/mobile/index\.html/?(?:\?|$) - reject
+
+[MITM]
+hostname = %APPEND% business.msstatic.com, cdnfile1.msstatic.com, live-ads.huya.com, zt.huya.com
