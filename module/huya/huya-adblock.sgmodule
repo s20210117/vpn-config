@@ -2,7 +2,7 @@
 #!desc=拦截虎牙广告接口、开屏素材路径与官方推广页，配合合并广告 MRS 使用。
 #!author=codex
 #!type=
-#!version=1.0.8
+#!version=1.0.9
 #!date=2026-11-27
 #!tag=虎牙去广告
 #!openurl=https://github.com/s20210117/vpn-config
@@ -19,7 +19,7 @@ force-http-engine-hosts = business.msstatic.com, cdnfile1.msstatic.com, live-ads
 ^https?://business\.msstatic\.com/dsp/public/sdkconfig\.xml/?(?:\?|$) - reject
 ^https?://cdnfile1\.msstatic\.com/cdnfile/appad/ - reject-img
 ^https?://live-ads\.huya\.com/live/getAllEntrance/?(?:\?|$) - reject-dict
-^https?://zt\.huya\.com/(?:8cc59b08|a215cf20|8bec7583)/mobile/index\.html/?(?:\?|$) - reject
+^https?://zt\.huya\.com/(?:8cc59b08|a215cf20|8bec7583|7c389ad1)/mobile/index\.html/?(?:\?|$) - reject
 
 [MITM]
 hostname = %APPEND% business.msstatic.com, cdnfile1.msstatic.com, live-ads.huya.com, zt.huya.com

@@ -40,6 +40,7 @@ Clash-Client 客户端及 `inputs/` 中七套广告规则的 GitHub 仓库、上
 | [知乎去广告](https://github.com/s20210117/vpn-config/blob/main/module/zhihu/zhihu-adblock.sgmodule) | [访问](https://raw.githack.com/s20210117/vpn-config/main/module/zhihu/zhihu-adblock.sgmodule) | [访问](https://s20210117.github.io/vpn-config/module/zhihu/zhihu-adblock.sgmodule) | [访问](https://raw.githubusercontent.com/s20210117/vpn-config/main/module/zhihu/zhihu-adblock.sgmodule) | [访问](https://cdn.jsdelivr.net/gh/s20210117/vpn-config@main/module/zhihu/zhihu-adblock.sgmodule) |
 | [爱奇艺去广告](https://github.com/s20210117/vpn-config/blob/main/module/iqiyi/iqiyi-adblock.sgmodule) | [访问](https://raw.githack.com/s20210117/vpn-config/main/module/iqiyi/iqiyi-adblock.sgmodule) | [访问](https://s20210117.github.io/vpn-config/module/iqiyi/iqiyi-adblock.sgmodule) | [访问](https://raw.githubusercontent.com/s20210117/vpn-config/main/module/iqiyi/iqiyi-adblock.sgmodule) | [访问](https://cdn.jsdelivr.net/gh/s20210117/vpn-config@main/module/iqiyi/iqiyi-adblock.sgmodule) |
 | [虎牙去广告](https://github.com/s20210117/vpn-config/blob/main/module/huya/huya-adblock.sgmodule) | [访问](https://raw.githack.com/s20210117/vpn-config/main/module/huya/huya-adblock.sgmodule) | [访问](https://s20210117.github.io/vpn-config/module/huya/huya-adblock.sgmodule) | [访问](https://raw.githubusercontent.com/s20210117/vpn-config/main/module/huya/huya-adblock.sgmodule) | [访问](https://cdn.jsdelivr.net/gh/s20210117/vpn-config@main/module/huya/huya-adblock.sgmodule) |
+| [Reddit去广告](https://github.com/s20210117/vpn-config/blob/main/module/reddit/reddit-adblock.sgmodule) | [访问](https://raw.githack.com/s20210117/vpn-config/main/module/reddit/reddit-adblock.sgmodule) | [访问](https://s20210117.github.io/vpn-config/module/reddit/reddit-adblock.sgmodule) | [访问](https://raw.githubusercontent.com/s20210117/vpn-config/main/module/reddit/reddit-adblock.sgmodule) | [访问](https://cdn.jsdelivr.net/gh/s20210117/vpn-config@main/module/reddit/reddit-adblock.sgmodule) |
 
 先更新广告 MRS，再更新并启用去广告模块。
 
@@ -50,6 +51,7 @@ Clash-Client 客户端及 `inputs/` 中七套广告规则的 GitHub 仓库、上
 | [知乎抓广告诊断](https://github.com/s20210117/vpn-config/blob/main/module/zhihu/zhihu-capture.sgmodule) | [访问](https://raw.githack.com/s20210117/vpn-config/main/module/zhihu/zhihu-capture.sgmodule) | [访问](https://s20210117.github.io/vpn-config/module/zhihu/zhihu-capture.sgmodule) | [访问](https://raw.githubusercontent.com/s20210117/vpn-config/main/module/zhihu/zhihu-capture.sgmodule) | [访问](https://cdn.jsdelivr.net/gh/s20210117/vpn-config@main/module/zhihu/zhihu-capture.sgmodule) |
 | [爱奇艺抓广告诊断](https://github.com/s20210117/vpn-config/blob/main/module/iqiyi/iqiyi-capture.sgmodule) | [访问](https://raw.githack.com/s20210117/vpn-config/main/module/iqiyi/iqiyi-capture.sgmodule) | [访问](https://s20210117.github.io/vpn-config/module/iqiyi/iqiyi-capture.sgmodule) | [访问](https://raw.githubusercontent.com/s20210117/vpn-config/main/module/iqiyi/iqiyi-capture.sgmodule) | [访问](https://cdn.jsdelivr.net/gh/s20210117/vpn-config@main/module/iqiyi/iqiyi-capture.sgmodule) |
 | [虎牙抓广告诊断](https://github.com/s20210117/vpn-config/blob/main/module/huya/huya-capture.sgmodule) | [访问](https://raw.githack.com/s20210117/vpn-config/main/module/huya/huya-capture.sgmodule) | [访问](https://s20210117.github.io/vpn-config/module/huya/huya-capture.sgmodule) | [访问](https://raw.githubusercontent.com/s20210117/vpn-config/main/module/huya/huya-capture.sgmodule) | [访问](https://cdn.jsdelivr.net/gh/s20210117/vpn-config@main/module/huya/huya-capture.sgmodule) |
+| [Reddit抓广告诊断](https://github.com/s20210117/vpn-config/blob/main/module/reddit/reddit-capture.sgmodule) | [访问](https://raw.githack.com/s20210117/vpn-config/main/module/reddit/reddit-capture.sgmodule) | [访问](https://s20210117.github.io/vpn-config/module/reddit/reddit-capture.sgmodule) | [访问](https://raw.githubusercontent.com/s20210117/vpn-config/main/module/reddit/reddit-capture.sgmodule) | [访问](https://cdn.jsdelivr.net/gh/s20210117/vpn-config@main/module/reddit/reddit-capture.sgmodule) |
 
 诊断时启用对应模块并运行本地接收器，操作说明见各应用目录。
 
@@ -59,9 +61,11 @@ Clash-Client 客户端及 `inputs/` 中七套广告规则的 GitHub 仓库、上
 | --- | --- | --- | --- | --- |
 | [知乎去广告脚本](https://github.com/s20210117/vpn-config/blob/main/module/zhihu/zhihu-adblock.js) | [访问](https://raw.githack.com/s20210117/vpn-config/main/module/zhihu/zhihu-adblock.js) | [访问](https://s20210117.github.io/vpn-config/module/zhihu/zhihu-adblock.js) | [访问](https://raw.githubusercontent.com/s20210117/vpn-config/main/module/zhihu/zhihu-adblock.js) | [访问](https://cdn.jsdelivr.net/gh/s20210117/vpn-config@main/module/zhihu/zhihu-adblock.js) |
 | [爱奇艺去广告脚本](https://github.com/s20210117/vpn-config/blob/main/module/iqiyi/iqiyi-adblock.js) | [访问](https://raw.githack.com/s20210117/vpn-config/main/module/iqiyi/iqiyi-adblock.js) | [访问](https://s20210117.github.io/vpn-config/module/iqiyi/iqiyi-adblock.js) | [访问](https://raw.githubusercontent.com/s20210117/vpn-config/main/module/iqiyi/iqiyi-adblock.js) | [访问](https://cdn.jsdelivr.net/gh/s20210117/vpn-config@main/module/iqiyi/iqiyi-adblock.js) |
+| [Reddit去广告脚本](https://github.com/s20210117/vpn-config/blob/main/module/reddit/reddit-adblock.js) | [访问](https://raw.githack.com/s20210117/vpn-config/main/module/reddit/reddit-adblock.js) | [访问](https://s20210117.github.io/vpn-config/module/reddit/reddit-adblock.js) | [访问](https://raw.githubusercontent.com/s20210117/vpn-config/main/module/reddit/reddit-adblock.js) | [访问](https://cdn.jsdelivr.net/gh/s20210117/vpn-config@main/module/reddit/reddit-adblock.js) |
 | [知乎诊断脚本](https://github.com/s20210117/vpn-config/blob/main/module/zhihu/zhihu-capture.js) | [访问](https://raw.githack.com/s20210117/vpn-config/main/module/zhihu/zhihu-capture.js) | [访问](https://s20210117.github.io/vpn-config/module/zhihu/zhihu-capture.js) | [访问](https://raw.githubusercontent.com/s20210117/vpn-config/main/module/zhihu/zhihu-capture.js) | [访问](https://cdn.jsdelivr.net/gh/s20210117/vpn-config@main/module/zhihu/zhihu-capture.js) |
 | [爱奇艺诊断脚本](https://github.com/s20210117/vpn-config/blob/main/module/iqiyi/iqiyi-capture.js) | [访问](https://raw.githack.com/s20210117/vpn-config/main/module/iqiyi/iqiyi-capture.js) | [访问](https://s20210117.github.io/vpn-config/module/iqiyi/iqiyi-capture.js) | [访问](https://raw.githubusercontent.com/s20210117/vpn-config/main/module/iqiyi/iqiyi-capture.js) | [访问](https://cdn.jsdelivr.net/gh/s20210117/vpn-config@main/module/iqiyi/iqiyi-capture.js) |
 | [虎牙诊断脚本](https://github.com/s20210117/vpn-config/blob/main/module/huya/huya-capture.js) | [访问](https://raw.githack.com/s20210117/vpn-config/main/module/huya/huya-capture.js) | [访问](https://s20210117.github.io/vpn-config/module/huya/huya-capture.js) | [访问](https://raw.githubusercontent.com/s20210117/vpn-config/main/module/huya/huya-capture.js) | [访问](https://cdn.jsdelivr.net/gh/s20210117/vpn-config@main/module/huya/huya-capture.js) |
+| [Reddit诊断脚本](https://github.com/s20210117/vpn-config/blob/main/module/reddit/reddit-capture.js) | [访问](https://raw.githack.com/s20210117/vpn-config/main/module/reddit/reddit-capture.js) | [访问](https://s20210117.github.io/vpn-config/module/reddit/reddit-capture.js) | [访问](https://raw.githubusercontent.com/s20210117/vpn-config/main/module/reddit/reddit-capture.js) | [访问](https://cdn.jsdelivr.net/gh/s20210117/vpn-config@main/module/reddit/reddit-capture.js) |
 
 JS 由对应模块加载。仓库中的 `script-path` 使用 GitHub Raw；从本地模块服务下载时，脚本地址自动替换为当前连接 IP 和模块服务端口，磁盘文件保持远程地址。
 
@@ -75,11 +79,25 @@ JS 由对应模块加载。仓库中的 `script-path` 使用 GitHub Raw；从本
 
 ## 客户端模块
 
-客户端文件统一位于 [module](module/README.md)，并按 `demo`、`zhihu`、`iqiyi`、`huya` 分目录保存。
+客户端文件统一位于 [module](module/README.md)，并按 `demo`、`zhihu`、`iqiyi`、`huya`、`reddit` 分目录保存。
 
-实际模块见[知乎去广告](module/zhihu/README.md)、[爱奇艺去广告](module/iqiyi/README.md)和[虎牙去广告](module/huya/README.md)。域名拦截统一由 `ads-merged.mrs` 处理，模块保留 IP 拦截、URL 改写及响应脚本，配合广告规则集启用。
+实际模块见[知乎去广告](module/zhihu/README.md)、[爱奇艺去广告](module/iqiyi/README.md)、[虎牙去广告](module/huya/README.md)和[Reddit去广告](module/reddit/README.md)。域名拦截统一由 `ads-merged.mrs` 处理，模块保留 IP 拦截、URL 改写及响应脚本，配合广告规则集启用。
 
 模块和脚本的下载链接见上方分类表，使用步骤见各应用目录。
+
+### HTTPS 解密与证书固定
+
+HTTPS 响应脚本需要客户端先解密接口流量，并在手机安装、信任对应的 CA 证书。证书固定（Certificate Pinning）是 App 对服务器证书或公钥增加的校验；即使系统已经信任代理 CA，App 仍可能拒绝解密连接，导致接口加载失败、响应脚本无法执行。模块的 `hostname` 列表不能绕过这项校验。
+
+TLS 握手失败也可能来自证书未正确安装、未开启完全信任或证书已更换，不能单凭一条错误认定为证书固定。若开启模块后页面加载失败，先关闭对应解密模块恢复访问，再结合客户端日志判断原因。
+
+域名规则 MRS 无需解密，可继续拦截广告专用域名；正常内容与广告共用接口时，不能通过封锁整个域名代替响应过滤。Root Android 可以辅助分析接口，但不会让普通 iPhone 自动绕过证书固定。
+
+#### X App 实际例子
+
+此前在 iPhone 上测试 X 原生 App 时，手机已安装并信任客户端 CA，但把 X 接口加入 MITM 后，日志仍反复出现 TLS 握手失败，响应脚本执行次数为 0。这说明请求没有进入可供脚本处理的明文响应阶段；即使已识别出广告字段，脚本也无法修改这些请求。
+
+因此已移除 X 模块的 MITM 和响应脚本，并在确认其广告专用域名已被 `ads-merged.mrs` 覆盖后，删除了重复的 X 模块与诊断文件。保留域名拦截可以处理独立广告主机，但不能据此清除与正常帖子共用接口的信息流广告。Root Android 上分析得到的接口规则，也需要其他手机能够解密相应接口才能使用。
 
 ## 本地调试与远程发布
 

@@ -8,6 +8,7 @@
 | [`zhihu/`](zhihu/README.md) | 知乎去广告与抓广告诊断 | `https://raw.githubusercontent.com/s20210117/vpn-config/main/module/zhihu/zhihu-adblock.sgmodule` |
 | [`iqiyi/`](iqiyi/README.md) | 爱奇艺去广告与抓广告诊断 | `https://raw.githubusercontent.com/s20210117/vpn-config/main/module/iqiyi/iqiyi-adblock.sgmodule` |
 | [`huya/`](huya/README.md) | 虎牙去广告与抓广告诊断 | `https://raw.githubusercontent.com/s20210117/vpn-config/main/module/huya/huya-adblock.sgmodule` |
+| [`reddit/`](reddit/README.md) | Reddit 去广告与抓广告诊断 | `https://raw.githubusercontent.com/s20210117/vpn-config/main/module/reddit/reddit-adblock.sgmodule` |
 
 知乎与虎牙的域名规则已迁入 `ads-merged.mrs`，请配合合并广告规则集使用。模块继续处理 URL、响应脚本以及知乎 HTTPDNS 的 IP 拦截。先更新广告 MRS，再更新模块。
 

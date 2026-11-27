@@ -2,7 +2,7 @@
 #!desc=记录虎牙广告与内容接口的脱敏结构或响应元数据，响应原样放行，仅用于完善去广告规则。
 #!author=codex
 #!type=
-#!version=1.0.6
+#!version=1.0.7
 #!date=2026-11-27
 #!tag=虎牙抓广告诊断
 #!openurl=https://github.com/s20210117/vpn-config
@@ -14,7 +14,7 @@
 #!arguments-desc=debug：日志开关；collector：接收地址，本地下载自动填写，远程导入时按需设置。
 
 [General]
-force-http-engine-hosts = business.msstatic.com, cdnfile1.msstatic.com, live-ads.huya.com, dataservice.cdn.huya.com, diy-front.cdn.huya.com, df.huya.com, zt.huya.com, us.l.qq.com, tangram.e.qq.com, api-access.pangolin-sdk-toutiao.com, pgdt.gtimg.cn, sf3-fe-tos.pglstatp-toutiao.com, livewebbs2.msstatic.com, livewebbs2pcdn.msstatic.com, qn-livewebbs2pcdn.msstatic.com, pp-cdnfile2pcdn.msstatic.com, huyafile.msstatic.com, v1d.szbdyd.com, 3dm.huya.com, sdkconf.msstatic.com, cdnfile2.msstatic.com, s1-static.msstatic.com, short.msstatic.com, zt.msstatic.com, cdnfile.huya.com
+force-http-engine-hosts = business.msstatic.com, cdnfile1.msstatic.com, live-ads.huya.com, dataservice.cdn.huya.com, diy-front.cdn.huya.com, df.huya.com, zt.huya.com, us.l.qq.com, tangram.e.qq.com, api-access.pangolin-sdk-toutiao.com, pgdt.gtimg.cn, sf3-fe-tos.pglstatp-toutiao.com, livewebbs2.msstatic.com, livewebbs2pcdn.msstatic.com, qn-livewebbs2pcdn.msstatic.com, pp-cdnfile2pcdn.msstatic.com, huyafile.msstatic.com, v1d.szbdyd.com, 3dm.huya.com, sdkconf.msstatic.com, cdnfile2.msstatic.com, s1-static.msstatic.com, short.msstatic.com, zt.msstatic.com, cdnfile.huya.com, business-qnpcdn.msstatic.com, hd.huya.com, huyapreloadweb.cdn.huya.com, huyaextweb.cdn.huya.com, y2261a742d6a43b3-gtc5tz7i.ext.huya.com, y2261a742d6a43b3-v35epxya.ext.huya.com, y2261a742d6a43b3-sbn47atc.ext.huya.com, diy-assets.msstatic.com, hyext-sdk.msstatic.com, fileserver.cdn.huya.com
 
 [Rule]
 DOMAIN,business.msstatic.com,DIRECT
@@ -43,9 +43,20 @@ DOMAIN,short.msstatic.com,DIRECT
 DOMAIN,zt.msstatic.com,DIRECT
 DOMAIN,cdnfile.huya.com,DIRECT
 
+DOMAIN,business-qnpcdn.msstatic.com,DIRECT
+DOMAIN,hd.huya.com,DIRECT
+DOMAIN,huyapreloadweb.cdn.huya.com,DIRECT
+DOMAIN,huyaextweb.cdn.huya.com,DIRECT
+DOMAIN,y2261a742d6a43b3-gtc5tz7i.ext.huya.com,DIRECT
+DOMAIN,y2261a742d6a43b3-v35epxya.ext.huya.com,DIRECT
+DOMAIN,y2261a742d6a43b3-sbn47atc.ext.huya.com,DIRECT
+DOMAIN,diy-assets.msstatic.com,DIRECT
+DOMAIN,hyext-sdk.msstatic.com,DIRECT
+DOMAIN,fileserver.cdn.huya.com,DIRECT
+
 [Script]
-huya-capture-structure = type=http-response, pattern=^https?://(?:business\.msstatic\.com|cdnfile1\.msstatic\.com|live-ads\.huya\.com|dataservice\.cdn\.huya\.com|diy-front\.cdn\.huya\.com|df\.huya\.com|zt\.huya\.com|us\.l\.qq\.com|tangram\.e\.qq\.com|api-access\.pangolin-sdk-toutiao\.com)(?::\d+)?/, requires-body=true, max-size=8388608, timeout=4, argument=debug={{{debug}}}&collector={{{collector}}}, script-path=https://raw.githubusercontent.com/s20210117/vpn-config/main/module/huya/huya-capture.js
-huya-capture-metadata = type=http-response, pattern=^https?://(?:pgdt\.gtimg\.cn|sf3-fe-tos\.pglstatp-toutiao\.com|livewebbs2\.msstatic\.com|livewebbs2pcdn\.msstatic\.com|qn-livewebbs2pcdn\.msstatic\.com|pp-cdnfile2pcdn\.msstatic\.com|huyafile\.msstatic\.com|v1d\.szbdyd\.com|3dm\.huya\.com|sdkconf\.msstatic\.com|cdnfile2\.msstatic\.com|s1-static\.msstatic\.com|short\.msstatic\.com|zt\.msstatic\.com|cdnfile\.huya\.com)(?::\d+)?/, timeout=4, argument=debug={{{debug}}}&collector={{{collector}}}, script-path=https://raw.githubusercontent.com/s20210117/vpn-config/main/module/huya/huya-capture.js
+huya-capture-structure = type=http-response, pattern=^https?://(?:business\.msstatic\.com|cdnfile1\.msstatic\.com|live-ads\.huya\.com|dataservice\.cdn\.huya\.com|diy-front\.cdn\.huya\.com|df\.huya\.com|zt\.huya\.com|us\.l\.qq\.com|tangram\.e\.qq\.com|api-access\.pangolin-sdk-toutiao\.com|business-qnpcdn\.msstatic\.com|hd\.huya\.com|huyapreloadweb\.cdn\.huya\.com|huyaextweb\.cdn\.huya\.com|y2261a742d6a43b3-gtc5tz7i\.ext\.huya\.com|y2261a742d6a43b3-v35epxya\.ext\.huya\.com|y2261a742d6a43b3-sbn47atc\.ext\.huya\.com)(?::\d+)?/, requires-body=true, max-size=8388608, timeout=4, argument=debug={{{debug}}}&collector={{{collector}}}, script-path=https://raw.githubusercontent.com/s20210117/vpn-config/main/module/huya/huya-capture.js
+huya-capture-metadata = type=http-response, pattern=^https?://(?:pgdt\.gtimg\.cn|sf3-fe-tos\.pglstatp-toutiao\.com|livewebbs2\.msstatic\.com|livewebbs2pcdn\.msstatic\.com|qn-livewebbs2pcdn\.msstatic\.com|pp-cdnfile2pcdn\.msstatic\.com|huyafile\.msstatic\.com|v1d\.szbdyd\.com|3dm\.huya\.com|sdkconf\.msstatic\.com|cdnfile2\.msstatic\.com|s1-static\.msstatic\.com|short\.msstatic\.com|zt\.msstatic\.com|cdnfile\.huya\.com|diy-assets\.msstatic\.com|hyext-sdk\.msstatic\.com|fileserver\.cdn\.huya\.com)(?::\d+)?/, timeout=4, argument=debug={{{debug}}}&collector={{{collector}}}, script-path=https://raw.githubusercontent.com/s20210117/vpn-config/main/module/huya/huya-capture.js
 
 [MITM]
-hostname = %APPEND% business.msstatic.com, cdnfile1.msstatic.com, live-ads.huya.com, dataservice.cdn.huya.com, diy-front.cdn.huya.com, df.huya.com, zt.huya.com, us.l.qq.com, tangram.e.qq.com, api-access.pangolin-sdk-toutiao.com, pgdt.gtimg.cn, sf3-fe-tos.pglstatp-toutiao.com, livewebbs2.msstatic.com, livewebbs2pcdn.msstatic.com, qn-livewebbs2pcdn.msstatic.com, pp-cdnfile2pcdn.msstatic.com, huyafile.msstatic.com, v1d.szbdyd.com, 3dm.huya.com, sdkconf.msstatic.com, cdnfile2.msstatic.com, s1-static.msstatic.com, short.msstatic.com, zt.msstatic.com, cdnfile.huya.com
+hostname = %APPEND% business.msstatic.com, cdnfile1.msstatic.com, live-ads.huya.com, dataservice.cdn.huya.com, diy-front.cdn.huya.com, df.huya.com, zt.huya.com, us.l.qq.com, tangram.e.qq.com, api-access.pangolin-sdk-toutiao.com, pgdt.gtimg.cn, sf3-fe-tos.pglstatp-toutiao.com, livewebbs2.msstatic.com, livewebbs2pcdn.msstatic.com, qn-livewebbs2pcdn.msstatic.com, pp-cdnfile2pcdn.msstatic.com, huyafile.msstatic.com, v1d.szbdyd.com, 3dm.huya.com, sdkconf.msstatic.com, cdnfile2.msstatic.com, s1-static.msstatic.com, short.msstatic.com, zt.msstatic.com, cdnfile.huya.com, business-qnpcdn.msstatic.com, hd.huya.com, huyapreloadweb.cdn.huya.com, huyaextweb.cdn.huya.com, y2261a742d6a43b3-gtc5tz7i.ext.huya.com, y2261a742d6a43b3-v35epxya.ext.huya.com, y2261a742d6a43b3-sbn47atc.ext.huya.com, diy-assets.msstatic.com, hyext-sdk.msstatic.com, fileserver.cdn.huya.com

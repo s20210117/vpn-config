@@ -133,9 +133,45 @@ test("capture module covers Huya and msstatic JSON entrances", () => {
     }
     assert.match(text, /^DOMAIN,us\.l\.qq\.com,DIRECT$/m);
     assert.match(text, /^DOMAIN,qn-livewebbs2pcdn\.msstatic\.com,DIRECT$/m);
-    assert.match(text, /^#!version=1\.0\.6$/m);
+    assert.match(text, /^#!version=1\.0\.7$/m);
     assert.match(text, /^#!date=2026-11-27$/m);
     assert.match(text, /^#!arguments=debug:true,collector:off$/m);
+});
+
+test("captures the November 27 campaign and extension hosts without changing their responses", () => {
+    const text = fs.readFileSync(path.join(__dirname, "../module/huya/huya-capture.sgmodule"), "utf8");
+    const lines = text.split(/\r?\n/).filter(line => line.includes("type=http-response"));
+    const structure = new RegExp(lines[0].match(/pattern=(.*?), requires-body/)[1]);
+    const metadata = new RegExp(lines[1].match(/pattern=(.*?), timeout=/)[1]);
+    const cases = [
+        [structure, "business-qnpcdn.msstatic.com"],
+        [structure, "hd.huya.com"],
+        [structure, "huyapreloadweb.cdn.huya.com"],
+        [structure, "huyaextweb.cdn.huya.com"],
+        [structure, "y2261a742d6a43b3-gtc5tz7i.ext.huya.com"],
+        [structure, "y2261a742d6a43b3-v35epxya.ext.huya.com"],
+        [structure, "y2261a742d6a43b3-sbn47atc.ext.huya.com"],
+        [metadata, "diy-assets.msstatic.com"],
+        [metadata, "hyext-sdk.msstatic.com"],
+        [metadata, "fileserver.cdn.huya.com"],
+    ];
+    for (const [pattern, host] of cases) {
+        const url = `https://${host}/candidate.html?token=PRIVATE_QUERY`;
+        assert.ok(pattern.test(url), url);
+        const output = run(url, { data: { type: "popup", title: "PRIVATE_TITLE" } });
+        assert.deepEqual(output.result, {});
+        assert.equal(output.posts.length, 1);
+        assert.equal(JSON.parse(output.posts[0].body).request.url, `https://${host}/candidate.html`);
+        assert.doesNotMatch(output.posts[0].body, /PRIVATE_QUERY|PRIVATE_TITLE/);
+        const lookalike = `https://${host}.evil.test/candidate.html`;
+        assert.equal(pattern.test(lookalike), false);
+        assert.equal(run(lookalike, {}).posts.length, 0);
+    }
+    for (const host of ["cdn.wup.huya.com", "wup.huya.com", "wsapi.huya.com", "tx-dm.p2p.huya.com"]) {
+        assert.equal(structure.test(`https://${host}/live`), false);
+        assert.equal(metadata.test(`https://${host}/live`), false);
+        assert.equal(run(`https://${host}/live`, {}).posts.length, 0);
+    }
 });
 
 test("debug=false suppresses logs without disabling capture", () => {

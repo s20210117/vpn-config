@@ -1,10 +1,10 @@
-# 虎牙去广告 1.0.8
+# 虎牙去广告 1.0.9
 
 正式模块：https://raw.githubusercontent.com/s20210117/vpn-config/main/module/huya/huya-adblock.sgmodule
 
 抓广告诊断：https://raw.githubusercontent.com/s20210117/vpn-config/main/module/huya/huya-capture.sgmodule
 
-诊断 1.0.6 将脚本下载改为 GitHub Raw，接收地址改为 `collector` 参数。本地下载时自动填写当前 IP；远程导入时设置自己的接收地址，默认 `off` 不发送记录。正式去广告模块没有外部脚本，版本仍为 1.0.8。
+诊断 1.0.7 补充 11 月 27 日日志中出现的活动、直播插件和资源主机，用于定位首页抽奖弹窗与直播间游戏推广。接收地址由 `collector` 参数设置；本地下载时自动填写当前 IP，远程导入时按需设置，默认 `off` 不发送记录。正式去广告模块没有外部脚本，当前版本为 1.0.9。
 
 范围仅为去广告，不包含会员、清晰度或付费功能解锁。
 
@@ -17,7 +17,7 @@
 - `cdnfile1.msstatic.com/cdnfile/appad/`：拦截开屏广告图片。
 - `live-ads.huya.com/live/getAllEntrance`：返回空直播间广告入口数据。
 - 公开方案的备用开屏主机：拦截 `livewebbs2pcdn.msstatic.com`、`pp-cdnfile2pcdn.msstatic.com`、`huyafile.msstatic.com`、`v1d.szbdyd.com` 和 `3dm.huya.com`。
-- `zt.huya.com`：只拦截诊断抓到的两个官方推广小窗活动路径。
+- `zt.huya.com`：只拦截诊断抓到并核验的四个官方推广小窗活动路径。
 - 穿山甲广告 SDK：拦截广告 API 主机 `api-access.pangolin-sdk-toutiao.com` 和广告渲染资源主机 `sf3-fe-tos.pglstatp-toutiao.com`。
 - 腾讯广点通广告 SDK：拦截实际广告获取主机 `us.l.qq.com`、配置主机 `tangram.e.qq.com` 和广告素材主机 `pgdt.gtimg.cn`。
 
@@ -69,11 +69,19 @@ QX 开启广泛抓包后虎牙播放失败，说明整域 HTTPS 解密会影响�
 
 10 条域名规则已移入 `inputs/local-domains.txt`，参与合并广告 MRS 构建和去重；精确域名与后缀范围保持原样。模块只保留 HTTP 引擎、URL Rewrite 和 MITM。先更新 `ads-merged.mrs`，再更新本模块。
 
+## 1.0.9：补充贵族幸运抽小窗
+
+11 月 27 日的诊断记录抓到 `zt.huya.com/7c389ad1/mobile/index.html` 六次，公开页面标题为“贵族幸运抽-横屏小窗”。本版只新增该页面的 HTTP/HTTPS 精确路径拦截，保留相邻活动、规则页和正常播放接口。
+
+本轮诊断也抓到 `us.l.qq.com/exapp` 三次广告响应，包含应用下载和广告素材数据。该接口及素材主机 `pgdt.gtimg.cn` 已由广告 MRS 拦截；诊断模块为了采集证据临时放行它们。因此诊断时出现“主播优选”等广告，不能直接判定正式规则失效。测试去广告效果前关闭诊断模块，再启用正式模块；当前记录未保存广告文案，尚不能把截图中的每张广告卡与具体素材逐一对应。
+
 ## 使用
 
 在手机 Clash-Client 的「模块」中添加正式模块地址并启用。需要开启 HTTPS 解密并信任对应证书。更新后完全退出虎牙再重新打开，检查开屏、首页和直播间广告。
 
 ## 抓广告诊断
+
+11 月 27 日的 13:15 日志确认，广告 SDK 与已知的 `a215cf20` 活动页已被拦截，但截图中的首页抽奖弹窗和直播间坐骑推广仍出现。该日志没有放行请求的完整路径，不能据此认定两种推广的具体来源。诊断 1.0.7 补充 `business-qnpcdn.msstatic.com`、`hd.huya.com`、`huyapreloadweb.cdn.huya.com`、`huyaextweb.cdn.huya.com` 和日志中的三个具体 `ext.huya.com` 主机，并只采集 `diy-assets.msstatic.com`、`hyext-sdk.msstatic.com`、`fileserver.cdn.huya.com` 的路径与响应元数据。这些是待核对的主机，尚未加入正式拦截规则。
 
 残留广告需要真实响应结构才能安全处理。诊断时先关闭「虎牙去广告」，只启用「虎牙抓广告诊断」，然后在 Mac 项目目录运行：
 
@@ -81,4 +89,4 @@ QX 开启广泛抓包后虎牙播放失败，说明整域 HTTPS 解密会影响�
 python3 -B -u module/huya/capture_server.py
 ```
 
-依次重新启动虎牙、打开首页、推荐列表和直播间并触发残留广告。记录直接保存在 `module/huya/captures/`，不增加 `runtime/` 目录。诊断模块临时放行并检查已知广告配置、素材主机及 14:56 日志中的五个候选 CDN，避免全局广告规则在脚本前拒绝请求；所有响应仍原样返回。JSON 只上传脱敏后的接口路径、字段结构和广告标记；素材及其他格式只上传路径、状态、类型和长度。它不保存查询参数、请求头、正文、账号或设备标识，也不接管 WUP、WebSocket、P2P、直播、头像或直播封面主机。完成后关闭诊断模块，再启用正式去广告模块。
+依次重新启动虎牙、打开首页、推荐列表和直播间并触发残留广告。记录直接保存在 `module/huya/captures/`，不增加 `runtime/` 目录。诊断模块临时放行并检查已知广告配置、素材主机及待核对的活动和插件主机，避免全局广告规则在脚本前拒绝请求；所有响应仍原样返回。JSON 只上传脱敏后的接口路径、字段结构和广告标记；素材及其他格式只上传路径、状态、类型和长度。它不保存查询参数、请求头、正文、账号或设备标识，也不接管 WUP、WebSocket、P2P、直播视频或直播封面主机。完成后关闭诊断模块，再启用正式去广告模块。

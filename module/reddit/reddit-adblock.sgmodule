@@ -1,0 +1,20 @@
+#!name=Reddit去广告
+#!desc=清理首页、热门、社区信息流和评论区的明确广告数据，记录处理日志。
+#!author=codex
+#!type=
+#!version=1.0.0
+#!date=2026-11-27
+#!tag=Reddit去广告
+#!openurl=https://github.com/s20210117/vpn-config
+#!system=ios, mac
+#!homepage=https://github.com/s20210117/vpn-config
+#!icon=https://github.com/openai.png
+#!category=去广告
+#!arguments=debug:true
+#!arguments-desc=debug：日志开关，true 开启，false 关闭。
+
+[Script]
+reddit-adblock = type=http-response, pattern=^https://gql(?:-fed)?\.reddit\.com(?::443)?/(?:\?|$), requires-body=true, max-size=8388608, timeout=5, argument=debug={{{debug}}}, script-path=https://raw.githubusercontent.com/s20210117/vpn-config/main/module/reddit/reddit-adblock.js
+
+[MITM]
+hostname = %APPEND% gql.reddit.com, gql-fed.reddit.com

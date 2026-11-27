@@ -83,6 +83,16 @@ def allowed_host(host):
         "short.msstatic.com",
         "zt.msstatic.com",
         "cdnfile.huya.com",
+        "business-qnpcdn.msstatic.com",
+        "hd.huya.com",
+        "huyapreloadweb.cdn.huya.com",
+        "huyaextweb.cdn.huya.com",
+        "y2261a742d6a43b3-gtc5tz7i.ext.huya.com",
+        "y2261a742d6a43b3-v35epxya.ext.huya.com",
+        "y2261a742d6a43b3-sbn47atc.ext.huya.com",
+        "diy-assets.msstatic.com",
+        "hyext-sdk.msstatic.com",
+        "fileserver.cdn.huya.com",
     }
 
 

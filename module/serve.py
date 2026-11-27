@@ -10,7 +10,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent
 REMOTE_MODULE_ROOT = "https://raw.githubusercontent.com/s20210117/vpn-config/main/module/"
-CAPTURE_PORTS = {"iqiyi": 18766, "zhihu": 18767, "huya": 18768}
+CAPTURE_PORTS = {"iqiyi": 18766, "zhihu": 18767, "huya": 18768, "reddit": 18769}
 
 
 class Handler(SimpleHTTPRequestHandler):

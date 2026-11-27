@@ -99,6 +99,16 @@ class HuyaCaptureServerTests(unittest.TestCase):
             "https://short.msstatic.com/candidate",
             "https://zt.msstatic.com/candidate",
             "https://cdnfile.huya.com/candidate",
+            "https://business-qnpcdn.msstatic.com/candidate",
+            "https://hd.huya.com/candidate",
+            "https://huyapreloadweb.cdn.huya.com/candidate",
+            "https://huyaextweb.cdn.huya.com/candidate",
+            "https://y2261a742d6a43b3-gtc5tz7i.ext.huya.com/candidate",
+            "https://y2261a742d6a43b3-v35epxya.ext.huya.com/candidate",
+            "https://y2261a742d6a43b3-sbn47atc.ext.huya.com/candidate",
+            "https://diy-assets.msstatic.com/candidate",
+            "https://hyext-sdk.msstatic.com/candidate",
+            "https://fileserver.cdn.huya.com/candidate",
         ]
         for url in accepted:
             with self.subTest(url=url), self.post(self.record(url)) as response:
@@ -110,6 +120,8 @@ class HuyaCaptureServerTests(unittest.TestCase):
             (self.record("https://business.msstatic.com/feed?token=secret"), "v1", 422),
             (self.record("https://api.huya.com/feed"), "v1", 422),
             (self.record("https://business.msstatic.com.evil.test/feed"), "v1", 422),
+            (self.record("https://huyaextweb.cdn.huya.com.evil.test/feed"), "v1", 422),
+            (self.record("https://other.ext.huya.com/feed"), "v1", 422),
             (self.record("https://example.com/feed"), "v1", 422),
             (self.record(), "wrong", 403),
         ]

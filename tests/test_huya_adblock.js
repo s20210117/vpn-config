@@ -20,7 +20,7 @@ test("publishes the complete Huya module metadata", () => {
     assert.match(moduleText, /^#!name=虎牙去广告$/m);
     assert.match(moduleText, /^#!author=codex$/m);
     assert.match(moduleText, /^#!type=$/m);
-    assert.match(moduleText, /^#!version=1\.0\.8$/m);
+    assert.match(moduleText, /^#!version=1\.0\.9$/m);
     assert.match(moduleText, /^#!date=2026-11-27$/m);
     assert.match(moduleText, /^#!tag=虎牙去广告$/m);
     assert.match(moduleText, /^#!category=去广告$/m);
@@ -37,6 +37,9 @@ test("matches only the verified Huya ad entrances", () => {
         "https://zt.huya.com/8cc59b08/mobile/index.html",
         "https://zt.huya.com/a215cf20/mobile/index.html?halfscreen=1",
         "https://zt.huya.com/8bec7583/mobile/index.html",
+        "https://zt.huya.com/7c389ad1/mobile/index.html",
+        "http://zt.huya.com/7c389ad1/mobile/index.html?sourceId=liveroom_active_panel",
+        "https://zt.huya.com/7c389ad1/mobile/index.html/?horizontalScrollIndicatorHidden=1",
     ]) assert.ok(patterns.some(pattern => pattern.test(url)), url);
 
     for (const url of [
@@ -50,6 +53,10 @@ test("matches only the verified Huya ad entrances", () => {
         "https://zt.huya.com/other/mobile/index.html",
         "https://zt.huya.com/8cc59b08/mobile/rule.html",
         "https://zt.huya.com/8bec7583/mobile/rule.html",
+        "https://zt.huya.com/7c389ad1/mobile/rule.html",
+        "https://zt.huya.com/7c389ad1/mobile/index.html.backup",
+        "https://zt.huya.com/7c389ad2/mobile/index.html",
+        "https://zt.huya.com.evil.test/7c389ad1/mobile/index.html",
     ]) assert.equal(patterns.some(pattern => pattern.test(url)), false, url);
 });
 

@@ -87,7 +87,17 @@
             host === "s1-static.msstatic.com" ||
             host === "short.msstatic.com" ||
             host === "zt.msstatic.com" ||
-            host === "cdnfile.huya.com";
+            host === "cdnfile.huya.com" ||
+            host === "business-qnpcdn.msstatic.com" ||
+            host === "hd.huya.com" ||
+            host === "huyapreloadweb.cdn.huya.com" ||
+            host === "huyaextweb.cdn.huya.com" ||
+            host === "y2261a742d6a43b3-gtc5tz7i.ext.huya.com" ||
+            host === "y2261a742d6a43b3-v35epxya.ext.huya.com" ||
+            host === "y2261a742d6a43b3-sbn47atc.ext.huya.com" ||
+            host === "diy-assets.msstatic.com" ||
+            host === "hyext-sdk.msstatic.com" ||
+            host === "fileserver.cdn.huya.com";
     }
 
     function endpoint(value) {

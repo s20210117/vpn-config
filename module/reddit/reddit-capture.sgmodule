@@ -1,0 +1,20 @@
+#!name=Reddit抓广告诊断
+#!desc=记录 Reddit GraphQL 接口的字段结构、类型和广告数量，响应原样放行。
+#!author=codex
+#!type=
+#!version=1.0.0
+#!date=2026-11-27
+#!tag=Reddit抓广告诊断
+#!openurl=https://github.com/s20210117/vpn-config
+#!system=ios, mac
+#!homepage=https://github.com/s20210117/vpn-config
+#!icon=https://github.com/openai.png
+#!category=调试
+#!arguments=debug:true,collector:off
+#!arguments-desc=debug：日志开关；collector：接收地址，本地下载自动填写，远程导入时按需设置。
+
+[Script]
+reddit-capture = type=http-response, pattern=^https://gql(?:-fed)?\.reddit\.com(?::443)?/(?:\?|$), requires-body=true, max-size=8388608, timeout=4, argument=debug={{{debug}}}&collector={{{collector}}}, script-path=https://raw.githubusercontent.com/s20210117/vpn-config/main/module/reddit/reddit-capture.js
+
+[MITM]
+hostname = %APPEND% gql.reddit.com, gql-fed.reddit.com
