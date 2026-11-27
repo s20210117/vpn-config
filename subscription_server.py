@@ -9,6 +9,7 @@ import ipaddress
 import json
 import os
 from pathlib import Path
+import re
 import signal
 import socket
 import subprocess
@@ -21,6 +22,7 @@ from urllib.request import ProxyHandler, build_opener
 
 ROOT = Path(__file__).resolve().parent
 PORT = 8765
+REMOTE_ROOT = "https://raw.githubusercontent.com/s20210117/vpn-config/main"
 STATE = Path.home() / "Library/Application Support/vpn-config"
 PID_FILE = STATE / "subscription.pid"
 LOGS = Path.home() / "Library/Logs/vpn-config"
@@ -31,6 +33,31 @@ ROUTES = {
     "/ads-merged.mrs": (ROOT / "ads-merged.mrs", "application/octet-stream"),
     "/ads-merged-extra.yaml": (ROOT / "ads-merged-extra.yaml", "text/plain; charset=utf-8"),
 }
+
+
+def local_profile(data, address, port):
+    """Render this server's rule downloads without changing the saved profile."""
+    lines = data.decode("utf-8").splitlines(keepends=True)
+    pattern = re.compile(r"^(\s*)url: " + re.escape(REMOTE_ROOT) +
+                         r"/(ads-merged\.mrs|ads-merged-extra\.yaml)\s*$")
+    for index, line in enumerate(lines):
+        match = pattern.fullmatch(line)
+        if not match:
+            continue
+        indent, name = match.groups()
+        lines[index] = f"{indent}url: http://{address}:{port}/{name}\n"
+        # Only the containing provider uses DIRECT for its LAN download.
+        start, end = index, index + 1
+        while start > 0 and (not lines[start - 1].strip() or
+                             len(lines[start - 1]) - len(lines[start - 1].lstrip()) >= len(indent)):
+            start -= 1
+        while end < len(lines) and (not lines[end].strip() or
+                                    len(lines[end]) - len(lines[end].lstrip()) >= len(indent)):
+            end += 1
+        for other in range(start, end):
+            if lines[other].startswith(indent + "proxy:"):
+                lines[other] = indent + "proxy: DIRECT\n"
+    return "".join(lines).encode("utf-8")
 
 
 class SubscriptionHTTPServer(ThreadingHTTPServer):
@@ -83,6 +110,8 @@ class Handler(BaseHTTPRequestHandler):
             path, content_type = ROUTES[requested.path]
             try:
                 data = path.read_bytes()
+                if requested.path == "/config.yaml":
+                    data = local_profile(data, self.connection.getsockname()[0], self.server.server_port)
             except FileNotFoundError:
                 self.send_error(404, "File unavailable")
                 return
@@ -141,6 +170,11 @@ def show_status():
     print("订阅服务：" + ("运行中" if healthy() else "未运行"))
     for address in lan_addresses():
         print(f"手机订阅地址：http://{address}:{PORT}/config.yaml")
+    if sys.platform == "darwin":
+        reply = subprocess.run(["/usr/sbin/scutil", "--get", "LocalHostName"], capture_output=True, text=True)
+        name = reply.stdout.strip()
+        if reply.returncode == 0 and re.fullmatch(r"[A-Za-z0-9-]+", name):
+            print(f"电脑名称订阅地址：http://{name}.local:{PORT}/config.yaml")
     print("编辑配置：" + str(ROOT / "subscription/config.yaml"))
 
 

@@ -227,10 +227,10 @@ test('manifest covers observed APIs and no longer intercepts unrelated cards-css
     assert.deepEqual(run('https://cards-css.iqiyi.com/css_layout/3.0/package_theme', { cards: [{ alias_name: 'ad_trueview' }] }).result, {});
 });
 
-test('manifest publishes the public block_class implementation as version 1.0.12', () => {
+test('manifest publishes the public block_class implementation as version 1.0.13', () => {
     const manifest = fs.readFileSync(path.join(__dirname, '../module/iqiyi/iqiyi-adblock.sgmodule'), 'utf8');
-    assert.match(manifest, /^#!version=1\.0\.12$/m);
-    assert.match(manifest, /^#!date=2026-11-25$/m);
+    assert.match(manifest, /^#!version=1\.0\.13$/m);
+    assert.match(manifest, /^#!date=2026-11-27$/m);
     assert.match(manifest, /^#!author=codex$/m);
 });
 

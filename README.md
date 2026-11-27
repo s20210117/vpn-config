@@ -1,6 +1,6 @@
 # vpn-config
 
-本项目同时维护广告规则和手机完整配置的局域网订阅。
+本项目维护广告规则、客户端模块和手机完整配置订阅。
 
 双击 [index.html](index.html) 可打开离线代理配置转换器，将 SOCKS5 / HTTP 代理信息生成为 FlClash / Mihomo、sing-box 或 v2rayNG 配置，支持预览、复制和下载。
 
@@ -15,31 +15,103 @@ Clash-Client 客户端及 `inputs/` 中七套广告规则的 GitHub 仓库、上
 | 原始文件 | [GitHub Raw](https://raw.githubusercontent.com/s20210117/vpn-config/main/index.html) | 查看或下载 `index.html` 源码，浏览器通常按纯文本显示。 |
 | 文件 CDN | [jsDelivr](https://cdn.jsdelivr.net/gh/s20210117/vpn-config@main/index.html) | 通过 CDN 读取或下载 `index.html` 源码，适合文件分发；HTML 通常按纯文本显示，更新可能有缓存延迟。 |
 
+文件名可打开 GitHub 源码页面，右侧为四种文件访问入口。
+
+### 配置文件
+
+| 文件（GitHub） | raw.githack | GitHub Pages | GitHub Raw | jsDelivr |
+| --- | --- | --- | --- | --- |
+| [完整配置](https://github.com/s20210117/vpn-config/blob/main/subscription/config.yaml) | [访问](https://raw.githack.com/s20210117/vpn-config/main/subscription/config.yaml) | [访问](https://s20210117.github.io/vpn-config/subscription/config.yaml) | [访问](https://raw.githubusercontent.com/s20210117/vpn-config/main/subscription/config.yaml) | [访问](https://cdn.jsdelivr.net/gh/s20210117/vpn-config@main/subscription/config.yaml) |
+| [Mihomo 规则接入示例](https://github.com/s20210117/vpn-config/blob/main/mihomo-example.yaml) | [访问](https://raw.githack.com/s20210117/vpn-config/main/mihomo-example.yaml) | [访问](https://s20210117.github.io/vpn-config/mihomo-example.yaml) | [访问](https://raw.githubusercontent.com/s20210117/vpn-config/main/mihomo-example.yaml) | [访问](https://cdn.jsdelivr.net/gh/s20210117/vpn-config@main/mihomo-example.yaml) |
+
+仓库中的完整配置使用 GitHub 远程广告规则地址，本地订阅服务在下载时按当前连接 IP 生成本地规则地址。Mihomo 规则接入示例仅包含规则集声明，不包含代理节点。
+
+### 广告规则
+
+| 文件（GitHub） | raw.githack | GitHub Pages | GitHub Raw | jsDelivr |
+| --- | --- | --- | --- | --- |
+| [域名规则 MRS](https://github.com/s20210117/vpn-config/blob/main/ads-merged.mrs) | [访问](https://raw.githack.com/s20210117/vpn-config/main/ads-merged.mrs) | [访问](https://s20210117.github.io/vpn-config/ads-merged.mrs) | [访问](https://raw.githubusercontent.com/s20210117/vpn-config/main/ads-merged.mrs) | [访问](https://cdn.jsdelivr.net/gh/s20210117/vpn-config@main/ads-merged.mrs) |
+| [补充规则 YAML](https://github.com/s20210117/vpn-config/blob/main/ads-merged-extra.yaml) | [访问](https://raw.githack.com/s20210117/vpn-config/main/ads-merged-extra.yaml) | [访问](https://s20210117.github.io/vpn-config/ads-merged-extra.yaml) | [访问](https://raw.githubusercontent.com/s20210117/vpn-config/main/ads-merged-extra.yaml) | [访问](https://cdn.jsdelivr.net/gh/s20210117/vpn-config@main/ads-merged-extra.yaml) |
+
+### 去广告模块
+
+| 文件（GitHub） | raw.githack | GitHub Pages | GitHub Raw | jsDelivr |
+| --- | --- | --- | --- | --- |
+| [知乎去广告](https://github.com/s20210117/vpn-config/blob/main/module/zhihu/zhihu-adblock.sgmodule) | [访问](https://raw.githack.com/s20210117/vpn-config/main/module/zhihu/zhihu-adblock.sgmodule) | [访问](https://s20210117.github.io/vpn-config/module/zhihu/zhihu-adblock.sgmodule) | [访问](https://raw.githubusercontent.com/s20210117/vpn-config/main/module/zhihu/zhihu-adblock.sgmodule) | [访问](https://cdn.jsdelivr.net/gh/s20210117/vpn-config@main/module/zhihu/zhihu-adblock.sgmodule) |
+| [爱奇艺去广告](https://github.com/s20210117/vpn-config/blob/main/module/iqiyi/iqiyi-adblock.sgmodule) | [访问](https://raw.githack.com/s20210117/vpn-config/main/module/iqiyi/iqiyi-adblock.sgmodule) | [访问](https://s20210117.github.io/vpn-config/module/iqiyi/iqiyi-adblock.sgmodule) | [访问](https://raw.githubusercontent.com/s20210117/vpn-config/main/module/iqiyi/iqiyi-adblock.sgmodule) | [访问](https://cdn.jsdelivr.net/gh/s20210117/vpn-config@main/module/iqiyi/iqiyi-adblock.sgmodule) |
+| [虎牙去广告](https://github.com/s20210117/vpn-config/blob/main/module/huya/huya-adblock.sgmodule) | [访问](https://raw.githack.com/s20210117/vpn-config/main/module/huya/huya-adblock.sgmodule) | [访问](https://s20210117.github.io/vpn-config/module/huya/huya-adblock.sgmodule) | [访问](https://raw.githubusercontent.com/s20210117/vpn-config/main/module/huya/huya-adblock.sgmodule) | [访问](https://cdn.jsdelivr.net/gh/s20210117/vpn-config@main/module/huya/huya-adblock.sgmodule) |
+
+先更新广告 MRS，再更新并启用去广告模块。
+
+### 抓广告诊断模块
+
+| 文件（GitHub） | raw.githack | GitHub Pages | GitHub Raw | jsDelivr |
+| --- | --- | --- | --- | --- |
+| [知乎抓广告诊断](https://github.com/s20210117/vpn-config/blob/main/module/zhihu/zhihu-capture.sgmodule) | [访问](https://raw.githack.com/s20210117/vpn-config/main/module/zhihu/zhihu-capture.sgmodule) | [访问](https://s20210117.github.io/vpn-config/module/zhihu/zhihu-capture.sgmodule) | [访问](https://raw.githubusercontent.com/s20210117/vpn-config/main/module/zhihu/zhihu-capture.sgmodule) | [访问](https://cdn.jsdelivr.net/gh/s20210117/vpn-config@main/module/zhihu/zhihu-capture.sgmodule) |
+| [爱奇艺抓广告诊断](https://github.com/s20210117/vpn-config/blob/main/module/iqiyi/iqiyi-capture.sgmodule) | [访问](https://raw.githack.com/s20210117/vpn-config/main/module/iqiyi/iqiyi-capture.sgmodule) | [访问](https://s20210117.github.io/vpn-config/module/iqiyi/iqiyi-capture.sgmodule) | [访问](https://raw.githubusercontent.com/s20210117/vpn-config/main/module/iqiyi/iqiyi-capture.sgmodule) | [访问](https://cdn.jsdelivr.net/gh/s20210117/vpn-config@main/module/iqiyi/iqiyi-capture.sgmodule) |
+| [虎牙抓广告诊断](https://github.com/s20210117/vpn-config/blob/main/module/huya/huya-capture.sgmodule) | [访问](https://raw.githack.com/s20210117/vpn-config/main/module/huya/huya-capture.sgmodule) | [访问](https://s20210117.github.io/vpn-config/module/huya/huya-capture.sgmodule) | [访问](https://raw.githubusercontent.com/s20210117/vpn-config/main/module/huya/huya-capture.sgmodule) | [访问](https://cdn.jsdelivr.net/gh/s20210117/vpn-config@main/module/huya/huya-capture.sgmodule) |
+
+诊断时启用对应模块并运行本地接收器，操作说明见各应用目录。
+
+### JavaScript 脚本
+
+| 文件（GitHub） | raw.githack | GitHub Pages | GitHub Raw | jsDelivr |
+| --- | --- | --- | --- | --- |
+| [知乎去广告脚本](https://github.com/s20210117/vpn-config/blob/main/module/zhihu/zhihu-adblock.js) | [访问](https://raw.githack.com/s20210117/vpn-config/main/module/zhihu/zhihu-adblock.js) | [访问](https://s20210117.github.io/vpn-config/module/zhihu/zhihu-adblock.js) | [访问](https://raw.githubusercontent.com/s20210117/vpn-config/main/module/zhihu/zhihu-adblock.js) | [访问](https://cdn.jsdelivr.net/gh/s20210117/vpn-config@main/module/zhihu/zhihu-adblock.js) |
+| [爱奇艺去广告脚本](https://github.com/s20210117/vpn-config/blob/main/module/iqiyi/iqiyi-adblock.js) | [访问](https://raw.githack.com/s20210117/vpn-config/main/module/iqiyi/iqiyi-adblock.js) | [访问](https://s20210117.github.io/vpn-config/module/iqiyi/iqiyi-adblock.js) | [访问](https://raw.githubusercontent.com/s20210117/vpn-config/main/module/iqiyi/iqiyi-adblock.js) | [访问](https://cdn.jsdelivr.net/gh/s20210117/vpn-config@main/module/iqiyi/iqiyi-adblock.js) |
+| [知乎诊断脚本](https://github.com/s20210117/vpn-config/blob/main/module/zhihu/zhihu-capture.js) | [访问](https://raw.githack.com/s20210117/vpn-config/main/module/zhihu/zhihu-capture.js) | [访问](https://s20210117.github.io/vpn-config/module/zhihu/zhihu-capture.js) | [访问](https://raw.githubusercontent.com/s20210117/vpn-config/main/module/zhihu/zhihu-capture.js) | [访问](https://cdn.jsdelivr.net/gh/s20210117/vpn-config@main/module/zhihu/zhihu-capture.js) |
+| [爱奇艺诊断脚本](https://github.com/s20210117/vpn-config/blob/main/module/iqiyi/iqiyi-capture.js) | [访问](https://raw.githack.com/s20210117/vpn-config/main/module/iqiyi/iqiyi-capture.js) | [访问](https://s20210117.github.io/vpn-config/module/iqiyi/iqiyi-capture.js) | [访问](https://raw.githubusercontent.com/s20210117/vpn-config/main/module/iqiyi/iqiyi-capture.js) | [访问](https://cdn.jsdelivr.net/gh/s20210117/vpn-config@main/module/iqiyi/iqiyi-capture.js) |
+| [虎牙诊断脚本](https://github.com/s20210117/vpn-config/blob/main/module/huya/huya-capture.js) | [访问](https://raw.githack.com/s20210117/vpn-config/main/module/huya/huya-capture.js) | [访问](https://s20210117.github.io/vpn-config/module/huya/huya-capture.js) | [访问](https://raw.githubusercontent.com/s20210117/vpn-config/main/module/huya/huya-capture.js) | [访问](https://cdn.jsdelivr.net/gh/s20210117/vpn-config@main/module/huya/huya-capture.js) |
+
+JS 由对应模块加载。仓库中的 `script-path` 使用 GitHub Raw；从本地模块服务下载时，脚本地址自动替换为当前连接 IP 和模块服务端口，磁盘文件保持远程地址。
+
+### Demo
+
+| 文件（GitHub） | raw.githack | GitHub Pages | GitHub Raw | jsDelivr |
+| --- | --- | --- | --- | --- |
+| [Demo 模块](https://github.com/s20210117/vpn-config/blob/main/module/demo/demo.sgmodule) | [访问](https://raw.githack.com/s20210117/vpn-config/main/module/demo/demo.sgmodule) | [访问](https://s20210117.github.io/vpn-config/module/demo/demo.sgmodule) | [访问](https://raw.githubusercontent.com/s20210117/vpn-config/main/module/demo/demo.sgmodule) | [访问](https://cdn.jsdelivr.net/gh/s20210117/vpn-config@main/module/demo/demo.sgmodule) |
+| [模块调用脚本](https://github.com/s20210117/vpn-config/blob/main/module/demo/module.js) | [访问](https://raw.githack.com/s20210117/vpn-config/main/module/demo/module.js) | [访问](https://s20210117.github.io/vpn-config/module/demo/module.js) | [访问](https://raw.githubusercontent.com/s20210117/vpn-config/main/module/demo/module.js) | [访问](https://cdn.jsdelivr.net/gh/s20210117/vpn-config@main/module/demo/module.js) |
+| [覆写脚本](https://github.com/s20210117/vpn-config/blob/main/module/demo/demo.js) | [访问](https://raw.githack.com/s20210117/vpn-config/main/module/demo/demo.js) | [访问](https://s20210117.github.io/vpn-config/module/demo/demo.js) | [访问](https://raw.githubusercontent.com/s20210117/vpn-config/main/module/demo/demo.js) | [访问](https://cdn.jsdelivr.net/gh/s20210117/vpn-config@main/module/demo/demo.js) |
+
 ## 客户端模块
 
 客户端文件统一位于 [module](module/README.md)，并按 `demo`、`zhihu`、`iqiyi`、`huya` 分目录保存。
 
 实际模块见[知乎去广告](module/zhihu/README.md)、[爱奇艺去广告](module/iqiyi/README.md)和[虎牙去广告](module/huya/README.md)。域名拦截统一由 `ads-merged.mrs` 处理，模块保留 IP 拦截、URL 改写及响应脚本，配合广告规则集启用。
 
-示例下载服务使用固定的 UTF-8 文本响应并禁用缓存，避免中文乱码。启动入口：
+模块和脚本的下载链接见上方分类表，使用步骤见各应用目录。
+
+## 本地调试与远程发布
+
+仓库文件始终保存 GitHub 远程地址，上传时不需要执行地址替换。
+
+- 远程下载：完整配置从 GitHub 获取广告规则，模块从 GitHub 获取 JS。
+- 本地下载：订阅服务将两份规则地址和下载策略生成成本地地址与 `DIRECT`；模块服务将 JS 地址生成成本地地址，均按请求连接实际使用的 IP 和端口生成，不信任客户端填写的 Host，也不改写源文件。
+- 抓广告诊断：本地下载时自动填写 `collector` 接收地址；远程导入时设置自己的接收地址，默认 `off` 不发送记录。
+
+查看当前完整配置订阅地址：
+
+```sh
+python3 project.py subscription status
+```
+
+启动模块下载服务并查看当前地址：
 
 ```sh
 python3 module/serve.py
 ```
 
-该服务使用 `18765` 端口，启动时不会替换手机完整配置或修改下方的 `8765` 订阅服务。导入链接和演示效果见示例说明。
+Mac 状态输出同时提供 `电脑名.local` 订阅入口；手机支持局域网名称解析时可使用该入口，避免电脑 IP 变化后修改订阅链接。
 
 ## 手机配置订阅
 
-当前订阅地址：`http://192.168.2.77:8765/config.yaml`。完整配置位于 `subscription/config.yaml`，保存后手机点击「立即同步」即可下载新版本。
+GitHub 订阅地址：[config.yaml](https://raw.githubusercontent.com/s20210117/vpn-config/main/subscription/config.yaml)。完整配置位于 `subscription/config.yaml`，修改并推送到 GitHub 后，在手机点击「立即同步」下载新版本。
 
 首页出站模式保持「规则」，通过排在首位的「上网模式」策略组选择上网方式，成员顺序为 `PASS`（按原有规则分流）、`DIRECT`（直连）、`PROXY`（代理）。该组原名 `Ad`，现已更名；未保存选择时默认使用第一项 `PASS`，客户端已经保存的选择可能继续保留。
 
-配置中的两份广告规则也从这台 Mac 下载，分别对应项目顶层的 `ads-merged.mrs`、`ads-merged-extra.yaml`。修改规则后需在手机更新对应规则集，服务无需重启。已确认的上游误报在构建产物内排除，不通过模块或主配置添加 `DIRECT` 绕行。
+配置中的两份广告规则对应项目顶层的 `ads-merged.mrs`、`ads-merged-extra.yaml`，下载入口见上方广告规则表。修改规则后需在手机更新对应规则集。已确认的上游误报在构建产物内排除，不通过模块或主配置添加 `DIRECT` 绕行。
 
-双击「启动订阅服务.command」可启动后台服务，关闭终端后继续运行；「停止订阅服务.command」可停止服务。「查看订阅地址.command」显示服务状态。Mac 重启或用户注销后，需要重新启动一次。
-
-完整步骤、更新范围和地址变化处理见 [局域网订阅说明](docs/局域网订阅.md)。`subscription/` 保存含节点凭据的完整配置、备份和验证记录，可随项目一起提交到 Git。
+本地调试、服务启动和地址变化处理见[局域网订阅说明](docs/局域网订阅.md)。`subscription/` 保存完整配置、备份和验证记录。
 
 换电脑或网络时，请先查看[迁移依赖与换电脑说明](docs/迁移依赖与换电脑说明.md)，其中列出 IP、端口、系统和手机调试参数的依赖及迁移步骤。
 

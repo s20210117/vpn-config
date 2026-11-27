@@ -152,15 +152,15 @@ rule-providers:
     type: http
     behavior: domain
     format: mrs
-    url: http://192.168.2.77:8765/ads-merged.mrs
-    proxy: DIRECT
+    url: https://raw.githubusercontent.com/s20210117/vpn-config/main/ads-merged.mrs
+    proxy: GitHub
     interval: 86400
   local-bee2aa81-babe-4bdb-929d-98894937deeb:
     type: http
     behavior: classical
     format: yaml
-    url: http://192.168.2.77:8765/ads-merged-extra.yaml
-    proxy: DIRECT
+    url: https://raw.githubusercontent.com/s20210117/vpn-config/main/ads-merged-extra.yaml
+    proxy: GitHub
     interval: 86400
 proxies:
   - name: 剩余流量：4.42 TB

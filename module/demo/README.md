@@ -11,7 +11,7 @@
 在「覆写脚本」的添加脚本输入框中填写：
 
 ```text
-http://192.168.2.77:18765/demo/demo.js
+https://raw.githubusercontent.com/s20210117/vpn-config/main/module/demo/demo.js
 ```
 
 粘贴链接后，先按键盘右下角的「完成」（Return）触发下载，等待脚本列表出现 `demo`，再保存。仅填写链接并点击页面右上角「保存」不会提交链接，列表仍会为空。输入框旁的专用粘贴按钮也会触发导入。
@@ -25,7 +25,7 @@ http://192.168.2.77:18765/demo/demo.js
 模块导入地址：
 
 ```text
-http://192.168.2.77:18765/demo/demo.sgmodule
+https://raw.githubusercontent.com/s20210117/vpn-config/main/module/demo/demo.sgmodule
 ```
 
 该模块声明请求匹配条件，并调用 `module.js` 生成响应；这份 `module.js` 使用 `$request`、`$done`，应由模块加载。「覆写脚本」入口使用上面的 `demo.js`。
@@ -60,10 +60,10 @@ http://module-demo.invalid/hello
 
 ## 客户端导入地址
 
-当前 Mac 的局域网地址已填为 `192.168.2.77`，demo 文件使用独立的 `18765` 端口提供下载：
+GitHub 模块导入地址：
 
 ```text
-http://192.168.2.77:18765/demo/demo.sgmodule
+https://raw.githubusercontent.com/s20210117/vpn-config/main/module/demo/demo.sgmodule
 ```
 
 在 Clash-Client 的模块添加界面使用这个链接，客户端下载模块和 `module.js`，然后启用模块。
@@ -74,7 +74,7 @@ http://192.168.2.77:18765/demo/demo.sgmodule
 python3 module/serve.py
 ```
 
-该服务仅用于提供本目录内的 demo 文件。JS、模块和 Markdown 以 `text/plain; charset=utf-8` 提供，避免浏览器猜测编码或将脚本当作执行资源；响应禁用缓存，并对带旧缓存条件的请求重新发送正文和编码头。原有 `8765` 订阅服务继续运行。脚本根据自身位置定位文件，从其他目录也能启动。Mac IP 变化时，需同步更新模块中的 `script-path` 下载地址。
+本地服务提供整个 `module/` 目录，启动时显示当前可访问的 IP 地址。下载 Demo 模块时，`script-path` 自动生成成本地 JS 地址；磁盘中的模块仍使用 GitHub Raw，上传无需切换。JS、模块和 Markdown 使用 UTF-8 文本响应并禁用缓存。
 
 项目根目录运行 `python3 -B -m unittest discover -s tests` 可检查中文下载、HEAD 响应、旧缓存更新和二进制文件原样传输。
 

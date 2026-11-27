@@ -2,6 +2,8 @@
 
 `zhihu-adblock.sgmodule` 声明 IP 和接口匹配规则，`zhihu-adblock.js` 处理响应；域名拦截由 `ads-merged.mrs` 提供。
 
+当前版本 1.0.20：仓库模块使用 GitHub Raw 脚本地址，本地下载时自动生成当前 IP 的脚本地址；过滤范围不变。诊断模块的接收地址改为 `collector` 参数，本地下载自动填写。
+
 ## 1.0.19：域名规则迁入 MRS
 
 `appcloud.zhihu.com` 与 `appcloud2.in.zhihu.com` 已迁入 `inputs/local-domains.txt`，随合并广告 MRS 构建，模块不再重复声明。先更新 `ads-merged.mrs`，再更新本模块。4 条 HTTPDNS IP 拦截及 URL、JS、MITM 处理继续保留。
@@ -11,7 +13,7 @@
 抓广告诊断模块：
 
 ```text
-http://192.168.2.77:18765/zhihu/zhihu-capture.sgmodule
+https://raw.githubusercontent.com/s20210117/vpn-config/main/module/zhihu/zhihu-capture.sgmodule
 ```
 
 诊断模块只记录脱敏后的 JSON 结构，原响应保持不变。接收器命令：
@@ -24,15 +26,15 @@ python3 -B -u module/zhihu/capture_server.py
 
 ## 使用
 
-Mac 上的模块下载服务提供以下地址。在手机 Clash-Client 的「模块」里添加并启用：
+在手机 Clash-Client 的「模块」里添加以下 GitHub 地址并启用：
 
 ```text
-http://192.168.2.77:18765/zhihu/zhihu-adblock.sgmodule
+https://raw.githubusercontent.com/s20210117/vpn-config/main/module/zhihu/zhihu-adblock.sgmodule
 ```
 
 需要开启模块功能及 HTTPS 解密，并信任**模块的 HTTPS 解密证书**。你已经完成证书信任时，不必重新生成或重新安装。控制器 `9443` 的证书与模块解密证书是两件事。
 
-导入时让 Mac 保持在线，客户端下载模块及脚本；下载成功后的日常脚本执行使用客户端缓存。更新模块或脚本时仍需 Mac 的下载服务可达。服务未启动时，在项目目录执行：
+远程导入和更新使用 GitHub 文件。需要调试本地文件时，启动模块下载服务，使用启动输出中的本地地址导入；服务会自动替换脚本和诊断接收地址：
 
 ```sh
 python3 module/serve.py
@@ -69,7 +71,7 @@ python3 module/serve.py
 
 ## 更新与查看日志
 
-1. 手机与 Mac 保持同一局域网，Mac 下载服务保持运行。
+1. 使用 GitHub 链接时保持远程地址可访问；本地调试时让手机与 Mac 保持同一局域网，并启动下载服务。
 2. 手机 Clash-Client 进入「模块 → 知乎去广告」，点击「更新」。这会重新获取模块及其脚本，无需重新导入完整配置。
 3. 进入「活动 → 日志」，确认已开启记录，日志级别选择「全部」。
 4. 打开知乎刷新推荐或回答列表，再回到日志页搜索 `[知乎去广告]`。

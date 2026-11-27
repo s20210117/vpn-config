@@ -2,7 +2,13 @@
 (function () {
     "use strict";
 
-    var collector = "http://192.168.2.77:18768/capture";
+    var collector = "";
+    if (typeof $argument === "string") {
+        var configured = /(?:^|&)collector=([^&]*)/.exec($argument);
+        if (configured) {
+            try { collector = decodeURIComponent(configured[1]); } catch (error) {}
+        }
+    }
     var debug = !(typeof $argument === "string" && /(?:^|&)debug=false(?:&|$)/i.test($argument));
     var classifierKeys = {
         type: 1, object_type: 1, objectType: 1, card_type: 1, cardType: 1,
@@ -194,6 +200,10 @@
             return done();
         }
 
+        if (!/^https?:\/\/[^/?#\s]+\/[^#\s]*$/i.test(collector)) {
+            log("[虎牙抓广告] 请设置 collector 接收地址，响应保持原样");
+            return done();
+        }
         var structure = { format: text ? "non-json" : "empty" };
         if (text && (/\bjson\b/i.test(contentType) ||
                 trimmed.charAt(0) === "{" || trimmed.charAt(0) === "[")) {

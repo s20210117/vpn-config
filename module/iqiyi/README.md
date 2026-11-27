@@ -1,14 +1,16 @@
-# 爱奇艺去广告 1.0.12
+# 爱奇艺去广告 1.0.13
 
-导入：http://192.168.2.77:18765/iqiyi/iqiyi-adblock.sgmodule
+导入：https://raw.githubusercontent.com/s20210117/vpn-config/main/module/iqiyi/iqiyi-adblock.sgmodule
 
-脚本：http://192.168.2.77:18765/iqiyi/iqiyi-adblock.js
+脚本：https://raw.githubusercontent.com/s20210117/vpn-config/main/module/iqiyi/iqiyi-adblock.js
 
-抓广告诊断：http://192.168.2.77:18765/iqiyi/iqiyi-capture.sgmodule
+抓广告诊断：https://raw.githubusercontent.com/s20210117/vpn-config/main/module/iqiyi/iqiyi-capture.sgmodule
 
 本地抓取记录保存在 `captures/`。
 
-域名广告规则由 `ads-merged.mrs` 提供。本模块保留按路径拦截和响应清理，没有整域规则需要迁移，版本仍为 1.0.12。
+域名广告规则由 `ads-merged.mrs` 提供。本模块保留按路径拦截和响应清理。1.0.13 将脚本下载改为 GitHub Raw，本地下载时自动生成当前 IP 的脚本地址，过滤范围不变。
+
+诊断模块的 `collector` 接收地址在本地下载时自动填写；远程导入时设置自己的接收地址，默认 `off` 不发送记录。
 
 在客户端模块中导入并启用，HTTPS 解密和证书信任使用现有设置。日志搜索 `[爱奇艺去广告]`；参数 `debug=false` 可关闭脚本日志。
 

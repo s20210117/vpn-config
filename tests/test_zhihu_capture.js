@@ -31,7 +31,7 @@ function run(url, body, options = {}) {
             },
         },
         console: { log: value => logs.push(String(value)) },
-        $argument: options.argument,
+        $argument: "collector=" + encodeURIComponent(options.collector === undefined ? "http://127.0.0.1:18767/capture" : options.collector) + "&" + (options.argument || ""),
         setTimeout,
         clearTimeout,
         $done: value => {
@@ -68,7 +68,7 @@ test("captures privacy-minimized structure and leaves the Zhihu response unchang
     );
     assert.deepEqual(output.result, {});
     assert.equal(output.posts.length, 1);
-    assert.equal(output.posts[0].url, "http://192.168.2.77:18767/capture");
+    assert.equal(output.posts[0].url, "http://127.0.0.1:18767/capture");
     assert.equal(output.posts[0].headers["X-ZHIHU-Capture"], "v1");
 
     const record = JSON.parse(output.posts[0].body);
@@ -115,10 +115,10 @@ test("capture module covers broad Zhihu JSON entrances without narrowing to know
     )), false);
     assert.match(moduleText, /^#!name=知乎抓广告诊断$/m);
     assert.match(moduleText, /^#!type=$/m);
-    assert.match(moduleText, /^#!version=1\.0\.2$/m);
-    assert.match(moduleText, /^#!date=2026-11-25$/m);
+    assert.match(moduleText, /^#!version=1\.0\.3$/m);
+    assert.match(moduleText, /^#!date=2026-11-27$/m);
     assert.match(moduleText, /^#!category=调试$/m);
-    assert.match(moduleText, /^#!arguments=debug:true$/m);
+    assert.match(moduleText, /^#!arguments=debug:true,collector:off$/m);
     assert.doesNotMatch(moduleText, /43\.242\.197\.211/);
     assert.equal(moduleText.match(/argument=debug=\{\{\{debug\}\}\}/g).length, 1);
 });
@@ -141,4 +141,21 @@ test("captures page-modular structures without broadening to unrelated hosts", (
     const record = JSON.parse(output.posts[0].body);
     assert.equal(record.request.url, "https://page-modular.zhihu.com/templates/v1");
     assert.match(JSON.stringify(record.structure), /is_advertiser/);
+});
+
+
+test("capture passes through when no valid collector is configured", () => {
+    for (const collector of ["", "off", "file:///tmp/capture", "%invalid"]) {
+        const output = run("https://api.zhihu.com/questions/123/feeds", { data: [] }, { collector });
+        assert.deepEqual(output.result, {});
+        assert.equal(output.posts.length, 0);
+        assert.match(output.logs.join(""), /collector/);
+    }
+});
+
+test("capture uses the configured collector including encoded query parameters", () => {
+    const collector = "https://receiver.example:9443/capture?app=test&mode=json";
+    const output = run("https://api.zhihu.com/questions/123/feeds", { data: [] }, { collector });
+    assert.equal(output.posts.length, 1);
+    assert.equal(output.posts[0].url, collector);
 });

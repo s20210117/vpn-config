@@ -1,8 +1,10 @@
 # 虎牙去广告 1.0.8
 
-正式模块：http://192.168.2.77:18765/huya/huya-adblock.sgmodule
+正式模块：https://raw.githubusercontent.com/s20210117/vpn-config/main/module/huya/huya-adblock.sgmodule
 
-抓广告诊断：http://192.168.2.77:18765/huya/huya-capture.sgmodule
+抓广告诊断：https://raw.githubusercontent.com/s20210117/vpn-config/main/module/huya/huya-capture.sgmodule
+
+诊断 1.0.6 将脚本下载改为 GitHub Raw，接收地址改为 `collector` 参数。本地下载时自动填写当前 IP；远程导入时设置自己的接收地址，默认 `off` 不发送记录。正式去广告模块没有外部脚本，版本仍为 1.0.8。
 
 范围仅为去广告，不包含会员、清晰度或付费功能解锁。
 

@@ -59,6 +59,33 @@ class SubscriptionTests(unittest.TestCase):
             self.assertEqual(response.read(), updated)
             self.assertNotEqual(response.headers["ETag"], before)
 
+    def test_local_rules_follow_the_connection_address_without_editing_source(self):
+        remote = SERVICE.REMOTE_ROOT
+        source = ("# 中文配置\nrule-providers:\n"
+                  "  ads:\n    proxy: GitHub\n    url: " + remote + "/ads-merged.mrs\n"
+                  "  extra:\n    url: " + remote + "/ads-merged-extra.yaml\n    proxy: GitHub\n"
+                  "  other:\n    url: https://example.com/ads-merged.mrs\n    proxy: PROXY\n")
+        self.path.write_text(source, encoding="utf-8")
+        request = Request(self.base + "/config.yaml", headers={"Host": "untrusted.invalid:9999"})
+        with self.client.open(request, timeout=2) as response:
+            served = response.read()
+            self.assertEqual(int(response.headers["Content-Length"]), len(served))
+        body = served.decode("utf-8")
+        self.assertIn(self.base + "/ads-merged.mrs", body)
+        self.assertIn(self.base + "/ads-merged-extra.yaml", body)
+        self.assertEqual(body.count("proxy: DIRECT"), 2)
+        self.assertIn("url: https://example.com/ads-merged.mrs\n    proxy: PROXY", body)
+        self.assertNotIn("untrusted.invalid", body)
+        self.assertEqual(self.path.read_text(encoding="utf-8"), source)
+        with self.client.open(Request(self.base + "/config.yaml", method="HEAD"), timeout=2) as response:
+            self.assertEqual(int(response.headers["Content-Length"]), len(served))
+
+    def test_local_profile_can_render_different_ip_addresses(self):
+        source = ("    url: " + SERVICE.REMOTE_ROOT + "/ads-merged.mrs\n").encode()
+        for address, port in (("192.0.2.20", 8765), ("198.51.100.8", 9876)):
+            self.assertEqual(SERVICE.local_profile(source, address, port),
+                             f"    url: http://{address}:{port}/ads-merged.mrs\n".encode())
+
     def test_download_status_contains_metadata_only(self):
         import json
         with self.client.open(self.base + "/config.yaml", timeout=2) as response:

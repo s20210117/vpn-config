@@ -31,7 +31,7 @@ function run(url, body, options = {}) {
             },
         },
         console: { log: value => logs.push(String(value)) },
-        $argument: options.argument,
+        $argument: "collector=" + encodeURIComponent(options.collector === undefined ? "http://127.0.0.1:18768/capture" : options.collector) + "&" + (options.argument || ""),
         setTimeout,
         clearTimeout,
         $done: value => {
@@ -57,7 +57,7 @@ test("captures privacy-minimized structure and leaves the Huya response unchange
     );
     assert.deepEqual(output.result, {});
     assert.equal(output.posts.length, 1);
-    assert.equal(output.posts[0].url, "http://192.168.2.77:18768/capture");
+    assert.equal(output.posts[0].url, "http://127.0.0.1:18768/capture");
     assert.equal(output.posts[0].headers["X-HUYA-Capture"], "v1");
     const record = JSON.parse(output.posts[0].body);
     assert.equal(record.request.url, "https://business.msstatic.com/advertiser/feed/:id");
@@ -133,9 +133,9 @@ test("capture module covers Huya and msstatic JSON entrances", () => {
     }
     assert.match(text, /^DOMAIN,us\.l\.qq\.com,DIRECT$/m);
     assert.match(text, /^DOMAIN,qn-livewebbs2pcdn\.msstatic\.com,DIRECT$/m);
-    assert.match(text, /^#!version=1\.0\.5$/m);
-    assert.match(text, /^#!date=2026-11-26$/m);
-    assert.match(text, /^#!arguments=debug:true$/m);
+    assert.match(text, /^#!version=1\.0\.6$/m);
+    assert.match(text, /^#!date=2026-11-27$/m);
+    assert.match(text, /^#!arguments=debug:true,collector:off$/m);
 });
 
 test("debug=false suppresses logs without disabling capture", () => {
@@ -146,4 +146,21 @@ test("debug=false suppresses logs without disabling capture", () => {
     );
     assert.equal(output.posts.length, 1);
     assert.deepEqual(output.logs, []);
+});
+
+
+test("capture passes through when no valid collector is configured", () => {
+    for (const collector of ["", "off", "file:///tmp/capture", "%invalid"]) {
+        const output = run("https://us.l.qq.com/exapp", { data: [] }, { collector });
+        assert.deepEqual(output.result, {});
+        assert.equal(output.posts.length, 0);
+        assert.match(output.logs.join(""), /collector/);
+    }
+});
+
+test("capture uses the configured collector including encoded query parameters", () => {
+    const collector = "https://receiver.example:9443/capture?app=test&mode=json";
+    const output = run("https://us.l.qq.com/exapp", { data: [] }, { collector });
+    assert.equal(output.posts.length, 1);
+    assert.equal(output.posts[0].url, collector);
 });

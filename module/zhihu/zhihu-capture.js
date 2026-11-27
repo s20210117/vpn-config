@@ -2,7 +2,13 @@
 (function () {
     "use strict";
 
-    var collector = "http://192.168.2.77:18767/capture";
+    var collector = "";
+    if (typeof $argument === "string") {
+        var configured = /(?:^|&)collector=([^&]*)/.exec($argument);
+        if (configured) {
+            try { collector = decodeURIComponent(configured[1]); } catch (error) {}
+        }
+    }
     var debug = !(typeof $argument === "string" && /(?:^|&)debug=false(?:&|$)/i.test($argument));
     var allowed = {
         "zhihu.com": 1,
@@ -196,6 +202,10 @@
             return done();
         }
 
+        if (!/^https?:\/\/[^/?#\s]+\/[^#\s]*$/i.test(collector)) {
+            log("[知乎抓广告] 请设置 collector 接收地址，响应保持原样");
+            return done();
+        }
         var parsed = JSON.parse(text);
         var method = String(request.method || "").toUpperCase();
         if (!/^(?:GET|POST|PUT|PATCH|DELETE|HEAD)$/.test(method)) method = "";

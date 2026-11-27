@@ -323,14 +323,14 @@ test("all intended response endpoints match exactly one module declaration", () 
         "https://page-info.zhihu.com/answers/v2/2?x=1",
         "https://api.zhihu.com/search/preset_words?is_cold_boot=true"
     ]) assert.equal(patterns.filter(pattern => pattern.test(url)).length, 1, url);
-    assert.match(manifest, /^#!version=1\.0\.19$/m);
+    assert.match(manifest, /^#!version=1\.0\.20$/m);
     const answerDeclaration = declarations.find(line => line.startsWith("zhihu-answers = "));
     const webQuestionDeclaration = declarations.find(line => line.startsWith("zhihu-web-question = "));
     assert.match(answerDeclaration, /max-size=-1/);
     assert.match(webQuestionDeclaration, /max-size=-1/);
     for (const declaration of declarations) {
         assert.match(declaration, /requires-body=true/);
-        assert.match(declaration, /script-path=http:\/\/192\.168\.2\.77:18765\/zhihu\/zhihu-adblock\.js$/);
+        assert.match(declaration, /script-path=https:\/\/raw\.githubusercontent\.com\/s20210117\/vpn-config\/main\/module\/zhihu\/zhihu-adblock\.js$/);
     }
 });
 

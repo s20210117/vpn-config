@@ -91,6 +91,37 @@ class DemoServerTests(unittest.TestCase):
             self.assertIsNone(response.headers.get_content_charset())
             self.assertEqual(response.read(), self.binary)
 
+    def test_module_uses_local_socket_address_and_keeps_remote_source(self):
+        source = ("#!name=中文模块\n[Script]\n"
+                  "demo = type=http-request, script-path=" + SERVICE.REMOTE_MODULE_ROOT + "demo/module.js\n"
+                  "other = type=http-request, script-path=https://example.com/module.js\n")
+        path = self.root / "demo/demo.sgmodule"
+        path.write_text(source, encoding="utf-8")
+        request = Request(self.base + "/demo/demo.sgmodule", headers={"Host": "untrusted.invalid:9999"})
+        with self.client.open(request, timeout=2) as response:
+            body = response.read()
+            self.assertEqual(int(response.headers["Content-Length"]), len(body))
+            self.assertEqual(response.headers.get_content_charset(), "utf-8")
+        text = body.decode("utf-8")
+        self.assertIn("script-path=" + self.base + "/demo/module.js", text)
+        self.assertIn("script-path=https://example.com/module.js", text)
+        self.assertNotIn("untrusted.invalid", text)
+        self.assertEqual(path.read_text(encoding="utf-8"), source)
+        with self.client.open(Request(self.base + "/demo/demo.sgmodule", method="HEAD"), timeout=2) as response:
+            self.assertEqual(int(response.headers["Content-Length"]), len(body))
+
+    def test_capture_modules_receive_local_collector_defaults(self):
+        for app, port in SERVICE.CAPTURE_PORTS.items():
+            with self.subTest(app=app):
+                path = self.root / app / (app + "-capture.sgmodule")
+                path.parent.mkdir(exist_ok=True)
+                source = "#!arguments=debug:true,collector:off\n#!desc=中文诊断\n"
+                path.write_text(source, encoding="utf-8")
+                with self.client.open(self.base + f"/{app}/{app}-capture.sgmodule", timeout=2) as response:
+                    text = response.read().decode("utf-8")
+                self.assertIn(f"collector:http://127.0.0.1:{port}/capture", text)
+                self.assertEqual(path.read_text(encoding="utf-8"), source)
+
     def test_old_flat_module_paths_are_not_supported(self):
         for path in ("/demo.sgmodule", "/demo/override-demo.js", "/zhihu-adblock.sgmodule", "/iqiyi-adblock.sgmodule"):
             with self.subTest(path=path), self.assertRaises(HTTPError) as raised:
