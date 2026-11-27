@@ -323,7 +323,7 @@ test("all intended response endpoints match exactly one module declaration", () 
         "https://page-info.zhihu.com/answers/v2/2?x=1",
         "https://api.zhihu.com/search/preset_words?is_cold_boot=true"
     ]) assert.equal(patterns.filter(pattern => pattern.test(url)).length, 1, url);
-    assert.match(manifest, /^#!version=1\.0\.18$/m);
+    assert.match(manifest, /^#!version=1\.0\.19$/m);
     const answerDeclaration = declarations.find(line => line.startsWith("zhihu-answers = "));
     const webQuestionDeclaration = declarations.find(line => line.startsWith("zhihu-web-question = "));
     assert.match(answerDeclaration, /max-size=-1/);
@@ -356,15 +356,16 @@ test("advertising interface rejects keep their scope within known Zhihu paths", 
     }
 });
 
-test("public Zhihu HTTPDNS endpoints are rejected without pinning a shared CDN IP", () => {
+test("Zhihu keeps IP HTTPDNS blocks while shared MRS handles domain blocks", () => {
     assert.deepEqual(networkRules, [
-        "DOMAIN,appcloud.zhihu.com,REJECT",
-        "DOMAIN,appcloud2.in.zhihu.com,REJECT",
         "IP-CIDR,103.41.167.237/32,REJECT,no-resolve",
         "IP-CIDR,118.89.204.198/32,REJECT,no-resolve",
         "IP-CIDR,182.61.194.7/32,REJECT,no-resolve",
         "IP-CIDR6,2402:4e00:1200:ed00:0:9089:6dac:96b6/128,REJECT,no-resolve"
     ]);
+    const localDomains = fs.readFileSync(path.join(__dirname, "../inputs/local-domains.txt"), "utf8");
+    assert.match(localDomains, /^appcloud\.zhihu\.com$/m);
+    assert.match(localDomains, /^appcloud2\.in\.zhihu\.com$/m);
     assert.doesNotMatch(manifest, /43\.242\.197\.211/);
     assert.doesNotMatch(manifest, /240e:951:2c10:6010:47::7/i);
 });

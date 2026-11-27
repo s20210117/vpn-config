@@ -1,0 +1,17 @@
+# Local domain rules migrated from the Zhihu and Huya modules.
+# A bare hostname matches exactly; +. includes the hostname and its subdomains.
+# Zhihu HTTPDNS (module/zhihu/README.md).
+appcloud.zhihu.com
+appcloud2.in.zhihu.com
+
+# Huya startup resources and advertising SDKs (module/huya/README.md).
+livewebbs2pcdn.msstatic.com
+pp-cdnfile2pcdn.msstatic.com
+huyafile.msstatic.com
++.v1d.szbdyd.com
++.3dm.huya.com
+api-access.pangolin-sdk-toutiao.com
+sf3-fe-tos.pglstatp-toutiao.com
+pgdt.gtimg.cn
+tangram.e.qq.com
+us.l.qq.com

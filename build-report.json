@@ -1,7 +1,7 @@
 {
-  "generated_at_utc": "2026-11-26T07:34:35.003739+00:00",
+  "generated_at_utc": "2026-11-27T02:23:53.266388+00:00",
   "core_version": "Mihomo Meta v1.19.33 darwin arm64 with go1.22.12 Wed Oct 21 16:48:26 UTC 2026\nUse tags: with_gvisor",
-  "input_manifest_sha256": "cfd427f12ee271100012bf7fe2c3353a83ce88138dff9c0a0c7a8d47d42559cb",
+  "input_manifest_sha256": "1e360535c0727c54b1cc2075d3c89c2179b396cb5b79f02a399343740764165c",
   "source_domain_counts": {
     "hagezi-normal": 184508,
     "stevenblack": 76104,
@@ -9,11 +9,32 @@
     "anti-ad": 101832,
     "awavenue": 978,
     "cats-adrules": 210303,
-    "217heidai": 256805
+    "217heidai": 256805,
+    "local-domains": 12
   },
-  "source_domain_records": 1020150,
-  "source_unique_domain_entries": 439713,
-  "normalized_source_domain_entries": 353223,
+  "source_domain_records": 1020162,
+  "source_unique_domain_entries": 439719,
+  "local_domain_entries": [
+    "+.3dm.huya.com",
+    "+.v1d.szbdyd.com",
+    "api-access.pangolin-sdk-toutiao.com",
+    "appcloud.zhihu.com",
+    "appcloud2.in.zhihu.com",
+    "huyafile.msstatic.com",
+    "livewebbs2pcdn.msstatic.com",
+    "pgdt.gtimg.cn",
+    "pp-cdnfile2pcdn.msstatic.com",
+    "sf3-fe-tos.pglstatp-toutiao.com",
+    "tangram.e.qq.com",
+    "us.l.qq.com"
+  ],
+  "local_domain_additions": [
+    "+.3dm.huya.com",
+    "appcloud.zhihu.com",
+    "huyafile.msstatic.com",
+    "pp-cdnfile2pcdn.msstatic.com"
+  ],
+  "normalized_source_domain_entries": 353227,
   "false_positive_exclusions": [
     "+.l-rcd.iqiyi.com",
     "+.p2p.huya.com",
@@ -36,8 +57,8 @@
       "hagezi-normal"
     ]
   },
-  "domain_entries_after_exclusions": 353220,
-  "merged_mrs_rules": 353220,
+  "domain_entries_after_exclusions": 353224,
+  "merged_mrs_rules": 353224,
   "promoted_regex_rules": {},
   "source_extra_rules": 781,
   "output_extra_rules": 408,
@@ -4256,7 +4277,7 @@
     "DOMAIN-REGEX,(?i)gcdsdk\\.appsflyersdk\\.com$": "+.appsflyersdk.com"
   },
   "semantics": [
-    "Union of seven domain MRS providers plus the original AdGuard companion, minus reviewed false-positive suffixes, all used with REJECT.",
+    "Union of seven domain MRS providers, reviewed local domains and the original AdGuard companion, minus reviewed false-positive suffixes, all used with REJECT.",
     "Only proved redundant domain scopes and proved redundant Boolean conditions are removed.",
     "False-positive exclusions are removed from the generated ad provider itself; client routing needs no DIRECT exception for them.",
     "AdGuard exceptions remain local to its predicates; other lists can independently reject the same hostname.",
@@ -4266,8 +4287,8 @@
   ],
   "files": {
     "ads-merged.mrs": {
-      "bytes": 3161413,
-      "sha256": "ed3a6c0bb66fcd8bf8804b2919d403e201fdf368f457bae35770c0bd0be7afa6"
+      "bytes": 3160768,
+      "sha256": "57e5bd27b7b5fc93c98c431252033964a7626a3c05d0be4c72d09bfdd67c3ccb"
     },
     "ads-merged-extra.yaml": {
       "bytes": 40057,

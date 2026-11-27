@@ -63,5 +63,12 @@
     "file": "false-positive-exclusions.txt",
     "rules": 3,
     "sha256": "e39b1c2a08afcf8d1e8c97d3ad0b98e0bbe403662d806d27d1a15ee1a20419d9"
+  },
+  "local_domains": {
+    "file": "local-domains.txt",
+    "rules": 12,
+    "sha256": "9d7f9a68220450318c20ce3a0c00abfc84022b797ce9023dfc3e8e4396cc7b15",
+    "source": "Migrated DOMAIN and DOMAIN-SUFFIX rules from the Zhihu and Huya modules; provenance and capture evidence are documented in their READMEs.",
+    "label": "本地域名补充"
   }
 }

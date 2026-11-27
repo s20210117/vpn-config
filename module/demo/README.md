@@ -56,18 +56,7 @@ http://module-demo.invalid/hello
 | `demo.js` | 独立覆写脚本，通过 `main(config)` 增加演示策略组 |
 | `demo.sgmodule` | 客户端功能模块，声明 URL 匹配和脚本下载地址 |
 | `module.js` | 客户端执行的脚本，通过 `$done({ response: ... })` 直接生成响应 |
-| `run-demo.js` | 本机演示入口，模拟 `$request` 和 `$done` 并运行同一个脚本 |
 | `../serve.py` | 提供客户端文件下载，明确声明 UTF-8 编码，避免浏览器中文乱码 |
-
-## 本机演示
-
-使用 Node.js，无需安装 npm 包：
-
-```sh
-node module/demo/run-demo.js
-```
-
-脚本读取模块中的匹配条件，执行 `module.js`，仅在终端打印响应，不生成结果文件。它不会连接手机或改变网络设置。本机演示模拟的是脚本接口，不代表模块已导入手机或已在隧道中生效。
 
 ## 客户端导入地址
 
@@ -77,7 +66,7 @@ node module/demo/run-demo.js
 http://192.168.2.77:18765/demo/demo.sgmodule
 ```
 
-在 Clash-Client 的模块添加界面使用这个链接，客户端下载模块和 `module.js`。它是一份独立模块，不需要替换现有完整配置。当前 `clash-cli` 没有模块导入命令，文件准备和本机演示不会自动完成手机导入。
+在 Clash-Client 的模块添加界面使用这个链接，客户端下载模块和 `module.js`，然后启用模块。
 
 下载服务命令如下；当前会话已启动服务时，无需重复运行：
 

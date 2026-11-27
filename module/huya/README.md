@@ -1,4 +1,4 @@
-# 虎牙去广告 1.0.7
+# 虎牙去广告 1.0.8
 
 正式模块：http://192.168.2.77:18765/huya/huya-adblock.sgmodule
 
@@ -19,7 +19,7 @@
 - 穿山甲广告 SDK：拦截广告 API 主机 `api-access.pangolin-sdk-toutiao.com` 和广告渲染资源主机 `sf3-fe-tos.pglstatp-toutiao.com`。
 - 腾讯广点通广告 SDK：拦截实际广告获取主机 `us.l.qq.com`、配置主机 `tangram.e.qq.com` 和广告素材主机 `pgdt.gtimg.cn`。
 
-虎牙自身接口按精确路径使用 URL Rewrite；第三方专用广告主机使用域名规则，不加入 HTTPS 解密清单。模块没有封锁整个 `huya.com` 或 `msstatic.com`，也没有递归删除所有名称含 `ad` 的字段，避免影响直播、登录、关注、观看历史和清晰度选择。
+虎牙自身接口按精确路径使用 URL Rewrite；上述 10 条开屏素材和广告 SDK 域名规则由 `ads-merged.mrs` 提供，不加入 HTTPS 解密清单。模块没有封锁整个 `huya.com` 或 `msstatic.com`，也没有递归删除所有名称含 `ad` 的字段，避免影响直播、登录、关注、观看历史和清晰度选择。
 
 用户提供的 QX 配置没有虎牙规则，本模块不以 QX 为来源。规则依据为 [fmz200/wool_scripts 的 HuyaLive.sgmodule](https://github.com/fmz200/wool_scripts/blob/main/Surge/module/split/partH/HuyaLive.sgmodule) 与 [blackmatrix7/ios_rule_script 的 AdvertisingLite](https://github.com/blackmatrix7/ios_rule_script/blob/master/rewrite/Surge/AdvertisingLite/AdvertisingLite.sgmodule)；本版只采用两者可核验的精确路径，没有照搬公开模块中的整域名拦截。
 
@@ -62,6 +62,10 @@ QX 开启广泛抓包后虎牙播放失败，说明整域 HTTPS 解密会影响�
 15:19 诊断确认新开屏仍由已经覆盖的广点通链路下发：`us.l.qq.com/exapp` 返回包含 `splash_switch` 的广告数据，随后从 `pgdt.gtimg.cn` 下载素材。诊断模块为了抓取证据临时放行了这些主机，因此测试时广告换新；正式模块继续拒绝该链路，不需要扩大开屏规则。
 
 同次抓取发现 `livewebbs2.msstatic.com` 同时承载头像、匹配页背景、青少年支付提示、功能图标和预约素材，整域拒绝会破坏正常界面，因此从正式模块移除。七份合并广告源没有这条规则，无需增加全局排除。新增的 `zt.huya.com/8bec7583/mobile/index.html` 页面标题为“异人之下-定档活动”，本版只精确拒绝该推广页，不拒绝相邻路径或整个活动域名。
+
+## 1.0.8：域名规则迁入 MRS
+
+10 条域名规则已移入 `inputs/local-domains.txt`，参与合并广告 MRS 构建和去重；精确域名与后缀范围保持原样。模块只保留 HTTP 引擎、URL Rewrite 和 MITM。先更新 `ads-merged.mrs`，再更新本模块。
 
 ## 使用
 

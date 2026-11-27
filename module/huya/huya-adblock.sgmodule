@@ -1,9 +1,9 @@
 #!name=虎牙去广告
-#!desc=拦截虎牙开屏素材、第三方广告 SDK、官方推广小窗与直播间广告入口。
+#!desc=拦截虎牙广告接口、开屏素材路径与官方推广页，配合合并广告 MRS 使用。
 #!author=codex
 #!type=
-#!version=1.0.7
-#!date=2026-11-26
+#!version=1.0.8
+#!date=2026-11-27
 #!tag=虎牙去广告
 #!openurl=https://github.com/s20210117/vpn-config
 #!system=ios, mac
@@ -13,18 +13,6 @@
 
 [General]
 force-http-engine-hosts = business.msstatic.com, cdnfile1.msstatic.com, live-ads.huya.com, zt.huya.com
-
-[Rule]
-DOMAIN,livewebbs2pcdn.msstatic.com,REJECT
-DOMAIN,pp-cdnfile2pcdn.msstatic.com,REJECT
-DOMAIN,huyafile.msstatic.com,REJECT
-DOMAIN-SUFFIX,v1d.szbdyd.com,REJECT
-DOMAIN-SUFFIX,3dm.huya.com,REJECT
-DOMAIN,api-access.pangolin-sdk-toutiao.com,REJECT
-DOMAIN,sf3-fe-tos.pglstatp-toutiao.com,REJECT
-DOMAIN,pgdt.gtimg.cn,REJECT
-DOMAIN,tangram.e.qq.com,REJECT
-DOMAIN,us.l.qq.com,REJECT
 
 [URL Rewrite]
 ^https?://business\.msstatic\.com/advertiser(?:[/?]|$) - reject-dict

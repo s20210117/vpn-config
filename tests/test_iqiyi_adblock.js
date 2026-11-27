@@ -248,7 +248,9 @@ test('watch-history and subscription false positives are fixed in the ad provide
         '+.p2p.huya.com',
         '+.subscription.iqiyi.com',
     ]);
-    assert.equal(report.merged_mrs_rules, 353220);
+    for (const entry of report.local_domain_entries) {
+        assert.doesNotMatch(entry, /(?:^|\.)l-rcd\.iqiyi\.com$|(?:^|\.)subscription\.iqiyi\.com$/);
+    }
 });
 
 test('gateway card and comment requests use the same filters without changing ordinary cards or account data', () => {

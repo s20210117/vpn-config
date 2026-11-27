@@ -41,6 +41,29 @@ def exclusion_payload(file):
     return set(entries)
 
 
+def domain_payload(file):
+    entries = []
+    for number, raw in enumerate(file.read_text(encoding="utf-8").splitlines(), 1):
+        line = raw.strip()
+        if not line or line.startswith("#"):
+            continue
+        host = line[2:] if line.startswith("+.") else line
+        if host != host.lower() or "." not in host or len(host) > 253 or not all(
+                re.fullmatch(r"[a-z0-9_](?:[a-z0-9_-]{0,61}[a-z0-9_])?", label)
+                for label in host.split(".")):
+            raise ValueError(f"Invalid local domain at line {number}: {line}")
+        try:
+            ipaddress.ip_address(host)
+        except ValueError:
+            pass
+        else:
+            raise ValueError(f"Local domain cannot be an IP address at line {number}: {line}")
+        entries.append(line)
+    if not entries or len(entries) != len(set(entries)):
+        raise ValueError("Local domains must be non-empty and unique")
+    return set(entries)
+
+
 def parent_names(host):
     labels = host.split(".")
     return [".".join(labels[offset:]) for offset in range(len(labels))]
@@ -305,6 +328,15 @@ def main():
     if len(source_extras) != extra_info["rules"]:
         raise AssertionError("AdGuard input count changed")
     trees = [parse(expression) for expression in source_extras]
+    local_info = manifest["local_domains"]
+    local_file = ROOT / "inputs" / local_info["file"]
+    if hashlib.sha256(local_file.read_bytes()).hexdigest() != local_info["sha256"]:
+        raise AssertionError("Local domain checksum changed")
+    local_domains = domain_payload(local_file)
+    if len(local_domains) != local_info["rules"]:
+        raise AssertionError("Local domain count changed")
+    if any(matching_exclusion(line, exclusions) for line in local_domains):
+        raise ValueError("Local domain conflicts with a false-positive exclusion")
     with tempfile.TemporaryDirectory(prefix="merged-rules-build-") as temp:
         temp = Path(temp)
         for name, info in manifest["domain_providers"].items():
@@ -326,6 +358,12 @@ def main():
                     exclusion_sources[exclusion].add(name)
         if set(exclusion_sources) != exclusions:
             raise AssertionError("A false-positive exclusion no longer matches any source rule")
+        upstream = Residual(source_domains)
+        local_additions = {line for line in local_domains
+                           if not upstream.covering(line[2:] if line.startswith("+.") else line,
+                                                    exact=not line.startswith("+."))}
+        source_counts["local-domains"] = len(local_domains)
+        source_domains.update(local_domains)
         normalized_source_count = len(minimize_domains(source_domains))
         excluded_entries = {line for line in source_domains if matching_exclusion(line, exclusions)}
         domains = minimize_domains(source_domains - excluded_entries)
@@ -396,6 +434,8 @@ def main():
               "input_manifest_sha256": hashlib.sha256((ROOT / "inputs/manifest.json").read_bytes()).hexdigest(),
               "source_domain_counts": source_counts, "source_domain_records": sum(source_counts.values()),
               "source_unique_domain_entries": len(source_domains),
+              "local_domain_entries": sorted(local_domains),
+              "local_domain_additions": sorted(local_additions),
               "normalized_source_domain_entries": normalized_source_count,
               "false_positive_exclusions": sorted(exclusions),
               "excluded_source_domain_entries": sorted(excluded_entries),
@@ -407,7 +447,7 @@ def main():
               "factored_shared_exception_groups": shared_groups,
               "source_extra_bytes": extra_file.stat().st_size,
               "extra_source_dispositions": statuses, "covered_atom_proofs": residual.proofs,
-              "semantics": ["Union of seven domain MRS providers plus the original AdGuard companion, minus reviewed false-positive suffixes, all used with REJECT.",
+              "semantics": ["Union of seven domain MRS providers, reviewed local domains and the original AdGuard companion, minus reviewed false-positive suffixes, all used with REJECT.",
                             "Only proved redundant domain scopes and proved redundant Boolean conditions are removed.",
                             "False-positive exclusions are removed from the generated ad provider itself; client routing needs no DIRECT exception for them.",
                             "AdGuard exceptions remain local to its predicates; other lists can independently reject the same hostname.",

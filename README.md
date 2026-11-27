@@ -19,7 +19,7 @@ Clash-Client 客户端及 `inputs/` 中七套广告规则的 GitHub 仓库、上
 
 客户端文件统一位于 [module](module/README.md)，并按 `demo`、`zhihu`、`iqiyi`、`huya` 分目录保存。
 
-实际模块见[知乎去广告](module/zhihu/README.md)、[爱奇艺去广告](module/iqiyi/README.md)和[虎牙去广告](module/huya/README.md)。三个模块均可独立导入，不替换完整配置。
+实际模块见[知乎去广告](module/zhihu/README.md)、[爱奇艺去广告](module/iqiyi/README.md)和[虎牙去广告](module/huya/README.md)。域名拦截统一由 `ads-merged.mrs` 处理，模块保留 IP 拦截、URL 改写及响应脚本，配合广告规则集启用。
 
 示例下载服务使用固定的 UTF-8 文本响应并禁用缓存，避免中文乱码。启动入口：
 
@@ -55,7 +55,7 @@ python3 module/serve.py
 
 | 文件 | 内容 | 条数 | 大小 |
 | --- | --- | ---: | ---: |
-| `ads-merged.mrs` | 七套清单合并、去重并排除已确认误报后的域名规则 | 353,220 | 3,161,413 字节 |
+| `ads-merged.mrs` | 七套清单和本地域名补充合并、去重并排除已确认误报后的域名规则 | 353,224 | 3,160,768 字节 |
 | `ads-merged-extra.yaml` | MRS 无法表达的正则和例外条件 | 408 | 40,057 字节 |
 
 把这两份文件复制到客户端配置目录下的 `rules/merged/`，将 `mihomo-example.yaml` 中的 provider 和规则合并进已有配置。两条广告规则放在普通分流规则前，MRS 在前、YAML 在后，策略都选 `REJECT`。
@@ -86,9 +86,9 @@ rules:
 | 路径 | 用途 |
 | --- | --- |
 | `project.py` | 统一入口：输入快照与生成产物检查、重建、内核对照测试 |
-| `build_merged.py` | 从已保存的七套输入重建最终两份规则 |
+| `build_merged.py` | 从已保存的七套输入和本地域名补充重建最终两份规则 |
 | `validate_merged.py`、`test_support.py` | 合并前后匹配对照与测试辅助代码 |
-| `inputs/` | 七份输入 MRS、AdGuard 补充 YAML、本地误报排除、来源和 SHA-256 清单 |
+| `inputs/` | 七份输入 MRS、AdGuard 补充 YAML、本地域名补充、本地误报排除、来源和 SHA-256 清单 |
 | `build-report.json`、`test-report.json` | 生成记录和已有验证报告 |
 | `validation-cases.json`、`runtime-results.json` | 验证用例和实际内核匹配记录 |
 | `docs/客户端与广告规则来源.md` | Clash-Client 及七套广告规则的 GitHub 仓库、下载地址和输入文件对应关系 |
@@ -131,7 +131,8 @@ python3 project.py test --mihomo "/你的/mihomo/路径"
 - 2026-11-17，Mihomo 1.19.29：865,906 个离线用例、16,337 个实际内核用例，合并前后零差异。详细边界见 `docs/merged-snapshot.md`。
 - 2026-11-20，手机内核 1.19.34：82 项全部通过，50 次命中补充 YAML、10 次命中 MRS、22 次控制用例正常放行。
 - 2026-11-25，Mihomo 1.19.29：应用两项实测误报排除后，865,916 个离线用例、16,328 个实际内核用例均无差异；两个爱奇艺业务后缀正常落入后续分流。
+- 2026-11-27，Mihomo 1.19.33：将知乎和虎牙的 12 条域名规则迁入本地输入，去重后新增 4 条；865,978 个离线用例、16,380 个实际内核用例均无差异，包含迁移域名边界及三项误报排除的大小写检查。
 
-这些是此前保存的测试结果，本次整理只做文件完整性与可运行路径检查。匹配等价测试不衡量真实广告拦截率或上游规则误杀率。
+验证报告保存在 `test-report.json`。匹配等价测试不衡量真实广告拦截率或上游规则误杀率。
 
 手机脚本保留当时的局域网地址、证书指纹和规则集 ID；再次使用前需核对手机现状。密钥从标准输入读取，项目不保存控制器密钥。该手机匹配接口会增加命中计数，报告中的命中包含人工测试。入口命令不会自动连接手机，详见 `phone-tests/说明.md`。

@@ -20,8 +20,8 @@ test("publishes the complete Huya module metadata", () => {
     assert.match(moduleText, /^#!name=虎牙去广告$/m);
     assert.match(moduleText, /^#!author=codex$/m);
     assert.match(moduleText, /^#!type=$/m);
-    assert.match(moduleText, /^#!version=1\.0\.7$/m);
-    assert.match(moduleText, /^#!date=2026-11-26$/m);
+    assert.match(moduleText, /^#!version=1\.0\.8$/m);
+    assert.match(moduleText, /^#!date=2026-11-27$/m);
     assert.match(moduleText, /^#!tag=虎牙去广告$/m);
     assert.match(moduleText, /^#!category=去广告$/m);
 });
@@ -53,7 +53,10 @@ test("matches only the verified Huya ad entrances", () => {
     ]) assert.equal(patterns.some(pattern => pattern.test(url)), false, url);
 });
 
-test("blocks only the observed startup and third-party ad hosts at domain level", () => {
+test("migrates dedicated ad hosts to MRS inputs while preserving exact and suffix scopes", () => {
+    const domains = fs.readFileSync(path.join(__dirname, "../inputs/local-domains.txt"), "utf8")
+        .split(/\r?\n/).map(line => line.trim())
+        .filter(line => line && !line.startsWith("#"));
     const exactBlockedHosts = [
         "livewebbs2pcdn.msstatic.com",
         "pp-cdnfile2pcdn.msstatic.com",
@@ -68,20 +71,10 @@ test("blocks only the observed startup and third-party ad hosts at domain level"
         "v1d.szbdyd.com",
         "3dm.huya.com",
     ];
-    assert.match(moduleText, /^\[Rule\]$/m);
-    for (const host of exactBlockedHosts) {
-        const escapedHost = host.replace(/\./g, "\\.");
-        assert.match(moduleText, new RegExp(`^DOMAIN,${escapedHost},REJECT$`, "m"));
-    }
-    for (const host of suffixBlockedHosts) {
-        const escapedHost = host.replace(/\./g, "\\.");
-        assert.match(moduleText, new RegExp(`^DOMAIN-SUFFIX,${escapedHost},REJECT$`, "m"));
-    }
-    assert.equal(
-        (moduleText.match(/^DOMAIN(?:-SUFFIX)?,/gm) || []).length,
-        exactBlockedHosts.length + suffixBlockedHosts.length,
-    );
-    assert.doesNotMatch(moduleText, /^DOMAIN(?:-SUFFIX)?,livewebbs2\.msstatic\.com,REJECT$/m);
+    assert.doesNotMatch(moduleText, /^\[Rule\]$/m);
+    assert.deepEqual(domains.slice(2).sort(), [
+        ...exactBlockedHosts, ...suffixBlockedHosts.map(host => "+." + host),
+    ].sort());
     for (const host of [
         "cdn.wup.huya.com",
         "wup.huya.com",
@@ -90,8 +83,7 @@ test("blocks only the observed startup and third-party ad hosts at domain level"
         "p.l.qq.com",
         "sdkreport.e.qq.com",
     ]) {
-        const escapedHost = host.replace(/\./g, "\\.");
-        assert.doesNotMatch(moduleText, new RegExp(`^DOMAIN(?:-SUFFIX)?,${escapedHost},`, "m"));
+        assert.equal(domains.includes(host) || domains.includes("+." + host), false, host);
     }
     assert.doesNotMatch(moduleText, /^\[Script\]$/m);
 });
@@ -99,7 +91,7 @@ test("blocks only the observed startup and third-party ad hosts at domain level"
 test("forces only the verified ad hosts through the HTTP engine", () => {
     assert.match(moduleText, /^force-http-engine-hosts = business\.msstatic\.com, cdnfile1\.msstatic\.com, live-ads\.huya\.com, zt\.huya\.com$/m);
     assert.match(moduleText, /^hostname = %APPEND% business\.msstatic\.com, cdnfile1\.msstatic\.com, live-ads\.huya\.com, zt\.huya\.com$/m);
-    const general = moduleText.split("[General]")[1].split("[Rule]")[0];
+    const general = moduleText.split("[General]")[1].split("[URL Rewrite]")[0];
     assert.doesNotMatch(general, /cdn\.wup\.huya\.com/);
     const mitm = moduleText.split("[MITM]")[1];
     assert.doesNotMatch(mitm, /cdn\.wup\.huya\.com/);

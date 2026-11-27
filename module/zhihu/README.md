@@ -1,6 +1,10 @@
 # 知乎去广告模块
 
-这是独立的知乎去广告模块。`zhihu-adblock.sgmodule` 声明匹配规则，`zhihu-adblock.js` 处理响应。
+`zhihu-adblock.sgmodule` 声明 IP 和接口匹配规则，`zhihu-adblock.js` 处理响应；域名拦截由 `ads-merged.mrs` 提供。
+
+## 1.0.19：域名规则迁入 MRS
+
+`appcloud.zhihu.com` 与 `appcloud2.in.zhihu.com` 已迁入 `inputs/local-domains.txt`，随合并广告 MRS 构建，模块不再重复声明。先更新 `ads-merged.mrs`，再更新本模块。4 条 HTTPDNS IP 拦截及 URL、JS、MITM 处理继续保留。
 
 范围仅为去广告，不包含会员解锁、会员状态伪装或付费内容解锁。
 

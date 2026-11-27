@@ -2,8 +2,8 @@
 #!desc=阻止知乎 HTTPDNS/QUIC 绕过模块，拦截广告接口，并清理推荐、热榜、回答信息流、正文广告卡与搜索建议中的明确广告标记。
 #!author=codex
 #!type=
-#!version=1.0.18
-#!date=2026-11-25
+#!version=1.0.19
+#!date=2026-11-27
 #!tag=知乎去广告
 #!openurl=https://github.com/s20210117/vpn-config
 #!system=ios, mac
@@ -14,8 +14,6 @@
 #!arguments-desc=debug：日志开关，true 开启，false 关闭。
 
 [Rule]
-DOMAIN,appcloud.zhihu.com,REJECT
-DOMAIN,appcloud2.in.zhihu.com,REJECT
 IP-CIDR,103.41.167.237/32,REJECT,no-resolve
 IP-CIDR,118.89.204.198/32,REJECT,no-resolve
 IP-CIDR,182.61.194.7/32,REJECT,no-resolve

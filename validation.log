@@ -1,12 +1,12 @@
 source
-time="2026-11-26T15:35:15.649547000+08:00" level=info msg="Start initial configuration in progress"
-time="2026-11-26T15:35:15.650869000+08:00" level=info msg="Geodata Loader mode: memconservative"
-time="2026-11-26T15:35:15.650876000+08:00" level=info msg="Geosite Matcher implementation: succinct"
-time="2026-11-26T15:35:15.651857000+08:00" level=info msg="Initial configuration complete, total time: 2ms"
-configuration file /var/folders/qp/c6thlr8d3j9ch40_9b338rpm0000gn/T/merged-ads-test-b3crr04h/source/config.yaml test is successful
+time="2026-11-27T10:27:38.655190000+08:00" level=info msg="Start initial configuration in progress"
+time="2026-11-27T10:27:38.655283000+08:00" level=info msg="Geodata Loader mode: memconservative"
+time="2026-11-27T10:27:38.655288000+08:00" level=info msg="Geosite Matcher implementation: succinct"
+time="2026-11-27T10:27:38.655443000+08:00" level=info msg="Initial configuration complete, total time: 0ms"
+configuration file /var/folders/qp/c6thlr8d3j9ch40_9b338rpm0000gn/T/merged-ads-test-r8g1vh5s/source/config.yaml test is successful
 merged
-time="2026-11-26T15:35:15.676298000+08:00" level=info msg="Start initial configuration in progress"
-time="2026-11-26T15:35:15.676347000+08:00" level=info msg="Geodata Loader mode: memconservative"
-time="2026-11-26T15:35:15.676352000+08:00" level=info msg="Geosite Matcher implementation: succinct"
-time="2026-11-26T15:35:15.676416000+08:00" level=info msg="Initial configuration complete, total time: 0ms"
-configuration file /var/folders/qp/c6thlr8d3j9ch40_9b338rpm0000gn/T/merged-ads-test-b3crr04h/merged/config.yaml test is successful
+time="2026-11-27T10:27:38.667607000+08:00" level=info msg="Start initial configuration in progress"
+time="2026-11-27T10:27:38.667653000+08:00" level=info msg="Geodata Loader mode: memconservative"
+time="2026-11-27T10:27:38.667658000+08:00" level=info msg="Geosite Matcher implementation: succinct"
+time="2026-11-27T10:27:38.667720000+08:00" level=info msg="Initial configuration complete, total time: 0ms"
+configuration file /var/folders/qp/c6thlr8d3j9ch40_9b338rpm0000gn/T/merged-ads-test-r8g1vh5s/merged/config.yaml test is successful

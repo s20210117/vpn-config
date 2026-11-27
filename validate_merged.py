@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Validate the seven-list union against the delivered MRS/YAML pair.
+"""Validate the saved sources and local domains against the MRS/YAML pair.
 
 Uses a separate reversed-label index, an independent classical-rule parser,
 full source-clause coverage proofs, regex/exception boundaries, and two local
@@ -137,6 +137,7 @@ def run_cores(core, manifest, merged_count, extra_count, hosts, expectations, te
                 providers = {name: (ROOT / "inputs" / info["file"], "domain", "mrs", info["rules"])
                              for name, info in manifest["domain_providers"].items()}
                 providers["adguard-extra"] = (ROOT / "inputs" / manifest["adguard_extra"]["file"], "classical", "yaml", manifest["adguard_extra"]["rules"])
+                providers["local-domains"] = (ROOT / "inputs" / manifest["local_domains"]["file"], "domain", "text", manifest["local_domains"]["rules"])
             else:
                 providers = {"ads-merged": (ROOT / "ads-merged.mrs", "domain", "mrs", merged_count)}
                 if extra_count:
@@ -153,7 +154,9 @@ def run_cores(core, manifest, merged_count, extra_count, hosts, expectations, te
                            "    format: " + fmt, "    path: ./" + file.name]
             config += ["rules:"]
             if variant == "source":
-                config += ["  - DOMAIN-SUFFIX," + item[2:] + ",LOCAL-TEST-SINK"
+                # Domain providers fold case; inline DOMAIN-SUFFIX rules do not.
+                # Model the reviewed exclusions with the same DNS case behavior.
+                config += ["  - DOMAIN-REGEX,(?i)(^|\\.)" + re.escape(item[2:]) + "$" + ",LOCAL-TEST-SINK"
                            for item in sorted(exclusions)]
             config += ["  - RULE-SET," + name + ",REJECT" for name in providers]
             config += ["  - MATCH,LOCAL-TEST-SINK"]
@@ -172,7 +175,7 @@ def run_cores(core, manifest, merged_count, extra_count, hosts, expectations, te
             for variant, (_, api_port) in ports.items():
                 try:
                     with urllib.request.urlopen("http://127.0.0.1:" + str(api_port) + "/providers/rules", timeout=1) as response:
-                        providers = json.load(response)["providers"]
+                        providers = json.load(response).get("providers") or {}
                     loaded_counts[variant] = {name: (providers.get(name) or {}).get("ruleCount") for name in counts[variant]}
                     # Upstream MRS headers can count redundant source entries,
                     # while decoding emits their compact trie entries. The
@@ -309,7 +312,7 @@ def main():
         cached = json.loads((ROOT / "validation-cases.json").read_text())
         if cached["output_hashes"] != {name: data["sha256"] for name, data in build["files"].items()} or cached["manifest_sha256"] != build["input_manifest_sha256"]:
             raise AssertionError("Cached validation corpus belongs to different inputs/outputs")
-        for metadata in list(manifest["domain_providers"].values()) + [manifest["adguard_extra"], exclusion_info]:
+        for metadata in list(manifest["domain_providers"].values()) + [manifest["adguard_extra"], exclusion_info, manifest["local_domains"]]:
             if hashlib.sha256((ROOT / "inputs" / metadata["file"]).read_bytes()).hexdigest() != metadata["sha256"]:
                 raise AssertionError("Cached validation input changed")
         with tempfile.TemporaryDirectory(prefix="merged-ads-test-") as directory:
@@ -320,6 +323,15 @@ def main():
         raise AssertionError("Original AdGuard companion changed")
     original_extra = payload(ROOT / "inputs" / manifest["adguard_extra"]["file"])
     merged_extra = payload(ROOT / "ads-merged-extra.yaml")
+    local_info = manifest["local_domains"]
+    local_file = ROOT / "inputs" / local_info["file"]
+    if hashlib.sha256(local_file.read_bytes()).hexdigest() != local_info["sha256"]:
+        raise AssertionError("Local domain input changed")
+    local_lines = [line.strip() for line in local_file.read_text().splitlines()
+                   if line.strip() and not line.lstrip().startswith("#")]
+    local_domains = set(local_lines)
+    if len(local_domains) != local_info["rules"] or len(local_lines) != len(local_domains):
+        raise AssertionError("Local domain count mismatch")
     with tempfile.TemporaryDirectory(prefix="merged-ads-test-") as directory:
         temp = Path(directory)
         original = set()
@@ -333,6 +345,7 @@ def main():
             if len(lines) != metadata["rules"]:
                 raise AssertionError("Input count mismatch: " + name)
             original.update(lines)
+        original.update(local_domains)
         decoded = temp / "merged.txt"
         subprocess.run([core, "convert-ruleset", "domain", "mrs", str(ROOT / "ads-merged.mrs"), str(decoded)], check=True)
         merged = set(decoded.read_text().splitlines())
@@ -353,8 +366,16 @@ def main():
         # boundaries from both policies. Structural coverage above proves the
         # full suffix scope, including descendants absent from this corpus.
         hosts, critical, ip_literals = set(), set(), set()
+        migration_hosts = {"api.zhihu.com", "www.zhihu.com", "cards.iqiyi.com",
+                           "iface2.iqiyi.com", "l-rcd.iqiyi.com", "subscription.iqiyi.com",
+                           "cdn.wup.huya.com", "wup.huya.com", "wsapi.huya.com",
+                           "livewebbs2.msstatic.com", "p2p.huya.com", "child.p2p.huya.com"}
+        for rule in local_domains:
+            migration_hosts.update(audit.domain_boundaries(rule[2:] if rule.startswith("+.") else rule))
+        critical.update(migration_hosts)
         for item in exclusions:
             critical.update(audit.domain_boundaries(item[2:]))
+            migration_hosts.update(audit.domain_boundaries(item[2:]))
         for rule in original:
             host = rule[2:] if rule.startswith("+.") else rule
             hosts.update((host, "child." + host))
@@ -413,6 +434,7 @@ def main():
         live.update(rng.sample(sorted(critical), min(11000, len(critical))))
         live.update(ip_literals)
         live.update(residual_examples)
+        live.update(migration_hosts)
         live.update(("doubleclick.net", "www3.doubleclick.net", "pixel.wp.pl", "clean.union-regression.invalid"))
         # Ensure allow conditions and important-origin rules are represented.
         for leaf in all_leaves:
@@ -429,11 +451,12 @@ def main():
         partial = {"generated_at_utc": datetime.now(timezone.utc).isoformat(),
               "core_version": build["core_version"], "source_unique_domain_clauses_checked": len(original),
               "false_positive_exclusions": sorted(exclusions),
+              "local_domain_entries_checked": len(local_domains),
               "uncovered_source_clauses": 0, "unjustified_output_clauses": 0,
               "mrs_roundtrip_rules": len(merged), "extra_rules": len(merged_extra),
               "offline": {**dict(counts), "differences": 0, "regexes_exercised": regex_count},
               "supplement_required_examples": residual_examples,
-              "limitations": ["Equivalence is against the saved seven MRS snapshots plus the saved AdGuard companion, minus reviewed false-positive suffixes, used together with REJECT.",
+              "limitations": ["Equivalence is against the saved seven MRS snapshots, reviewed local domains and the saved AdGuard companion, minus reviewed false-positive suffixes, used together with REJECT.",
                               "IP-literal proxy targets use different core metadata than DNS hostnames; their runtime checks compare source and merged routing directly.",
                               "Tests do not assess live advertising effectiveness or upstream false-positive rates; no external requests were forwarded."],
               "offline_elapsed_seconds": round(time.monotonic() - started, 3)}

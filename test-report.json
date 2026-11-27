@@ -1,23 +1,24 @@
 {
-  "generated_at_utc": "2026-11-26T07:35:15.482718+00:00",
+  "generated_at_utc": "2026-11-27T02:27:00.513480+00:00",
   "core_version": "Mihomo Meta v1.19.33 darwin arm64 with go1.22.12 Wed Oct 21 16:48:26 UTC 2026\nUse tags: with_gvisor",
-  "source_unique_domain_clauses_checked": 439713,
+  "source_unique_domain_clauses_checked": 439719,
   "false_positive_exclusions": [
     "+.l-rcd.iqiyi.com",
     "+.p2p.huya.com",
     "+.subscription.iqiyi.com"
   ],
+  "local_domain_entries_checked": 12,
   "uncovered_source_clauses": 0,
   "unjustified_output_clauses": 0,
-  "mrs_roundtrip_rules": 353220,
+  "mrs_roundtrip_rules": 353224,
   "extra_rules": 408,
   "offline": {
-    "hostnames": 865921,
-    "canonical_hostnames": 857604,
-    "blocked": 823806,
-    "uppercase_hostnames": 8317,
-    "fallthrough": 42115,
-    "needs_supplement": 7965,
+    "hostnames": 865978,
+    "canonical_hostnames": 857653,
+    "blocked": 823814,
+    "uppercase_hostnames": 8325,
+    "fallthrough": 42164,
+    "needs_supplement": 7968,
     "differences": 0,
     "regexes_exercised": 732
   },
@@ -36,15 +37,15 @@
     "139.45.195.222WITNESS.INVALID"
   ],
   "limitations": [
-    "Equivalence is against the saved seven MRS snapshots plus the saved AdGuard companion, minus reviewed false-positive suffixes, used together with REJECT.",
+    "Equivalence is against the saved seven MRS snapshots, reviewed local domains and the saved AdGuard companion, minus reviewed false-positive suffixes, used together with REJECT.",
     "IP-literal proxy targets use different core metadata than DNS hostnames; their runtime checks compare source and merged routing directly.",
     "Tests do not assess live advertising effectiveness or upstream false-positive rates; no external requests were forwarded."
   ],
-  "offline_elapsed_seconds": 30.942,
+  "offline_elapsed_seconds": 31.145,
   "runtime": {
-    "hostnames": 16318,
-    "requests": 32636,
-    "independent_expectations": 16193,
+    "hostnames": 16380,
+    "requests": 32760,
+    "independent_expectations": 16255,
     "ip_literal_equivalence_cases": 125,
     "routing_differences": 0,
     "oracle_errors": 0,
@@ -59,10 +60,11 @@
         "awavenue": 978,
         "cats-adrules": 210303,
         "217heidai": 256805,
-        "adguard-extra": 781
+        "adguard-extra": 781,
+        "local-domains": 12
       },
       "merged": {
-        "ads-merged": 353220,
+        "ads-merged": 353224,
         "ads-merged-extra": 408
       }
     },
@@ -75,17 +77,18 @@
         "awavenue": 981,
         "cats-adrules": 210303,
         "217heidai": 256805,
-        "adguard-extra": 781
+        "adguard-extra": 781,
+        "local-domains": 12
       },
       "merged": {
-        "ads-merged": 353220,
+        "ads-merged": 353224,
         "ads-merged-extra": 408
       }
     },
     "outcomes": {
-      "blocked": 9740,
-      "fallthrough": 6578
+      "blocked": 9852,
+      "fallthrough": 6528
     }
   },
-  "elapsed_seconds": 38.401
+  "elapsed_seconds": 6.496
 }

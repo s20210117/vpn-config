@@ -9,6 +9,8 @@
 | [`iqiyi/`](iqiyi/README.md) | 爱奇艺去广告与抓广告诊断 | `http://192.168.2.77:18765/iqiyi/iqiyi-adblock.sgmodule` |
 | [`huya/`](huya/README.md) | 虎牙去广告与抓广告诊断 | `http://192.168.2.77:18765/huya/huya-adblock.sgmodule` |
 
+知乎与虎牙的域名规则已迁入 `ads-merged.mrs`，请配合合并广告规则集使用。模块继续处理 URL、响应脚本以及知乎 HTTPDNS 的 IP 拦截。先更新广告 MRS，再更新模块。
+
 启动下载服务：
 
 ```sh

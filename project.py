@@ -31,7 +31,7 @@ def check():
     manifest_path = ROOT / "inputs/manifest.json"
     manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
     inputs = list(manifest["domain_providers"].values()) + [
-        manifest["adguard_extra"], manifest["false_positive_exclusions"]]
+        manifest["adguard_extra"], manifest["false_positive_exclusions"], manifest["local_domains"]]
     for entry in inputs:
         if digest(ROOT / "inputs" / entry["file"]) != entry["sha256"]:
             raise ValueError("输入快照不一致：" + entry["file"])
